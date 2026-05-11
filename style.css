@@ -1,18 +1,27 @@
 body {
     margin: 0;
     font-family: 'libre baskerville';
+    background-color: var(--offwhite);
 }
 h1,h2,h3 {
     font-family: 'instrument serif';
-    font-weight: 100;
+    font-weight: normal;
 }
 h4,h5,h6 {
     font-family: 'mohave';
     color: var(--winered);
+     font-weight:normal;
+}
+h4 {
+    font-size: 1.5rem;
+}
+h6 {
+    font-weight: 500;
+    font-size: .8rem;
 }
 :root {
-    --winered: #A14646;
-    --aquatic: #40A6B0;
+    --winered: oklch(0.51 0.24 25);
+    --aquatic: oklch(0.71 0.16 205.81);
     --offwhite: #f4f4f4;
     --darkgrey: #494949;
 }
@@ -26,7 +35,7 @@ h4,h5,h6 {
     background-image: url(./sources/Magnifying-Glass--Streamline-Sharp-Remix.svg);
 }
 .jfvd {
-    background-image: url(./sources/jfvd-logo.svg);
+    background-image: url('./sources/jfvd-logo.svg');
 }
 
 .small-icon {
@@ -64,7 +73,6 @@ h4,h5,h6 {
     background: var(--offwhite);
     position:sticky;
     top: 0;
-    border-bottom: 1px var(--darkgrey) dashed;
     box-sizing: border-box
 }
 
@@ -110,7 +118,6 @@ h4,h5,h6 {
 /* HERO */
 
 .hero {
-    background-color: var(--offwhite);
     height: 500px;
     display: flex;
     align-items: center;
@@ -142,8 +149,6 @@ h4,h5,h6 {
 }
 
 .main > div > div {
-    background: var(--offwhite);
-    border: 1px var(--darkgrey) dashed;
     padding: 1rem;
 }
 
@@ -153,6 +158,7 @@ h4,h5,h6 {
 
 .schrijvers {
     grid-column: span 2;
+    background-color: var(--offwhite);
 }
 
 .schrijvers > div {
@@ -175,4 +181,43 @@ h4,h5,h6 {
 
 .word-actief, .nieuwsbrief, .stelling {
     text-align: center;
+}
+
+.word-actief {
+    background-color: var(--aquatic);
+    color: white;
+}
+
+.word-actief h4 {
+    color: white;
+}
+
+/* dashed linework */
+
+.dash-top {
+    border-top: 1px var(--darkgrey) dashed;
+}
+
+.dash-bottom {
+    border-bottom: 1px var(--darkgrey) dashed;
+}
+
+.dash-left {
+    border-left: 1px var(--darkgrey) dashed;
+}
+
+.dash-right {
+    border-right: 1px var(--darkgrey) dashed;
+}
+
+/* FORM */
+
+.form {
+    position: relative;
+    overflow: hidden;
+    background-image: url(./sources/speckles.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50vh;
+    width: 100vw;
 }

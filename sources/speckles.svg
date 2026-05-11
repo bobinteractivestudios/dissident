@@ -1,0 +1,29 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="speckle">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="1"
+        numOctaves="3"
+        result="noise"
+        seed="2"
+      />
+
+      <!-- Convert noise into alpha mask -->
+      <feComponentTransfer in="noise" result="mask">
+        <feFuncR type="discrete" tableValues="1 0 0 0 1"/>
+        <feFuncG type="discrete" tableValues="1 0 0 0 1"/>
+        <feFuncB type="discrete" tableValues="1 0 0 0 1"/>
+        <feFuncA type="discrete" tableValues="1 0 0 0 1"/>
+      </feComponentTransfer>
+
+      <!-- Apply solid color -->
+      <feFlood flood-color="#494949" result="color"/>
+
+      <!-- Mask the color with the noise -->
+      <feComposite in="color" in2="mask" operator="in"/>
+    </filter>
+  </defs>
+
+  <rect width="100" height="100" filter="url(#speckle)" />
+</svg>
