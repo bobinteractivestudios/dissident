@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    font-family: 'libre baskerville';
+}
+h1,h2,h3 {
+    font-family: 'instrument serif';
+    font-weight: 100;
+}
+h4,h5,h6 {
+    font-family: 'mohave';
+}
+:root {
+    --wine-red: #A14646;
+    --aquatic: #40A6B0;
+    --off-white: #f4f4f4;
+}
+
+/* NAVIGATION */
+
+.light-dark {
+    background-image: url(./sources/Light-Dark-Mode--Streamline-Sharp-Remix.svg);
+}
+.search {
+    background-image: url(./sources/Magnifying-Glass--Streamline-Sharp-Remix.svg);
+}
+.jfvd {
+    background-image: url(./sources/jfvd-logo.svg);
+}
+
+.small-icon {
+    width: 1em;
+    height: 1em;
+    background-size: contain;
+}
+
+.mid-icon {
+    width: 3rem;
+    height: 3rem;
+    background-size: contain;   
+}
+
+.dissident-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    margin-bottom: -.4rem;
+    margin-top: -.8rem;
+}
+
+.nav {
+    padding: .5rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: var(--off-white);
+    position: sticky;
+}
+
+.nav-main {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-main p {
+    margin: 0;
+}
+
+.nav-main-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.abonneer {
+    margin-left: auto;
+}
+
+.cta-btn {
+    padding: .5rem 1rem;
+    background: var(--wine-red);
+    border-radius: 1rem;
+    color: white;
+    font-family: 'mohave';
+    border: var(--wine-red) 1px solid;
+    cursor: pointer ;
+}
+.cta-btn:hover {
+    background-color: transparent;
+    color: var(--wine-red);
+}
+.dissident-slogan {
+    font-family: 'indie flower';
+}
+
+/* HERO */
+
+.hero {
+    background-color: var(--off-white);
+}
