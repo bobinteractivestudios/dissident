@@ -8,11 +8,13 @@ h1,h2,h3 {
 }
 h4,h5,h6 {
     font-family: 'mohave';
+    color: var(--winered);
 }
 :root {
-    --wine-red: #A14646;
+    --winered: #A14646;
     --aquatic: #40A6B0;
-    --off-white: #f4f4f4;
+    --offwhite: #f4f4f4;
+    --darkgrey: #494949;
 }
 
 /* NAVIGATION */
@@ -31,29 +33,39 @@ h4,h5,h6 {
     width: 1em;
     height: 1em;
     background-size: contain;
+    transition: opacity .2s;
+    opacity: .7;
+}
+
+.small-icon:hover {
+    opacity: 1;
+    cursor: pointer ;
 }
 
 .mid-icon {
     width: 3rem;
     height: 3rem;
-    background-size: contain;   
+    background-size: contain;
+    cursor: pointer ;
 }
 
 .dissident-logo {
     font-family: 'Instrument Serif', serif;
     font-size: 2.5rem;
-    margin-bottom: -.4rem;
-    margin-top: -.8rem;
+    line-height: 1;
 }
 
 .nav {
-    padding: .5rem;
     width: 100%;
+    padding: 0 1em;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    background: var(--off-white);
-    position: sticky;
+    background: var(--offwhite);
+    position:sticky;
+    top: 0;
+    border-bottom: 1px var(--darkgrey) dashed;
+    box-sizing: border-box
 }
 
 .nav-main {
@@ -79,16 +91,17 @@ h4,h5,h6 {
 
 .cta-btn {
     padding: .5rem 1rem;
-    background: var(--wine-red);
+    background: var(--winered);
     border-radius: 1rem;
     color: white;
     font-family: 'mohave';
-    border: var(--wine-red) 1px solid;
-    cursor: pointer ;
+    border: var(--winered) 1px solid;
+    cursor: pointer;
+    flex: none;
 }
 .cta-btn:hover {
     background-color: transparent;
-    color: var(--wine-red);
+    color: var(--winered);
 }
 .dissident-slogan {
     font-family: 'indie flower';
@@ -97,5 +110,69 @@ h4,h5,h6 {
 /* HERO */
 
 .hero {
-    background-color: var(--off-white);
+    background-color: var(--offwhite);
+    height: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.hero > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20%;
+}
+
+/* TRENDING */
+
+.trending > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.schrijvers > div {
+    display: grid;
+}
+
+/* MAIN */
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.main > div > div {
+    background: var(--offwhite);
+    border: 1px var(--darkgrey) dashed;
+    padding: 1rem;
+}
+
+.trending {
+    grid-column: span 2;
+}
+
+.schrijvers {
+    grid-column: span 2;
+}
+
+.schrijvers > div {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.schrijver {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.row {
+    display: grid;
+    grid-column: 1/4;
+    grid-template-columns: subgrid;
+}
+
+.word-actief, .nieuwsbrief, .stelling {
+    text-align: center;
 }
