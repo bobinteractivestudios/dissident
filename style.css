@@ -1,4 +1,4 @@
-/* preset */
+/* Preset */
 
 html {
     scroll-behavior: smooth;
@@ -9,6 +9,10 @@ body {
     background-color: var(--offwhite);
     color: var(--inkblack);
 }
+ul {
+    padding-left: 0;
+    list-style: none;
+}
 a {
     text-decoration: none;
     color: var(--inkblack);
@@ -17,11 +21,13 @@ h1,h2,h3 {
     font-family: 'instrument serif';
     font-weight: normal;
     color: var(--inkblack);
+    margin: 0 0 1rem 0;
 }
 h4,h5,h6 {
     font-family: 'mohave';
     color: var(--winered);
-     font-weight:normal;
+    font-weight:normal;
+    margin: 0 0 1rem 0;
 }
 h4 {
     font-size: 1.5rem;
@@ -34,11 +40,12 @@ h6 {
     font-size: .8rem;
 }
 :root {
-    --winered: oklch(0.51 0.24 25);
-    --aquatic: oklch(0.71 0.16 205.81);
+    --winered: #a71c20;
+    --aquatic: #5FC4BF;
     --offwhite: #f4f4f4;
     --darkgrey: #494949;
     --inkblack: #333333;
+    --lightgrey: #dfdfdf;
 }
 
 ::selection {
@@ -49,6 +56,14 @@ h6 {
 input, legend, label {
     font-family: 'mohave';
 }
+fieldset {
+    border:0;
+}
+nav {
+    z-index: 1;
+}
+
+/* RESPONSIVITY */
 
 /* NAVIGATION */
 
@@ -62,7 +77,7 @@ input, legend, label {
     background-image: url('./sources/jfvd-logo.svg');
 }
 
-.small-icon {
+.control-icon {
     width: 1em;
     height: 1em;
     background-size: contain;
@@ -70,12 +85,12 @@ input, legend, label {
     opacity: .7;
 }
 
-.small-icon:hover {
+.control-icon:hover {
     opacity: 1;
     cursor: pointer ;
 }
 
-.mid-icon {
+.logo-icon {
     width: 3rem;
     height: 3rem;
     background-size: contain;
@@ -154,17 +169,6 @@ input, legend, label {
     padding-left: 20%;
 }
 
-/* TRENDING */
-
-.trending > div {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.schrijvers > div {
-    display: grid;
-}
-
 /* MAIN */
 
 .main {
@@ -176,32 +180,150 @@ input, legend, label {
     padding: 1rem;
 }
 
+.row {
+    display: grid;
+    grid-column: 1/4;
+    grid-template-columns: subgrid;
+}
+
+.thumbnail {
+    background: var(--lightgrey);
+    border-radius: 1rem;
+    aspect-ratio: 4 / 3;
+}
+
+/* MAIN Trending */
+
+.trending > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+.trend {
+    display: flex;
+    gap: 1rem;
+}
+
 .trending {
     grid-column: span 2;
 }
 
+
+/* MAIN Artikelen */
+
+.artikelen > div {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 1rem;
+}
+
+.artikel {
+    display: flex;
+    gap: 1rem;
+}
+
+/* MAIN Stelling */
+
+.stelling {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.pie-chart {
+    background:
+		radial-gradient(
+			circle closest-side,
+			transparent 100%,
+			var(--offwhite) 0
+		),
+		conic-gradient(
+			#77CA85 0,
+			#77CA85 75%,
+			#CF6767 0,
+			#CF6767 100%
+	);
+	position: relative;
+	width: 15rem;
+    aspect-ratio: 1/1;
+	margin: 0;
+    margin: auto auto;
+    border: 1px solid var(--darkgrey);
+    border-radius: 50%;
+}
+
+.voting {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #77CA85;
+    font-family: 'mohave';
+    font-size: 1.5rem;
+}
+
+.vote-icon {
+    width: 4rem;
+    height: 4rem;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.vote-icon svg .thumb {
+    transition: transform .1s;
+}
+
+.thumbs-up:hover .thumb {
+    transform: translateY(-.2em);
+}
+
+.thumbs-down:hover .thumb {
+    transform: translateY(.2em);
+}
+
+/* MAIN Schrijvers */
+
 .schrijvers {
     grid-column: span 2;
-    background-color: var(--offwhite);
+    background-color: var(--lightgrey);
+}
+
+.box-effect {
+    margin: 1rem;
+    gap: 1rem;
 }
 
 .schrijvers > div {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
 }
 
 .schrijver {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 1rem;
+}
+
+.schrijver .thumbnail {
+    background-color: var(--offwhite);
+    aspect-ratio: 1 / 1;
+}
+
+.schrijver :last-child {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 
-.row {
-    display: grid;
-    grid-column: 1/4;
-    grid-template-columns: subgrid;
+.schrijver :first-child {
+
 }
+
+
+/* MAIN Word-actief */
 
 .word-actief, .nieuwsbrief, .stelling {
     text-align: center;
@@ -216,7 +338,40 @@ input, legend, label {
     color: white;
 }
 
-/* dashed linework */
+.design-icon {
+    background-image: url(./sources/Design-Tool-Stamp--Streamline-Freehand.svg);
+}
+
+.writing-icon {
+    background-image: url(./sources/Edit-Pen-Write-Paper--Streamline-Freehand.svg);
+}
+
+.organisation-icon {
+    background-image: url(./sources/Business-Management-Teamwork-Clap--Streamline-Freehand.svg);
+}
+
+.word-actief ul {
+    text-align: start;
+    margin: auto;
+    display: inline-block;
+}
+
+.word-actief li {
+    font-family: 'mohave';
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.word-actief ul li div {
+    width: 2rem;
+    height: 2rem;
+    background-size: contain;
+    display: inline-block;
+    margin-right: .5rem;
+}
+
+/* Dashed Linework */
 
 .dash-top {
     border-top: 1px var(--darkgrey) dashed;
