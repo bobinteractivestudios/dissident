@@ -1,11 +1,22 @@
+/* preset */
+
+html {
+    scroll-behavior: smooth;
+}
 body {
     margin: 0;
     font-family: 'libre baskerville';
     background-color: var(--offwhite);
+    color: var(--inkblack);
+}
+a {
+    text-decoration: none;
+    color: var(--inkblack);
 }
 h1,h2,h3 {
     font-family: 'instrument serif';
     font-weight: normal;
+    color: var(--inkblack);
 }
 h4,h5,h6 {
     font-family: 'mohave';
@@ -14,6 +25,9 @@ h4,h5,h6 {
 }
 h4 {
     font-size: 1.5rem;
+}
+h5 {
+    font-size: 1rem;
 }
 h6 {
     font-weight: 500;
@@ -24,6 +38,16 @@ h6 {
     --aquatic: oklch(0.71 0.16 205.81);
     --offwhite: #f4f4f4;
     --darkgrey: #494949;
+    --inkblack: #333333;
+}
+
+::selection {
+    background: var(--winered);
+    color: white;
+}
+
+input, legend, label {
+    font-family: 'mohave';
 }
 
 /* NAVIGATION */
@@ -212,12 +236,57 @@ h6 {
 
 /* FORM */
 
+legend, label {
+    color: white;
+}
+
 .form {
     position: relative;
     overflow: hidden;
     background-image: url(./sources/speckles.svg);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 50vh;
-    width: 100vw;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form ul {
+    display: flex;
+    gap: 1.5em;
+}
+
+.form form {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    background-color: var(--winered);
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+form fieldset > div > div {
+    display: flex;
+}
+
+form fieldset > div > div input {
+    flex: 1;
+    margin: .5rem;
+    padding: .5rem;
+    box-sizing: border-box;
+    border: none;
+    border-radius: .5rem;
+}
+
+.gender {
+    display: block;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: var(--winered);
+    height: min(8rem);
 }
