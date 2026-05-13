@@ -1,7 +1,8 @@
 /* Preset */
 
 html {
-    scroll-behavior: smooth;
+    /*scroll-behavior: smooth;*/
+    font-size: 15px;
 }
 body {
     margin: 0;
@@ -29,6 +30,15 @@ h4,h5,h6 {
     font-weight:normal;
     margin: 0 0 1rem 0;
 }
+h1 {
+    font-size: 3rem;
+}
+h2 {
+    font-size: 2.5rem;
+}
+h3 {
+    font-size: 2rem;
+}
 h4 {
     font-size: 1.5rem;
 }
@@ -40,6 +50,8 @@ h6 {
     font-size: .8rem;
 }
 :root {
+    --grid-width: 1400px;
+
     --winered: #a71c20;
     --aquatic: #5FC4BF;
     --offwhite: #f4f4f4;
@@ -62,8 +74,6 @@ fieldset {
 nav {
     z-index: 1;
 }
-
-/* RESPONSIVITY */
 
 /* NAVIGATION */
 
@@ -171,33 +181,50 @@ nav {
 
 /* MAIN */
 
-.main {
+section.main {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: 
+    "trending trending trending trending trending trending trending trending trending nieuwsbrief nieuwsbrief nieuwsbrief"
+    "verhalen verhalen verhalen artikelen artikelen artikelen artikelen artikelen artikelen stelling stelling stelling"
+    "schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers word-actief word-actief word-actief";
+    max-width: var(--grid-width);
+    margin: auto;
+    gap: 1rem;
 }
 
-.main > div > div {
+section.main > div {
     padding: 1rem;
-}
-
-.row {
-    display: grid;
-    grid-column: 1/4;
-    grid-template-columns: subgrid;
+    position: relative
 }
 
 .thumbnail {
     background: var(--lightgrey);
     border-radius: 1rem;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1/1;
+}
+
+.full-width {
+    width: 100%;
+}
+.full-height {
+    height: 100%;
+}
+.reset-aspect {
+    aspect-ratio: unset;
 }
 
 /* MAIN Trending */
 
+.trending {
+    grid-area: trending;
+}
+
 .trending > div {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: 1fr;
+    gap: 1rem;
 }
 
 .trend {
@@ -205,16 +232,27 @@ nav {
     gap: 1rem;
 }
 
-.trending {
-    grid-column: span 2;
+/* MAIN nieuwsbrief */
+
+.nieuwsbrief {
+    grid-area: nieuwsbrief;
 }
 
+/* MAIN verhalen */
+
+.verhalen {
+    grid-area: verhalen;
+}
 
 /* MAIN Artikelen */
 
+.artikelen {
+    grid-area: artikelen;
+}
+
 .artikelen > div {
     display: grid;
-    grid-template-rows: auto;
+    grid-template-rows: 1fr;
     gap: 1rem;
 }
 
@@ -226,6 +264,7 @@ nav {
 /* MAIN Stelling */
 
 .stelling {
+    grid-area: stelling;
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -285,13 +324,8 @@ nav {
 /* MAIN Schrijvers */
 
 .schrijvers {
-    grid-column: span 2;
+    grid-area: schrijvers;
     background-color: var(--lightgrey);
-}
-
-.box-effect {
-    margin: 1rem;
-    gap: 1rem;
 }
 
 .schrijvers > div {
@@ -301,9 +335,9 @@ nav {
 }
 
 .schrijver {
-    display: grid;
-    grid-template-columns: auto;
-    gap: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .schrijver .thumbnail {
@@ -330,6 +364,7 @@ nav {
 }
 
 .word-actief {
+    grid-area: word-actief;
     background-color: var(--aquatic);
     color: white;
 }
@@ -373,6 +408,16 @@ nav {
 
 /* Dashed Linework */
 
+.top-divider::before {
+    content:"";
+    width: 100vw;
+    border-top: 1px dashed var(--darkgrey);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .dash-top {
     border-top: 1px var(--darkgrey) dashed;
 }
@@ -391,42 +436,50 @@ nav {
 
 /* FORM */
 
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    max-width: var(--grid-width);
+    margin: auto;
+}
+
+section.form {
+    background-image: url(./sources/speckles.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+section.form ul {
+    grid-column: 1/-1;
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+}
+
+section.form form {
+    grid-column: 1/-1;
+    background-color: var(--winered);
+    padding: 1rem;
+}
+section.form form > div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+section.form h4 {
+    color: white;
+    text-align: center;
+}
+
 legend, label {
     color: white;
 }
 
-.form {
-    position: relative;
-    overflow: hidden;
-    background-image: url(./sources/speckles.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form ul {
-    display: flex;
-    gap: 1.5em;
-}
-
-.form form {
-    display: inline-block;
-    width: fit-content;
-    max-width: 100%;
-    background-color: var(--winered);
-    padding: 1rem;
-    box-sizing: border-box;
-}
-
-form fieldset > div > div {
+section.form form fieldset > div > div {
     display: flex;
 }
 
-form fieldset > div > div input {
+section.form form fieldset > div > div input {
     flex: 1;
     margin: .5rem;
     padding: .5rem;
@@ -444,4 +497,65 @@ form fieldset > div > div input {
 footer {
     background-color: var(--winered);
     height: min(8rem);
+}
+
+/* RESPONSIVITY */
+
+@media (min-width: 1201px) {
+    /* Desktop */
+    section.form form {
+    grid-column: 3/-3;
+    }
+}
+
+@media (max-width: 1200px) {
+/* Tablet */
+    .main-grid {
+    grid-template-columns: repeat(8, 1fr);
+    }
+    section.main {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-areas: 
+    "trending trending trending trending trending trending trending trending"
+    "verhalen verhalen verhalen artikelen artikelen artikelen artikelen artikelen"
+    "schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers"
+    "stelling stelling stelling stelling word-actief word-actief word-actief word-actief"
+    "stelling stelling stelling stelling nieuwsbrief nieuwsbrief nieuwsbrief nieuwsbrief";
+    }
+}
+
+@media (max-width: 768px) {
+  /* Mobile */
+    .main-grid {
+    grid-template-columns: repeat(3, 1fr);
+    }
+    section.main {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+    "trending trending trending"
+    "verhalen verhalen verhalen"
+    "artikelen artikelen artikelen"
+    "schrijvers schrijvers schrijvers"
+    "nieuwsbrief nieuwsbrief nieuwsbrief"
+    "stelling stelling stelling"
+    "word-actief word-actief word-actief";
+    }
+    .hero > div {
+        padding-left: 1rem;
+    }
+    .trending {
+        overflow-x: auto;
+    }
+    .trending > div {
+        grid-template-columns: repeat(3, 100vw)
+    }
+    .jfvd, .dissident-slogan, .artikel p {
+        display: none;
+    }
+    section.form form > div {
+        grid-template-columns: 1fr;
+    }
+    .schrijvers > div {
+        grid-template-columns: 1fr;
+    }
 }
