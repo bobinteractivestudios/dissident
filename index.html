@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="./style.css">
     <title>Dissident</title>
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Instrument+Serif:ital@0;1&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Mohave:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-    <style src="./style.css"></style>
+    <script src="./script.js"></script>
 </head>
 <body id="top">
     <nav class="nav dash-bottom">
         <a href="https://jfvd.nl" class="jfvd logo-icon"></a>
         <div class="nav-main">
-            <div class="light-dark control-icon"></div>
+            <div class="light-dark control-icon" id="theme-toggle"></div>
             <div class="nav-main-logo">
                 <a class="dissident-logo" href="index.html#top">DISSIDENT</a>
                 <p class="dissident-slogan">Het meest gewaagde jongerenblad</p>
@@ -29,181 +29,217 @@
         </div>
     </section>
     <section class="main">
-            <div class="trending">
-                <h4>TRENDING</h4>
-                <div>
-                    <div class="trend">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h4>1</h4>
-                            <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
-                        </div>
+        <div class="trending">
+            <h4>TRENDING</h4>
+            <div>
+                <div class="trend">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h4>1</h4>
+                        <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
                     </div>
-                    <div class="trend">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h4>2</h4>
-                            <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
-                        </div>
+                </div>
+                <div class="trend">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h4>2</h4>
+                        <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
                     </div>
-                    <div class="trend">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h4>3</h4>
-                            <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
-                        </div>
+                </div>
+                <div class="trend">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h4>3</h4>
+                        <p>In gesprek met Oostenrijkse activist Martin Sellner</p>
                     </div>
                 </div>
             </div>
-            <div class="nieuwsbrief ">
-                <h4>NIEUWSBRIEF</h4>
-                <p>Ontvang de nieuwste artikelen en updates rechtstreeks in je inbox.</p>
-            </div>
-
-            <div class="verhalen ">
-                <h4>VERHAAL</h4>
-                <div>
-                    <div class="verhaal">
-                        <div class="thumbnail"></div>
-                        <div>
-                            <h3>Leven op Noodstroom in Zuid-Afrika</h3>
-                            <p>We spreken met Karel, die met zijn gezin in Pretoria woont. Hij vertelt hoe zij omgaan met het uitvallen van het elektriciteitsnet en de watervoorziening.</p>
-                            <h6>Door Karel / 5 min leestijd</h6>
-                        </div>
+        </div>
+        <div class="nieuwsbrief ">
+            <h4>NIEUWSBRIEF</h4>
+            <p>Ontvang de nieuwste artikelen en updates rechtstreeks in je inbox.</p>
+        </div>
+        
+        <div class="verhalen ">
+            <h4>VERHAAL</h4>
+            <div>
+                <div class="verhaal">
+                    <div class="thumbnail"></div>
+                    <div>
+                        <h3>Leven op Noodstroom in Zuid-Afrika</h3>
+                        <p>We spreken met Karel, die met zijn gezin in Pretoria woont. Hij vertelt hoe zij omgaan met het uitvallen van het elektriciteitsnet en de watervoorziening.</p>
+                        <h6>Door Karel / 5 min leestijd</h6>
                     </div>
                 </div>
             </div>
-            <div class="artikelen">
+        </div>
+        <div class="artikelen">
+            <div>
                 <h4>LAATSTE ARTIKELEN</h4>
-                <div>
-                    <div class="artikel">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h3>Rijkswaterstaat: Model voor een Autoritaire Staat</h3>
-                            <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
-                            <h6>Door Raymond / 7 min leestijd</h6>
-                        </div>
+                <a href="" class="arrow-link">Bekijk alle artikelen <span>&#8594;</span></a>
+            </div>
+            <div class="container">
+                <div class="artikel">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h3>Rijkswaterstaat: Echt een Model voor een Autoritaire Staat</h3>
+                        <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
+                        <h6>Door Raymond / 7 min leestijd</h6>
                     </div>
-                    <div class="artikel">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h3>Rijkswaterstaat: Model voor een Autoritaire Staat</h3>
-                            <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
-                            <h6>Door Raymond / 7 min leestijd</h6>
-                        </div>
+                </div>
+                <div class="artikel">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h3>Rijkswaterstaat: Echt een Model voor een Autoritaire Staat</h3>
+                        <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
+                        <h6>Door Raymond / 7 min leestijd</h6>
                     </div>
-                    <div class="artikel">
-                        <div class="thumbnail full-height"></div>
-                        <div>
-                            <h3>Rijkswaterstaat: Model voor een Autoritaire Staat</h3>
-                            <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
-                            <h6>Door Raymond / 7 min leestijd</h6>
-                        </div>
+                </div>
+                <div class="artikel">
+                    <div class="thumbnail full-height"></div>
+                    <div>
+                        <h3>Rijkswaterstaat: Echt een Model voor een Autoritaire Staat</h3>
+                        <p>Dijken, bruggen, snelwegen en meer genieten wereldfaam. Wat is de succesformule van Rijkswaterstaat?</p>
+                        <h6>Door Raymond / 7 min leestijd</h6>
                     </div>
                 </div>
             </div>
-            <div class="stelling ">
-                <figure class="pie-chart"></figure>
-                <div>
-                    <h4>STELLING</h4>
-                    <h3>Het stikstofprobleem is een bureaucratische impasse.</h3>
+        </div>
+        <div class="stelling ">
+            <figure class="pie-chart"></figure>
+            <div>
+                <h4>STELLING</h4>
+                <h3>Het stikstofprobleem is een bureaucratische impasse.</h3>
+            </div>
+            <div class="voting">
+                <div class="thumbs-up vote-icon">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" id="Thumbs-Up-2--Streamline-Emoji" height="64" width="64">
+                        <desc>
+                            Thumbs Up 2 Streamline Emoji: https://streamlinehq.com
+                        </desc>
+                        <path d="M17.333333333333332 60.666666666666664a14.666666666666666 2 0 1 0 29.333333333333332 0 14.666666666666666 2 0 1 0 -29.333333333333332 0Z" fill="#45413c" opacity=".15" stroke-width="1"></path>
+                        <g class="thumb">
+                            <path d="M49.56 40.56h0.24a3.3866666666666667 3.3866666666666667 0 1 0 0 -6.773333333333333h-3.3866666666666667a3.3999999999999995 3.3999999999999995 0 0 0 0 -6.786666666666666h-8.16c0.7733333333333332 -1.92 1.76 -4.946666666666666 2.6666666666666665 -7.826666666666666a5.573333333333332 5.573333333333332 0 0 0 -3.6933333333333334 -6.933333333333334 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v14.826666666666664a1.3333333333333333 1.3333333333333333 0 0 0 1.3333333333333333 1.3333333333333333h3.3200000000000003c4.373333333333333 0.10666666666666666 6.266666666666667 1.7466666666666666 11.719999999999999 1.7466666666666666h17.96a3 3 0 0 0 0 -6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 0 0 -7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="M19.119999999999997 38.17333333333333a5.24 5.24 0 0 0 4.253333333333333 -2.2666666666666666 24 24 0 0 1 5.333333333333333 -5.786666666666666c6 -4.426666666666666 6.866666666666667 -9.333333333333332 8 -13.333333333333332a1.44 1.44 0 0 1 1.8 -0.96 5.453333333333333 5.453333333333333 0 0 1 2.5466666666666664 1.64 5.586666666666667 5.586666666666667 0 0 0 -3.9333333333333336 -5.333333333333333 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v2.293333333333333Z" fill="#ffdcd1" stroke-width="1"></path>
+                            <path d="m37.82666666666667 34.76 -0.07999999999999999 0.15999999999999998a15.213333333333333 15.213333333333333 0 0 1 -11.573333333333332 8.293333333333333h0" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m33.85333333333333 47.82666666666666 15.2 0 0 6 -15.2 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m32.946666666666665 40.56 20.24 0 0 7.266666666666667 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m32.946666666666665 33.78666666666666 20.24 0 0 6.786666666666666 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m33.85333333333333 27 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="M37.239999999999995 29.786666666666665h9.173333333333332a3.413333333333333 3.413333333333333 0 0 1 3.093333333333333 2 3.466666666666667 3.466666666666667 0 0 0 0.29333333333333333 -1.4 3.3866666666666667 3.3866666666666667 0 0 0 -3.3866666666666667 -3.3866666666666667h-9.173333333333332a3.3866666666666667 3.3866666666666667 0 0 0 -3.3866666666666667 3.3866666666666667 3.466666666666667 3.466666666666667 0 0 0 0.29333333333333333 1.4 3.413333333333333 3.413333333333333 0 0 1 3.093333333333333 -2Z" fill="#ffdcd1" stroke-width="1"></path>
+                            <path d="m33.85333333333333 47.82666666666666 15.2 0 0 6 -15.2 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m32.946666666666665 40.56 20.24 0 0 7.266666666666667 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m32.946666666666665 33.78666666666666 20.24 0 0 6.786666666666666 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m33.85333333333333 27 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="M49.56 40.56h0.24a3.3866666666666667 3.3866666666666667 0 1 0 0 -6.773333333333333h-3.3866666666666667a3.3999999999999995 3.3999999999999995 0 0 0 0 -6.786666666666666h-8.16c0.7733333333333332 -1.92 1.76 -4.946666666666666 2.6666666666666665 -7.826666666666666a5.573333333333332 5.573333333333332 0 0 0 -3.6933333333333334 -6.933333333333334 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v14.826666666666664a1.3333333333333333 1.3333333333333333 0 0 0 1.3333333333333333 1.3333333333333333h3.3200000000000003c4.373333333333333 0.10666666666666666 6.266666666666667 1.7466666666666666 11.719999999999999 1.7466666666666666h17.96a3 3 0 0 0 0 -6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 0 0 -7.266666666666667Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                        </g>
+                    </svg>
                 </div>
-                <div class="voting">
-                    <div class="thumbs-up vote-icon">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" id="Thumbs-Up-2--Streamline-Emoji" height="64" width="64">
-                            <desc>
-                                Thumbs Up 2 Streamline Emoji: https://streamlinehq.com
-                            </desc>
-                            <path d="M17.333333333333332 60.666666666666664a14.666666666666666 2 0 1 0 29.333333333333332 0 14.666666666666666 2 0 1 0 -29.333333333333332 0Z" fill="#45413c" opacity=".15" stroke-width="1"></path>
-                            <g class="thumb">
-                                <path d="M49.56 40.56h0.24a3.3866666666666667 3.3866666666666667 0 1 0 0 -6.773333333333333h-3.3866666666666667a3.3999999999999995 3.3999999999999995 0 0 0 0 -6.786666666666666h-8.16c0.7733333333333332 -1.92 1.76 -4.946666666666666 2.6666666666666665 -7.826666666666666a5.573333333333332 5.573333333333332 0 0 0 -3.6933333333333334 -6.933333333333334 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v14.826666666666664a1.3333333333333333 1.3333333333333333 0 0 0 1.3333333333333333 1.3333333333333333h3.3200000000000003c4.373333333333333 0.10666666666666666 6.266666666666667 1.7466666666666666 11.719999999999999 1.7466666666666666h17.96a3 3 0 0 0 0 -6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 0 0 -7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="M19.119999999999997 38.17333333333333a5.24 5.24 0 0 0 4.253333333333333 -2.2666666666666666 24 24 0 0 1 5.333333333333333 -5.786666666666666c6 -4.426666666666666 6.866666666666667 -9.333333333333332 8 -13.333333333333332a1.44 1.44 0 0 1 1.8 -0.96 5.453333333333333 5.453333333333333 0 0 1 2.5466666666666664 1.64 5.586666666666667 5.586666666666667 0 0 0 -3.9333333333333336 -5.333333333333333 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v2.293333333333333Z" fill="#ffdcd1" stroke-width="1"></path>
-                                <path d="m37.82666666666667 34.76 -0.07999999999999999 0.15999999999999998a15.213333333333333 15.213333333333333 0 0 1 -11.573333333333332 8.293333333333333h0" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m33.85333333333333 47.82666666666666 15.2 0 0 6 -15.2 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m32.946666666666665 40.56 20.24 0 0 7.266666666666667 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m32.946666666666665 33.78666666666666 20.24 0 0 6.786666666666666 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m33.85333333333333 27 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="M37.239999999999995 29.786666666666665h9.173333333333332a3.413333333333333 3.413333333333333 0 0 1 3.093333333333333 2 3.466666666666667 3.466666666666667 0 0 0 0.29333333333333333 -1.4 3.3866666666666667 3.3866666666666667 0 0 0 -3.3866666666666667 -3.3866666666666667h-9.173333333333332a3.3866666666666667 3.3866666666666667 0 0 0 -3.3866666666666667 3.3866666666666667 3.466666666666667 3.466666666666667 0 0 0 0.29333333333333333 1.4 3.413333333333333 3.413333333333333 0 0 1 3.093333333333333 -2Z" fill="#ffdcd1" stroke-width="1"></path>
-                                <path d="m33.85333333333333 47.82666666666666 15.2 0 0 6 -15.2 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m32.946666666666665 40.56 20.24 0 0 7.266666666666667 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m32.946666666666665 33.78666666666666 20.24 0 0 6.786666666666666 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m33.85333333333333 27 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="M49.56 40.56h0.24a3.3866666666666667 3.3866666666666667 0 1 0 0 -6.773333333333333h-3.3866666666666667a3.3999999999999995 3.3999999999999995 0 0 0 0 -6.786666666666666h-8.16c0.7733333333333332 -1.92 1.76 -4.946666666666666 2.6666666666666665 -7.826666666666666a5.573333333333332 5.573333333333332 0 0 0 -3.6933333333333334 -6.933333333333334 1.44 1.44 0 0 0 -1.8133333333333335 0.96c-1.1466666666666665 3.92 -2 8.866666666666667 -8 13.333333333333332a24.306666666666665 24.306666666666665 0 0 0 -5.333333333333333 5.786666666666666 5.333333333333333 5.333333333333333 0 0 1 -4.266666666666667 2.2666666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v14.826666666666664a1.3333333333333333 1.3333333333333333 0 0 0 1.3333333333333333 1.3333333333333333h3.3200000000000003c4.373333333333333 0.10666666666666666 6.266666666666667 1.7466666666666666 11.719999999999999 1.7466666666666666h17.96a3 3 0 0 0 0 -6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 0 0 -7.266666666666667Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                            </g>
-                        </svg>
+                <span class="stelling-percentage">75%</span>
+                <div class="thumbs-down vote-icon">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" id="Thumbs-Down-2--Streamline-Emoji" height="64" width="64">
+                        <desc>
+                            Thumbs Down 2 Streamline Emoji: https://streamlinehq.com
+                        </desc>
+                        <path d="M17.333333333333332 60.666666666666664a14.666666666666666 2 0 1 0 29.333333333333332 0 14.666666666666666 2 0 1 0 -29.333333333333332 0Z" fill="#45413c" opacity=".15" stroke-width="1"></path>
+                        <g class="thumb">
+                            <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="M13.053333333333331 18.28h3.3200000000000003c4.373333333333333 -0.10666666666666666 6.266666666666667 -1.76 11.719999999999999 -1.76h17.96a3 3 0 0 1 2.0666666666666664 0.8266666666666667 3 3 0 0 0 -2.0666666666666664 -5.173333333333333H28.093333333333334c-5.453333333333333 0 -7.346666666666666 1.6533333333333333 -11.719999999999999 1.7466666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v4.359999999999999a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333Z" fill="#ffdcd1" stroke-width="1"></path>
+                            <path d="m37.82666666666667 31.24 -0.07999999999999999 -0.14666666666666667a15.186666666666667 15.186666666666667 0 0 0 -11.586666666666666 -8.293333333333333h0" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m33.85333333333333 12.173333333333334 15.2 0 0 6 -15.2 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="M36.85333333333333 15.173333333333334h9.2a3.0133333333333328 3.0133333333333328 0 0 1 2.6666666666666665 1.4933333333333334 3 3 0 0 0 -2.6666666666666665 -4.493333333333333h-9.2a3 3 0 0 0 -2.5999999999999996 4.493333333333333 3.0133333333333328 3.0133333333333328 0 0 1 2.5999999999999996 -1.4933333333333334Z" fill="#ffdcd1" stroke-width="1"></path>
+                            <path d="m32.946666666666665 18.173333333333332 20.24 0 0 7.266666666666667 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m32.946666666666665 25.439999999999998 20.24 0 0 6.786666666666666 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m33.85333333333333 32.22666666666667 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="#ffcebf" stroke-width="1"></path>
+                            <path d="m33.85333333333333 12.173333333333334 15.2 0 0 6 -15.2 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m32.946666666666665 18.173333333333332 20.24 0 0 7.266666666666667 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m32.946666666666665 25.439999999999998 20.24 0 0 6.786666666666666 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="m33.85333333333333 32.22666666666667 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                            <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="schrijvers">
+            <h4>VASTE SCHRIJVERS</h4>
+            <div>
+                <div class="schrijver">
+                    <div class="thumbnail full-width"></div>
+                    <div>
+                        <h3>Richard</h3>
+                        <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
                     </div>
-                    <span class="stelling-percentage">75%</span>
-                    <div class="thumbs-down vote-icon">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" id="Thumbs-Down-2--Streamline-Emoji" height="64" width="64">
-                            <desc>
-                                Thumbs Down 2 Streamline Emoji: https://streamlinehq.com
-                            </desc>
-                            <path d="M17.333333333333332 60.666666666666664a14.666666666666666 2 0 1 0 29.333333333333332 0 14.666666666666666 2 0 1 0 -29.333333333333332 0Z" fill="#45413c" opacity=".15" stroke-width="1"></path>
-                            <g class="thumb">
-                                <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="M13.053333333333331 18.28h3.3200000000000003c4.373333333333333 -0.10666666666666666 6.266666666666667 -1.76 11.719999999999999 -1.76h17.96a3 3 0 0 1 2.0666666666666664 0.8266666666666667 3 3 0 0 0 -2.0666666666666664 -5.173333333333333H28.093333333333334c-5.453333333333333 0 -7.346666666666666 1.6533333333333333 -11.719999999999999 1.7466666666666666H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 0 -1.3333333333333333 1.3333333333333333v4.359999999999999a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333Z" fill="#ffdcd1" stroke-width="1"></path>
-                                <path d="m37.82666666666667 31.24 -0.07999999999999999 -0.14666666666666667a15.186666666666667 15.186666666666667 0 0 0 -11.586666666666666 -8.293333333333333h0" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m33.85333333333333 12.173333333333334 15.2 0 0 6 -15.2 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="M36.85333333333333 15.173333333333334h9.2a3.0133333333333328 3.0133333333333328 0 0 1 2.6666666666666665 1.4933333333333334 3 3 0 0 0 -2.6666666666666665 -4.493333333333333h-9.2a3 3 0 0 0 -2.5999999999999996 4.493333333333333 3.0133333333333328 3.0133333333333328 0 0 1 2.5999999999999996 -1.4933333333333334Z" fill="#ffdcd1" stroke-width="1"></path>
-                                <path d="m32.946666666666665 18.173333333333332 20.24 0 0 7.266666666666667 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m32.946666666666665 25.439999999999998 20.24 0 0 6.786666666666666 -20.24 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m33.85333333333333 32.22666666666667 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="#ffcebf" stroke-width="1"></path>
-                                <path d="m33.85333333333333 12.173333333333334 15.2 0 0 6 -15.2 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m32.946666666666665 18.173333333333332 20.24 0 0 7.266666666666667 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m32.946666666666665 25.439999999999998 20.24 0 0 6.786666666666666 -20.24 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="m33.85333333333333 32.22666666666667 15.946666666666667 0 0 6.786666666666666 -15.946666666666667 0Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                                <path d="M49.56 25.439999999999998h0.24a3.3999999999999995 3.3999999999999995 0 0 1 0 6.786666666666666h-3.3866666666666667a3.3866666666666667 3.3866666666666667 0 0 1 0 6.773333333333333h-8.16c0.7733333333333332 1.92 1.76 4.96 2.6666666666666665 7.826666666666666a5.586666666666667 5.586666666666667 0 0 1 -3.6933333333333334 6.946666666666666 1.4533333333333334 1.4533333333333334 0 0 1 -1.8133333333333335 -0.9733333333333333c-1.1466666666666665 -3.9066666666666667 -2 -8.866666666666667 -8 -13.333333333333332a24.813333333333333 24.813333333333333 0 0 1 -5.3999999999999995 -5.799999999999999 5.213333333333333 5.213333333333333 0 0 0 -4.253333333333333 -2.253333333333333H13.053333333333331a1.3333333333333333 1.3333333333333333 0 0 1 -1.3333333333333333 -1.3333333333333333V15.253333333333332a1.3333333333333333 1.3333333333333333 0 0 1 1.3333333333333333 -1.3333333333333333h3.3200000000000003c4.373333333333333 -0.09333333333333334 6.266666666666667 -1.7466666666666666 11.719999999999999 -1.7466666666666666h17.96a3 3 0 0 1 0 6h3.5066666666666664a3.6399999999999997 3.6399999999999997 0 0 1 0 7.266666666666667Z" fill="none" stroke="#45413c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
-                            </g>
-                        </svg>
+                </div>
+                <div class="schrijver">
+                    <div class="thumbnail full-width"></div>
+                    <div>
+                        <h3>Richard</h3>
+                        <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
+                    </div>
+                </div>
+                <div class="schrijver">
+                    <div class="thumbnail full-width"></div>
+                    <div>
+                        <h3>Richard</h3>
+                        <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
+                    </div>
+                </div>
+                <div class="schrijver">
+                    <div class="thumbnail full-width"></div>
+                    <div>
+                        <h3>Richard</h3>
+                        <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="schrijvers">
-                <h4>VASTE SCHRIJVERS</h4>
-                <div>
-                    <div class="schrijver">
-                        <div class="thumbnail full-width"></div>
-                        <div>
-                            <h3>Richard</h3>
-                            <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
-                        </div>
-                    </div>
-                    <div class="schrijver">
-                        <div class="thumbnail full-width"></div>
-                        <div>
-                            <h3>Richard</h3>
-                            <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
-                        </div>
-                    </div>
-                    <div class="schrijver">
-                        <div class="thumbnail full-width"></div>
-                        <div>
-                            <h3>Richard</h3>
-                            <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
-                        </div>
-                    </div>
-                    <div class="schrijver">
-                        <div class="thumbnail full-width"></div>
-                        <div>
-                            <h3>Richard</h3>
-                            <p>Student Rechten te Leiden. Verbaast zich over de eenzijdigheid van het debat.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="word-actief">
+        </div>
+        <div class="word-actief">
+            <div>
                 <h4>WORD ACTIEF!</h4>
-                <p>JFVD is altijd op zoek naar nieuw talent. Kunnen wij jouw steun gebruiken met een van deze taken?</p>
-                <ul>
-                    <li><div class="writing-icon"></div>SCHRIJVEN</li>
-                    <li><div class="design-icon"></div>VORMGEVING</li>
-                    <li><div class="organisation-icon"></div>ORGANISATIE</li>
-                </ul>
+                <div class="megaphone-icon"></div>
             </div>
+            <p>JFVD is altijd op zoek naar nieuw talent. Kunnen wij jouw steun gebruiken met een van deze taken?</p>
+            <ul>
+                <li><div class="writing-icon"></div>SCHRIJVEN</li>
+                <li><div class="design-icon"></div>VORMGEVING</li>
+                <li><div class="organisation-icon"></div>ORGANISATIE</li>
+            </ul>
+            <a href="" class="arrow-link">Bekijk meer informatie <span>&#8594;</span></a>
+        </div>
     </section>
     <section class="form dash-top" id="form">
+        <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="speckle">
+                    <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency=".1"
+                    numOctaves="3"
+                    result="noise"
+                    seed="2"
+                    />
+                    
+                    <!-- Convert noise into alpha mask -->
+                    <feComponentTransfer in="noise" result="mask">
+                        <feFuncR type="discrete" tableValues="1 0 0 0 1"/>
+                        <feFuncG type="discrete" tableValues="1 0 0 0 1"/>
+                        <feFuncB type="discrete" tableValues="1 0 0 0 1"/>
+                        <feFuncA type="discrete" tableValues="1 0 0 0 1"/>
+                    </feComponentTransfer>
+                    
+                    <!-- Apply solid color -->
+                    <feFlood flood-color="currentColor" result="color"/>
+                    
+                    <!-- Mask the color with the noise -->
+                    <feComposite in="color" in2="mask" operator="in"/>
+                </filter>
+            </defs>
+            
+            <rect width="100%" height="100%" preserveAspectRatio="slice" filter="url(#speckle)" />
+        </svg>
         <div class="main-grid">
             <ul>
                 <li><h5>EXCLUSIEVE INTERVIEWS</h5></li>
@@ -218,34 +254,34 @@
                 <div>
                     <div>
                         <fieldset>
-                        <legend>Persoonsgegevens</legend>
-                        <div>
-                            <div class="gender">
-                                <input type="radio" name="geslacht" value="man">
-                                <label for="man">man</label>
-                                <input type="radio" name="geslacht" value="vrouw">
-                                <label for="vrouw">vrouw</label>
-                            </div>
+                            <legend>Persoonsgegevens</legend>
                             <div>
-                                <input type="text" name="voornaam" placeholder="voornaam">
-                                <input type="text" name="achternaam" placeholder="achternaam">
+                                <div class="gender">
+                                    <input type="radio" name="geslacht" value="man">
+                                    <label for="man">man</label>
+                                    <input type="radio" name="geslacht" value="vrouw">
+                                    <label for="vrouw">vrouw</label>
+                                </div>
+                                <div class="form-box collapse-two">
+                                    <input type="text" name="voornaam" placeholder="voornaam">
+                                    <input type="text" name="achternaam" placeholder="achternaam">
+                                </div>
+                                <div class="form-box"><input type="date" name="geboortedatum"></div>
+                                <div class="form-box"><input type="tel" name="telefoon" required placeholder="telefoonnummer"></div>
+                                <div class="form-box"><input type="email" name="mailadres" placeholder="mailadres" required></div>
                             </div>
-                            <div><input type="date" name="geboortedatum"></div>
-                            <div><input type="tel" name="telefoon" required placeholder="telefoonnummer"></div>
-                            <div><input type="email" name="mailadres" placeholder="mailadres" required></div>
-                        </div>
                         </fieldset>
                     </div>
                     <div>
                         <fieldset>
                             <legend>Adresgegevens</legend>
                             <div>
-                                <div class="flex">
+                                <div class="form-box collapse-three">
                                     <input type="text" name="postcode" placeholder="postcode" required>
                                     <input type="text" name="huisnummer" placeholder="huisnummer" required>
                                     <input type="text" name="toevoeging" placeholder="toevoeging">
                                 </div>
-                                <div class="flex">
+                                <div class="form-box collapse-two">
                                     <input type="text" name="straatnaam" placeholder="straatnaam">
                                     <input type="text" name="woonplaats" placeholder="woonplaats">
                                 </div>
@@ -253,13 +289,13 @@
                         </fieldset>
                         <fieldset>
                             <legend>Contributie</legend>
-                            <div>
-                                <div><input type="text" name="bankrekening" placeholder="bankrekeningnummer (IBAN)"></div>
+                            <div class="form-box">
+                                <input type="text" name="bankrekening" placeholder="bankrekeningnummer (IBAN)">
                             </div>
                         </fieldset>
                     </div>
                 </div>
-                <button type="submit">Verstuur</button>
+                <button type="submit" class="cta-btn-light">Verstuur</button>
             </form>
         </div>
     </section>

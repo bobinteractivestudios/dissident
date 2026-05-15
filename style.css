@@ -2,7 +2,7 @@
 
 html {
     /*scroll-behavior: smooth;*/
-    font-size: 15px;
+    font-size: 14px;
 }
 body {
     margin: 0;
@@ -22,13 +22,16 @@ h1,h2,h3 {
     font-family: 'instrument serif';
     font-weight: normal;
     color: var(--inkblack);
-    margin: 0 0 1rem 0;
+    margin: 0;
 }
 h4,h5,h6 {
     font-family: 'mohave';
     color: var(--winered);
     font-weight:normal;
-    margin: 0 0 1rem 0;
+    margin: 0;
+}
+p {
+    margin: 0;
 }
 h1 {
     font-size: 3rem;
@@ -49,6 +52,16 @@ h6 {
     font-weight: 500;
     font-size: .8rem;
 }
+
+input, legend, label {
+    font-family: 'mohave';
+}
+nav {
+    z-index: 1;
+}
+
+/* Makeup */
+
 :root {
     --grid-width: 1400px;
 
@@ -58,6 +71,8 @@ h6 {
     --darkgrey: #494949;
     --inkblack: #333333;
     --lightgrey: #dfdfdf;
+
+    transition: color-scheme .5s;
 }
 
 ::selection {
@@ -65,15 +80,38 @@ h6 {
     color: white;
 }
 
-input, legend, label {
+.cta-btn-light {
+    padding: .5rem 2rem;
+    background: transparent;
+    border-radius: 1rem;
+    color: white;
     font-family: 'mohave';
+    border: white 1px solid;
+    cursor: pointer;
+    flex: none;
 }
-fieldset {
-    border:0;
+.cta-btn-light:hover {
+    background-color: white;
+    color: var(--winered);
 }
-nav {
-    z-index: 1;
+
+.cta-btn {
+    padding: .5rem 1rem;
+    background: var(--winered);
+    border-radius: 1rem;
+    color: white;
+    font-family: 'mohave';
+    border: var(--winered) 1px solid;
+    cursor: pointer;
+    flex: none;
 }
+.cta-btn:hover {
+    background-color: transparent;
+    color: var(--winered);
+}
+
+
+
 
 /* NAVIGATION */
 
@@ -145,21 +183,6 @@ nav {
 .abonneer {
     margin-left: auto;
 }
-
-.cta-btn {
-    padding: .5rem 1rem;
-    background: var(--winered);
-    border-radius: 1rem;
-    color: white;
-    font-family: 'mohave';
-    border: var(--winered) 1px solid;
-    cursor: pointer;
-    flex: none;
-}
-.cta-btn:hover {
-    background-color: transparent;
-    color: var(--winered);
-}
 .dissident-slogan {
     font-family: 'indie flower';
 }
@@ -177,6 +200,7 @@ nav {
     flex-direction: column;
     align-items: flex-start;
     padding-left: 20%;
+    gap: .5rem;
 }
 
 /* MAIN */
@@ -195,7 +219,10 @@ section.main {
 
 section.main > div {
     padding: 1rem;
-    position: relative
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
 }
 
 .thumbnail {
@@ -231,6 +258,22 @@ section.main > div {
     display: flex;
     gap: 1rem;
 }
+/*
+.trend p, .artikel p, .verhaal h3 {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-wrap: elipses;
+}
+.verhaal p {
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    text-wrap: elipses;
+}
+.artikel h3 {
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-wrap: elipses;
+}
 
 /* MAIN nieuwsbrief */
 
@@ -252,12 +295,30 @@ section.main > div {
 
 .artikelen > div {
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: auto;
     gap: 1rem;
 }
 
 .artikel {
     display: flex;
+    gap: 1rem;
+}
+
+.artikel > div, .verhaal > div {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem; 
+}
+
+.artikelen :first-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrow-link {
+    font-family: 'mohave';
+    display: flex;
+    align-items: center;
     gap: 1rem;
 }
 
@@ -356,7 +417,6 @@ section.main > div {
 
 }
 
-
 /* MAIN Word-actief */
 
 .word-actief, .nieuwsbrief, .stelling {
@@ -373,6 +433,21 @@ section.main > div {
     color: white;
 }
 
+.word-actief :first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.megaphone-icon {
+    background-image: url(./sources/emoji_cheering_megaphone.svg);
+    width: 4rem;
+    height: 4rem;
+    background-size: contain;
+    display: inline-block;
+}
+
 .design-icon {
     background-image: url(./sources/Design-Tool-Stamp--Streamline-Freehand.svg);
 }
@@ -387,15 +462,18 @@ section.main > div {
 
 .word-actief ul {
     text-align: start;
-    margin: auto;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
+    margin: 0 auto;
 }
 
 .word-actief li {
     font-family: 'mohave';
-    margin-top: 1em;
     display: flex;
     align-items: center;
+    gap: .5rem;
 }
 
 .word-actief ul li div {
@@ -403,7 +481,12 @@ section.main > div {
     height: 2rem;
     background-size: contain;
     display: inline-block;
-    margin-right: .5rem;
+}
+
+.word-actief .arrow-link {
+    color: white;
+    margin: auto 0;
+    justify-content: center;
 }
 
 /* Dashed Linework */
@@ -442,11 +525,25 @@ section.main > div {
     max-width: var(--grid-width);
     margin: auto;
 }
-
+/*
 section.form {
     background-image: url(./sources/speckles.svg);
     background-repeat: no-repeat;
     background-size: cover;
+}
+*/
+
+section.form {
+    position: relative;
+}
+
+section.form svg {
+    color: var(--inkblack);
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 section.form ul {
@@ -460,10 +557,8 @@ section.form form {
     grid-column: 1/-1;
     background-color: var(--winered);
     padding: 1rem;
-}
-section.form form > div {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    z-index: .5;
+    border: white 1px dashed;
 }
 
 section.form h4 {
@@ -475,87 +570,146 @@ legend, label {
     color: white;
 }
 
-section.form form fieldset > div > div {
-    display: flex;
+.collapse-two {
+    grid-template-columns: 1fr 1fr;
 }
 
-section.form form fieldset > div > div input {
+.collapse-three {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-box {
+    display: grid;
+}
+
+.form-box input {
     flex: 1;
+    font-size: 16px;
     margin: .5rem;
     padding: .5rem;
     box-sizing: border-box;
     border: none;
     border-radius: .5rem;
+    background-color: #7d1519;
+    color: white;
+}
+
+::placeholder {
+    color: white;
 }
 
 .gender {
+    display: flex;
+    gap: 1rem;
+}
+
+.form form button {
     display: block;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+section.form form fieldset {
+    border: white 1px dashed;
 }
 
 /* FOOTER */
 
 footer {
     background-color: var(--winered);
-    height: min(8rem);
+    height: 8rem;
 }
+
+
+
 
 /* RESPONSIVITY */
 
 @media (min-width: 1201px) {
     /* Desktop */
     section.form form {
-    grid-column: 3/-3;
+        grid-column: 3/-3;
+    }
+    section.form::after{
+        content:"";
+        width: 100%;
+        height: 4rem;
+        position: absolute;
+        background: var(--winered);
+        z-index: -1;
+        bottom: 0;
     }
 }
 
 @media (max-width: 1200px) {
-/* Tablet */
+    /* Tablet */
+    .stelling, .nieuwsbrief, .word-actief {
+        display: none !important;
+    }
     .main-grid {
-    grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(8, 1fr);
     }
     section.main {
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-areas: 
-    "trending trending trending trending trending trending trending trending"
-    "verhalen verhalen verhalen artikelen artikelen artikelen artikelen artikelen"
-    "schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers"
-    "stelling stelling stelling stelling word-actief word-actief word-actief word-actief"
-    "stelling stelling stelling stelling nieuwsbrief nieuwsbrief nieuwsbrief nieuwsbrief";
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-areas: 
+        "trending trending trending trending trending trending trending trending"
+        "verhalen verhalen verhalen artikelen artikelen artikelen artikelen artikelen"
+        "schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers"
+    }
+    .collapse-two {
+        grid-template-columns: 1fr;
+    }
+    .collapse-three {
+        grid-template-columns: 1fr 1fr;
+    }
+    .collapse-three :first-child {
+        grid-column: span 2;
     }
 }
 
 @media (max-width: 768px) {
-  /* Mobile */
+    /* Mobile */
+    .nieuwsbrief, .word-actief {
+        display: block !important;
+    }
     .main-grid {
-    grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
     section.main {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: 
-    "trending trending trending"
-    "verhalen verhalen verhalen"
-    "artikelen artikelen artikelen"
-    "schrijvers schrijvers schrijvers"
-    "nieuwsbrief nieuwsbrief nieuwsbrief"
-    "stelling stelling stelling"
-    "word-actief word-actief word-actief";
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas: 
+        "trending trending trending"
+        "verhalen verhalen verhalen"
+        "artikelen artikelen artikelen"
+        "schrijvers schrijvers schrijvers"
+        "nieuwsbrief nieuwsbrief nieuwsbrief"
+        "word-actief word-actief word-actief";
     }
     .hero > div {
-        padding-left: 1rem;
-    }
-    .trending {
-        overflow-x: auto;
+            padding-left: 1rem;
     }
     .trending > div {
-        grid-template-columns: repeat(3, 100vw)
+            grid-template-columns: repeat(2, 1fr)
+    }
+    .trending > div > div:last-child {
+            display: none;
     }
     .jfvd, .dissident-slogan, .artikel p {
-        display: none;
+            display: none;
     }
     section.form form > div {
-        grid-template-columns: 1fr;
+            grid-template-columns: 1fr;
     }
     .schrijvers > div {
-        grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
     }
+}
+
+@media (prefers-color-scheme: dark) {
+    /* Dark Mode */
+    :root {
+        --offwhite: #0f0f0f;
+        --darkgrey: #494949;
+        --inkblack: #cdcdcd;
+        --lightgrey: #1a1a1a;
+}
 }
