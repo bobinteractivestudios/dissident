@@ -3,7 +3,7 @@
 html {
     /*scroll-behavior: smooth;*/
     font-size: 14px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 body {
     margin: 0;
