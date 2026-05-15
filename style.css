@@ -3,6 +3,7 @@
 html {
     /*scroll-behavior: smooth;*/
     font-size: 14px;
+    overflow: hidden;
 }
 body {
     margin: 0;
