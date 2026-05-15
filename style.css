@@ -60,7 +60,7 @@ nav {
     z-index: 1;
 }
 
-/* Makeup */
+/* Generic Styling */
 
 :root {
     --grid-width: 1400px;
@@ -525,6 +525,7 @@ section.main > div {
     max-width: var(--grid-width);
     margin: auto;
 }
+
 /*
 section.form {
     background-image: url(./sources/speckles.svg);
@@ -535,6 +536,10 @@ section.form {
 
 section.form {
     position: relative;
+}
+
+section.form ul {
+    overflow: hidden;
 }
 
 section.form svg {
