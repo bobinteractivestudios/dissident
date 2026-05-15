@@ -280,7 +280,46 @@ section.main > div {
 
 .nieuwsbrief {
     grid-area: nieuwsbrief;
+    background-image: linear-gradient(to bottom, white, #f1f1f1);
+    position: relative;
 }
+.nieuwsbrief form {
+    display: grid;
+    border-radius: 2rem;
+    grid-template-columns: 1fr 2rem;
+    grid-template-rows: 2rem;
+    background-color: white;
+}
+.nieuwsbrief input {
+    border-radius: .5rem;
+    border-style: none;
+    border: 1px var(--winered) solid;
+}
+.nieuwsbrief button {
+    background-color: var(--winered);
+    color: white;
+    border-radius: .5rem;
+    border-style: none;
+}
+.nieuwsbrief .envelope {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 2rem;
+    background: none;
+    /* use an inline SVG so we can have a crisp 1px stroke on the triangle edges */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><polygon points='0,0 100,0 50,100' fill='%23ffffff' stroke='%23dcdcdc' stroke-width='1'/></svg>");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    z-index: 0;
+}
+.nieuwsbrief h4 {
+    position: relative;
+    z-index: 2;
+}
+
+/* removed pseudo-element backing - using SVG stroke for crisp outline */
 
 /* MAIN verhalen */
 
@@ -539,6 +578,48 @@ section.form {
     position: relative;
 }
 
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    grid-column: 1/-1;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel ul {
+    animation: spin 7s linear infinite;
+    display: flex;
+    flex: 0;
+}.carousel h5 {
+    font-size: 2em;
+}
+
+
+.carousel ul {
+    grid-column: 1/-1;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5em;
+    justify-content: flex-start;
+    padding-right: 1.5em;
+}
+
+.carousel ul li {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+@keyframes spin {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-100%));
+    }
+}
+
 section.form svg {
     color: var(--inkblack);
     position: absolute;
@@ -546,14 +627,6 @@ section.form svg {
     width: 100%;
     height: 100%;
     z-index: -1;
-}
-
-section.form ul {
-    grid-column: 1/-1;
-    display: flex;
-    gap: 1.5em;
-    justify-content: center;
-    overflow-x: hidden;
 }
 
 section.form form {
@@ -597,7 +670,7 @@ legend, label {
     color: white;
 }
 
-::placeholder {
+.form ::placeholder {
     color: white;
 }
 
@@ -704,10 +777,6 @@ footer {
     }
     .collapse-three :first-child {
         grid-column: span 2;
-    }
-    section.form ul {
-        flex-direction: column;
-        align-items: center;
     }
     .jfvd {
         display: none;
