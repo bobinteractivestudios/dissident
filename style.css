@@ -152,7 +152,7 @@ nav {
     line-height: 1;
 }
 
-.nav {
+nav {
     width: 100%;
     padding: 0 1em;
     display: grid;
@@ -539,10 +539,6 @@ section.form {
     position: relative;
 }
 
-section.form ul {
-    overflow: hidden;
-}
-
 section.form svg {
     color: var(--inkblack);
     position: absolute;
@@ -557,6 +553,7 @@ section.form ul {
     display: flex;
     gap: 1.5em;
     justify-content: center;
+    overflow-x: hidden;
 }
 
 section.form form {
@@ -661,15 +658,6 @@ footer {
         "verhalen verhalen verhalen artikelen artikelen artikelen artikelen artikelen"
         "schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers schrijvers"
     }
-    .collapse-two {
-        grid-template-columns: 1fr;
-    }
-    .collapse-three {
-        grid-template-columns: 1fr 1fr;
-    }
-    .collapse-three :first-child {
-        grid-column: span 2;
-    }
 }
 
 @media (max-width: 768px) {
@@ -699,7 +687,7 @@ footer {
     .trending > div > div:last-child {
             display: none;
     }
-    .jfvd, .dissident-slogan, .artikel p {
+    .dissident-slogan, .artikel p {
             display: none;
     }
     section.form form > div {
@@ -707,6 +695,32 @@ footer {
     }
     .schrijvers > div {
             grid-template-columns: repeat(2, 1fr);
+    }
+    .collapse-two {
+        grid-template-columns: 1fr;
+    }
+    .collapse-three {
+        grid-template-columns: 1fr 1fr;
+    }
+    .collapse-three :first-child {
+        grid-column: span 2;
+    }
+    section.form ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .jfvd {
+        display: none;
+    }
+    .abonneer {
+        position: fixed;
+        right: .5rem;
+        bottom: .5rem;
+    }
+    nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
