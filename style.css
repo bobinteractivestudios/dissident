@@ -2,8 +2,12 @@
 
 html {
     /*scroll-behavior: smooth;*/
-    font-size: 14px;
+    font-size: 16px;
     overflow-x: hidden;
+}
+p {
+    /* correct libre baskerville cow letters */
+    font-size: 14px;
 }
 body {
     margin: 0;
@@ -754,11 +758,11 @@ footer {
     .hero > div {
             padding-left: 1rem;
     }
-    .trending > div {
-            grid-template-columns: repeat(2, 1fr)
+    .trending p {
+        display: none;
     }
-    .trending > div > div:last-child {
-            display: none;
+    .trending .thumbnail {
+        width: 100%;
     }
     .dissident-slogan, .artikel p {
             display: none;
