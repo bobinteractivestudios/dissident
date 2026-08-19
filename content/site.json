@@ -1,0 +1,187 @@
+{
+  "site": {
+    "title": "De Dissident",
+    "tagline": "Jongerenorganisatie Forum voor Democratie",
+    "sources": {
+      "ed1": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk.pdf",
+      "ed2": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk_21_juni_2022.pdf",
+      "ed3": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk_21_DEC_2022_FINAL.pdf",
+      "ed4": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk_21_DEC_2024-PROEFDRUK-V2.pdf",
+      "ed5": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk_21_JUNI_2025-DEF-V6.pdf",
+      "ed6": "DD blad/6/definitief/binnenwerk.pdf"
+    }
+  },
+
+  "editions": [
+    {
+      "id": "ed7",
+      "number": 7,
+      "date": "2026-06-21",
+      "date_label": "21 juni 2026",
+      "theme": "",
+      "cover": "omslag.png",
+      "pdf": null,
+      "articles": [
+        {"page": 1, "title": "‘Omarm ongelijkheid’", "subtitle": "Frederik Jansen over de Frankfurter Schule", "category": "Politieke beschouwing", "author": "Luca de Clippelaar", "image": "site:freek.jpg", "text": "pages:Interview Freek.pages"},
+        {"page": 5, "title": "Forumland", "subtitle": "Kunstverzamelaar Adriaan van Waalwijk van Doorn", "category": "Forumland", "author": "De Dissident", "image": null},
+        {"page": 9, "title": "Gemeenteraadslid Nicolas Knoester", "subtitle": "Over zijn plannen en succes in de gemeente Eindhoven", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 11, "title": "In gesprek met Ugis Nastevičs", "subtitle": "“Mensen zongen in een Sovjet-isolatiecel de Dainas.”", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 15, "title": "Een brutalistische bruiloft in Vilnius", "subtitle": "Grijze betonblokken tekenen Oost-Europa", "category": "Architectuur", "author": "Raymond", "image": "site:brutalisme.jpg"},
+        {"page": 19, "title": "In gesprek met Vytautas Sinica", "subtitle": "“In Litouwen ben ik de enige rechtse parlementariër.”", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 23, "title": "De Noord-Zuidlijn", "subtitle": "Op de noodstroom in Zuid-Afrika", "category": "Reportage", "author": "Stijn Polderman", "image": null},
+        {"page": 27, "title": "Bibliotheek van Babel", "subtitle": "Leestips van de redactie", "category": "Boeken", "author": "De Dissident", "image": null},
+        {"page": 31, "title": "Reportage in Napels", "subtitle": "Op bezoek bij Napoli Antonio van de CSNF", "category": "Reportage", "author": "De Dissident", "image": null}
+      ]
+    },
+    {
+      "id": "ed6",
+      "number": 6,
+      "date": "2025-12-21",
+      "date_label": "21 december 2025",
+      "theme": "Techniek",
+      "cover": null,
+      "pdf": "ed6",
+      "articles": [
+        {"page": 1, "end": 1, "title": "Blijf Dissident!", "subtitle": "Techniek in de eenentwintigste eeuw", "category": "Voorwoord", "author": "Luca de Clippelaar", "image": "voorwoord"},
+        {"page": 4, "end": 9, "title": "The Magnificent 7", "subtitle": "In gesprek met de kersverse Tweede Kamerfractie", "category": "Interview", "author": "De Dissident", "image": "magnificent seven"},
+        {"page": 10, "end": 11, "title": "Forumland", "subtitle": "Horlogemaker Ritchie", "category": "Forumland", "author": "De Dissident", "image": "horlogemaker"},
+        {"page": 12, "end": 14, "title": "De Noord-Zuidlijn", "subtitle": "Leven op noodstroom in Zuid-Afrika", "category": "Reportage", "author": "Stijn Polderman", "image": "noordzuidlijn"},
+        {"page": 15, "end": 15, "title": "Garderobe Essentials", "subtitle": "Een stijlhandleiding voor de man", "category": "In Stijl", "author": "De Dissident", "image": "stijl"},
+        {"page": 16, "end": 23, "title": "In gesprek met Martin Sellner", "subtitle": "“Je hoeft geen genie te zijn om remigratie te begrijpen.”", "category": "Interview", "author": "Massimo Etalle", "image": "martin sellner"},
+        {"page": 24, "end": 25, "title": "Bibliotheek van Babel", "subtitle": "Leestips: Goed Fout, Zieke Zorg en De Bermudadriehoek van Talent", "category": "Boeken", "author": "De Dissident", "image": "bibliotheek babel"},
+        {"page": 26, "end": 27, "title": "Restomods", "subtitle": "Tussen nostalgie en vooruitgang", "category": "Techniek", "author": "De Dissident", "image": "restomods"},
+        {"page": 28, "end": 31, "title": "Historische Keerpunten", "subtitle": "De lopende band van Henry Ford", "category": "Geschiedenis", "author": "De Dissident", "image": "ford"},
+        {"page": 32, "end": 33, "title": "Technologie is voortbrengen", "subtitle": "Drie filosofen over techniek", "category": "Filosofie", "author": "De Dissident", "image": "technologie is voortbrengen"},
+        {"page": 34, "end": 35, "title": "Psychologie", "subtitle": "Het langhuis in de badkamer", "category": "Psychologie", "author": "De Dissident", "image": "langhuis"},
+        {"page": 36, "end": 41, "title": "Post-Futurisme", "subtitle": "Wat als de toekomst ons teleurstelt?", "category": "Essay", "author": "De Dissident", "image": "post futurisme"},
+        {"page": 42, "end": 45, "title": "Anti-Industrieel Extremisme", "subtitle": "Over de ideeën van Theodor Kaczynski", "category": "Essay", "author": "De Dissident", "image": "industrieel extremisme"},
+        {"page": 46, "end": 49, "title": "Rijkswaterstaat", "subtitle": "Model voor een autoritaire staat", "category": "Essay", "author": "Stijn Polderman", "image": "rijkswaterstaat"},
+        {"page": 50, "end": 51, "title": "Ontstijg de inflatie!", "subtitle": "Economie", "category": "Economie", "author": "Jelena Postuma", "image": "inflatie"},
+        {"page": 52, "end": 55, "title": "In gesprek met Mark Koster", "subtitle": "“De journalistiek is een kartel, daar heeft Baudet 100% gelijk in.”", "category": "Interview", "author": "Stijn Polderman", "image": "mark koster"},
+        {"page": 56, "end": 57, "title": "De Dom van Keulen", "subtitle": "Architectuur", "category": "Architectuur", "author": "De Dissident", "image": "dom van keulen"},
+        {"page": 58, "end": 61, "title": "Een klassieke grand tour door Italië", "subtitle": "Reisverslag", "category": "Reisverslag", "author": "De Dissident", "image": "reizen"},
+        {"page": 62, "end": 63, "title": "Naaien met Nijman", "subtitle": "Om je vingers bij af te likken", "category": "Rubriek", "author": "De Dissident", "image": "naaien nijman"},
+        {"page": 64, "end": 64, "title": "Nawoord", "subtitle": "Technologische regressie", "category": "Nawoord", "author": "De Dissident", "image": "nawoord"}
+      ]
+    },
+    {
+      "id": "ed5",
+      "number": 5,
+      "date": "2025-06-21",
+      "date_label": "21 juni 2025",
+      "theme": "",
+      "cover": null,
+      "pdf": "ed5",
+      "articles": [
+        {"page": 4, "title": "Iemand in de Cockpit", "subtitle": "Een interview met Lidewij de Vos", "category": "Interview", "author": "Luca de Clippelaar", "image": null},
+        {"page": 10, "title": "Filmrecensie: The Northman", "subtitle": "", "category": "Film", "author": "De Dissident", "image": null},
+        {"page": 14, "title": "Het nihilisme zal mij niet besmetten", "subtitle": "Een interview met Alain de Benoist", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 22, "title": "Drie nachten in Afrika", "subtitle": "Een reisverslag", "category": "Reisverslag", "author": "De Dissident", "image": null},
+        {"page": 26, "title": "La Dolce Vita", "subtitle": "De wijntips van Laurent Schandrin", "category": "Rubriek", "author": "Laurent Schandrin", "image": null},
+        {"page": 30, "title": "Arno Breker", "subtitle": "De profeet van de schoonheid", "category": "Kunst", "author": "De Dissident", "image": null},
+        {"page": 34, "title": "Rapport Schooljaar ‘24 - ‘25", "subtitle": "Pieter Omtzigt", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 38, "title": "Een modern avontuur in El Salvador", "subtitle": "", "category": "Reisverslag", "author": "De Dissident", "image": null},
+        {"page": 46, "title": "Immanente schoonheid als wapen tegen de lelijkheid", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 53, "title": "Recept: Lavendelkoekjes", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 54, "title": "Beeldhouwen is het veroveren van ruimte", "subtitle": "Een interview met Fen de Villiers", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 60, "title": "Dialoog: Bitcoin of een altcoin?", "subtitle": "", "category": "Dialoog", "author": "De Dissident", "image": null},
+        {"page": 64, "title": "Onder een antieke zon", "subtitle": "Een interview met Alvi Gunilla", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 66, "title": "Jaag de socialist uit je ziel!", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 73, "title": "Mythologie", "subtitle": "De speer van Wotan en de knechting van de macht", "category": "Mythologie", "author": "De Dissident", "image": null},
+        {"page": 76, "title": "Musicus zijn is een levensstijl", "subtitle": "Een interview met Nicolas van Poucke", "category": "Interview", "author": "De Dissident", "image": null}
+      ]
+    },
+    {
+      "id": "ed4",
+      "number": 4,
+      "date": "2024-12-21",
+      "date_label": "21 december 2024",
+      "theme": "Wie zijn wij?",
+      "cover": null,
+      "pdf": "ed4",
+      "articles": [
+        {"page": 2, "title": "Luca de Clippelaar: een nieuwe hoofdredacteur", "subtitle": "Maak kennis met de kracht achter de volgende fase van De Dissident", "category": "Interview", "author": "De Dissident", "image": null}
+      ]
+    },
+    {
+      "id": "ed3",
+      "number": 3,
+      "date": "2022-12-21",
+      "date_label": "21 december 2022",
+      "theme": "",
+      "cover": null,
+      "pdf": "ed3",
+      "articles": [
+        {"page": 4, "title": "Freek Jansen: de moderne wereld maakt ons klein", "subtitle": "Massimo Etalle in gesprek over leven en de crisis van onze tijd", "category": "Interview", "author": "Massimo Etalle", "image": null},
+        {"page": 8, "title": "Bucketlist", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 10, "title": "Heldenlevens", "subtitle": "Gabriele d’Annunzio, Roman von Ungern-Sternberg en Yukio Mishima", "category": "Helden", "author": "De Dissident", "image": null},
+        {"page": 16, "title": "The Golden One", "subtitle": "", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 22, "title": "Mannelijkheid in crisis", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 28, "title": "Tiktok, knaagdieren en de pandemie van de zwakke wil", "subtitle": "Calhouns Universe 25 en de overeenkomsten met de huidige maatschappij", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 32, "title": "Dissident on Tour", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 34, "title": "Jezelf zijn, wat betekent dat?", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 36, "title": "Voeding: de basis van een sterk leven", "subtitle": "", "category": "Leven", "author": "De Dissident", "image": null},
+        {"page": 42, "title": "De les van Lysenko", "subtitle": "Het horrorverhaal van de Sovjet-biologie", "category": "Geschiedenis", "author": "De Dissident", "image": null},
+        {"page": 45, "title": "Essaywedstrijd", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 46, "title": "Interview met Ralf Dekker", "subtitle": "", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 50, "title": "Gavin Wax: Europa wordt bestuurd in Washington", "subtitle": "Global Digital Director van GETTR en voorzitter van de New York Young Republicans Club", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 54, "title": "Kyle Redder: de imker van JFVD", "subtitle": "", "category": "Portret", "author": "De Dissident", "image": null},
+        {"page": 56, "title": "Terugblik", "subtitle": "Wij willen scheppen, wij willen leven!", "category": "Rubriek", "author": "De Dissident", "image": null}
+      ]
+    },
+    {
+      "id": "ed2",
+      "number": 2,
+      "date": "2022-06-21",
+      "date_label": "21 juni 2022",
+      "theme": "5 jaar JFVD",
+      "cover": null,
+      "pdf": "ed2",
+      "articles": [
+        {"page": 4, "title": "5 jaar JFVD", "subtitle": "Een exclusieve tijdlijn van groei, gezelligheid, ophef, strijd en vriendschap", "category": "Organisatie", "author": "De Dissident", "image": null},
+        {"page": 12, "title": "Interview met Gideon van Meijeren", "subtitle": "Ontdek de man achter de schrik van links", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 16, "title": "Welke FVD’er ben jij?", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 18, "title": "De kleine reus", "subtitle": "Simone Kerseboom bezocht een parallelle samenleving in Zuid-Afrika", "category": "Reportage", "author": "Simone Kerseboom", "image": null},
+        {"page": 22, "title": "Traditie", "subtitle": "Tegen de moderne wereld: een spoedcursus in traditionalistisch denken", "category": "Traditionalisme", "author": "De Dissident", "image": null},
+        {"page": 26, "title": "Julius Evola", "subtitle": "Een exclusieve vertaling mét uitleg", "category": "Traditionalisme", "author": "De Dissident", "image": null},
+        {"page": 30, "title": "Interview met David Engels", "subtitle": "", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 34, "title": "Zwarte Piet", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 38, "title": "Doegin: West-Europa heeft voor Satan gekozen", "subtitle": "De ideeën van ‘de gevaarlijkste filosoof ter wereld’", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 44, "title": "Onze vergeten wortels", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 47, "title": "Essaywedstrijd: Onze wereld", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 50, "title": "Anatomie van de journalist", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 53, "title": "Het politieke speelveld", "subtitle": "Metapolitiek als winnende strategie", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 57, "title": "Zorin: de sterkste JFVD’er", "subtitle": "", "category": "Portret", "author": "De Dissident", "image": null},
+        {"page": 60, "title": "AfD: strijd om het hart van Europa", "subtitle": "Over hun idealen en de strijd tegen links", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 64, "title": "Dit is voor de JFVD’er", "subtitle": "De avonturier, de vrijdenker, de dissident!", "category": "Rubriek", "author": "De Dissident", "image": null}
+      ]
+    },
+    {
+      "id": "ed1",
+      "number": 1,
+      "date": "2021-12-21",
+      "date_label": "21 december 2021",
+      "theme": "",
+      "cover": null,
+      "pdf": "ed1",
+      "articles": [
+        {"page": 4, "title": "Voorwoord", "subtitle": "Freek Jansen over het ontstaan van JFVD", "category": "Voorwoord", "author": "Freek Jansen", "image": null},
+        {"page": 10, "title": "Zomerkamp", "subtitle": "De gelegenheid om je mentaal en fysiek te ontwikkelen", "category": "Organisatie", "author": "De Dissident", "image": null},
+        {"page": 13, "title": "Waarom juist nú JFVD?", "subtitle": "", "category": "Organisatie", "author": "De Dissident", "image": null},
+        {"page": 16, "title": "Maak kennis met het nieuwe bestuur", "subtitle": "", "category": "Organisatie", "author": "De Dissident", "image": null},
+        {"page": 18, "title": "Hoe JFVD ben jij?", "subtitle": "", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 24, "title": "In gesprek met Thierry Baudet", "subtitle": "Over het begin en doel van JFVD", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 30, "title": "Politiek? Niet voor een carrière, maar voor Italië!", "subtitle": "", "category": "Politiek", "author": "De Dissident", "image": null},
+        {"page": 33, "title": "Puzzel & win", "subtitle": "Win een JFVD goodiebag", "category": "Rubriek", "author": "De Dissident", "image": null},
+        {"page": 34, "title": "Leef je idealen", "subtitle": "", "category": "Essay", "author": "De Dissident", "image": null},
+        {"page": 38, "title": "Een Europese toekomst", "subtitle": "Tijd voor een pan-Europese alliantie", "category": "Politiek", "author": "De Dissident", "image": null},
+        {"page": 42, "title": "Nietzsche", "subtitle": "Voorbij het Christendom, voorbij de mens", "category": "Literatuur", "author": "De Dissident", "image": null},
+        {"page": 46, "title": "Kali Yuga", "subtitle": "", "category": "Literatuur", "author": "De Dissident", "image": null},
+        {"page": 48, "title": "René Guénon", "subtitle": "Portret van een radicale anti-modernist", "category": "Literatuur", "author": "De Dissident", "image": null},
+        {"page": 52, "title": "In gesprek met Robert Lemm", "subtitle": "Historicus en hispanist over geschiedenis, traditie en religie", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 55, "title": "In gesprek met Dries van Langenhove", "subtitle": "De oprichter van Schild & Vrienden", "category": "Interview", "author": "De Dissident", "image": null},
+        {"page": 58, "title": "Winactie", "subtitle": "Jouw ideologie in een afbeelding", "category": "Rubriek", "author": "De Dissident", "image": null}
+      ]
+    }
+  ]
+}
