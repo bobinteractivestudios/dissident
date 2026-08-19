@@ -79,11 +79,10 @@ Daarna `python3 build.py` draaien.
 
 - **De artikelteksten zijn machinaal uit de PDF's gehaald en zijn niet nagelezen.**
   Waar een cursieve regel over de kolomgoot loopt kan een letter ontbreken.
-- **Editie 7** komt uit de proefdruk (`DD blad/7/proefdruk/binnenwerk.pdf`), die zeven
-  artikelen bevat. Vier titels uit de eerdere inhoudsopgave staan er niet in en hebben
-  daarom geen tekst en geen paginanummer; ze staan onderaan de editie met een notitie.
-  Die inhoudsopgave is achterhaald — de proefdruk wijkt er in paginering én in inhoud
-  van af.
+- **Editie 7** komt uit de proefdruk (`DD blad/7/proefdruk/binnenwerk.pdf`) en bevat de
+  zeven artikelen die daarin staan. De eerdere inhoudsopgave is achterhaald: de proefdruk
+  wijkt er in paginering én in inhoud van af. Komt er later een vollediger PDF, dan zet je
+  de nieuwe artikelen bij in `content/site.json` en draai je opnieuw.
 - **Pagina's die vooral beeld zijn** leveren geen tekst op en tonen een nette melding.
 - **Editie 4** staat met één artikel in de index. Die inhoudsopgave heeft een afwijkende
   opmaak die niet automatisch uit te lezen was; de rest moet nog handmatig in
