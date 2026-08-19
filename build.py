@@ -51,11 +51,14 @@ def article_text(edition, art, sources):
         return json.load(open(cache_file))["paras"]
 
     paras = []
-    spec = art.get("text")
-    if spec and spec.startswith("pages:"):
-        paras = _from_pages(spec[len("pages:"):])
-    elif edition.get("pdf"):
-        paras = _from_pdf(sources[edition["pdf"]], art["page"], art["end"])
+    if edition.get("pdf") and art.get("page"):
+        # Sommige proefdrukken zetten twee tijdschriftpagina's op één PDF-pagina
+        # (een spread). per_sheet rekent het paginanummer uit het blad om.
+        per_sheet = edition.get("pages_per_sheet", 1)
+        start = (art["page"] + per_sheet - 1) // per_sheet
+        end = art["end"]
+        end = (end + per_sheet - 1) // per_sheet if end else None
+        paras = _from_pdf(sources[edition["pdf"]], start, end)
 
     os.makedirs(CACHE, exist_ok=True)
     json.dump({"paras": paras}, open(cache_file, "w"), ensure_ascii=False, indent=1)
@@ -91,34 +94,27 @@ def _from_pdf(rel_path, start, end):
     return dedupe(paras)
 
 
-def _from_pages(rel_name):
-    """Pull the prose out of an Apple Pages document."""
-    try:
-        import zipfile
-        from iwa import iwa_chunks, readable_strings
-    except ImportError:
-        return []
-    for base in (os.path.join(DESKTOP, "DD blad", "7"), DESKTOP):
-        path = os.path.join(base, rel_name)
-        if os.path.exists(path):
+def strip_running_head(paras, title, look_at=3, max_words=40):
+    """Drop opening paragraphs that are really the magazine's running head.
+
+    The head repeats the article title at the top of every page and lands in
+    the text as a short, title-shaped fragment — often with the display type's
+    letter-spacing mangled ("In Gesprek Met Ug is Nastevicis Nastevic")."""
+    def fold(s):
+        s = unicodedata.normalize("NFKD", s.lower())
+        s = "".join(c for c in s if not unicodedata.combining(c))
+        return re.sub(r"[^a-z0-9]", "", s)
+
+    key = fold(title)[:13]
+    if len(key) < 8:
+        return paras
+
+    out = list(paras)
+    while out and len(out[0].split()) <= max_words and fold(out[0]).startswith(key):
+        out.pop(0)
+        if len(paras) - len(out) >= look_at:
             break
-    else:
-        return []
-
-    z = zipfile.ZipFile(path)
-    chunks = []
-    for name in z.namelist():
-        if name.endswith(".iwa") and "Document" in name:
-            for payload in iwa_chunks(z.read(name)):
-                chunks.extend(readable_strings(payload, 40))
-
-    paras = []
-    for s in chunks:
-        for line in s.split("\n"):
-            line = re.sub(r"\s+", " ", line).strip()
-            if len(line.split()) >= 12 and re.search(r"[a-z]{3,}\s+[a-z]{2,}", line):
-                paras.append(line)
-    return dedupe(paras)
+    return out
 
 
 def dedupe(paras):
@@ -138,37 +134,39 @@ def dedupe(paras):
 IMG_EXT = (".jpg", ".jpeg", ".png")
 
 
+# Elke editie bewaart haar beeldmateriaal in een eigen map, met per artikel
+# een submap. "image" in site.json is de naam van die submap.
+ART_FOLDERS = {
+    "ed7": os.path.join("DD blad", "7", "bronnen"),
+    "ed6": os.path.join("DD blad", "6", "Links"),
+}
+
+
 def find_image(edition, art):
     """Locate the best source image for an article and copy it into site/sources."""
     name = art.get("image")
     if not name:
         return None
 
-    # "site:foo.jpg" pulls a real photograph out of Bob's own site folder;
-    # the edition-7 voorvertoning PNGs are scans of printed spreads, not photos.
-    if name.startswith("site:"):
-        src = os.path.join(DESKTOP, "DD site", "sources", name[len("site:"):])
-        if os.path.exists(src):
-            return copy_image(src, f"{edition['id']}-{slugify(art['title'])}")
+    stem = f"{edition['id']}-{slugify(art['title'])}"
+
+    base = ART_FOLDERS.get(edition["id"])
+    if not base:
         return None
 
-    if edition["id"] == "ed7":
-        src = os.path.join(DESKTOP, "DD blad", "7", "voorvertoning", name)
-        if os.path.exists(src):
-            return copy_image(src, f"{edition['id']}-{slugify(art['title'])}")
-        return None
+    src = os.path.join(DESKTOP, base, name)
+    if os.path.isfile(src):
+        return copy_image(src, stem)
 
-    if edition["id"] == "ed6":
-        folder = os.path.join(DESKTOP, "DD blad", "6", "Links", name)
-        if os.path.isdir(folder):
-            best, best_size = None, 0
-            for f in os.listdir(folder):
-                if f.lower().endswith(IMG_EXT) and not f.startswith("."):
-                    size = os.path.getsize(os.path.join(folder, f))
-                    if size > best_size:
-                        best, best_size = os.path.join(folder, f), size
-            if best:
-                return copy_image(best, f"{edition['id']}-{slugify(art['title'])}")
+    if os.path.isdir(src):
+        best, best_size = None, 0
+        for f in os.listdir(src):
+            if f.lower().endswith(IMG_EXT) and not f.startswith("."):
+                size = os.path.getsize(os.path.join(src, f))
+                if size > best_size:
+                    best, best_size = os.path.join(src, f), size
+        if best:
+            return copy_image(best, stem)
     return None
 
 
@@ -279,7 +277,7 @@ def card(a, prefix, featured=False):
              f'loading="lazy" decoding="async" width="800" height="600"></div>'
              if img else
              f'<div class="card-media card-media--tint {a["tint"]}">'
-             f'<span class="folio" aria-hidden="true">{a["page"]}</span></div>')
+             f'<span class="lettermark" aria-hidden="true">D</span></div>')
     sub = f'<p>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
     cls = "card card--featured" if featured else "card"
     return f"""<a class="{cls}" href="{href}" data-category="{esc(a['category'])}">
@@ -325,8 +323,9 @@ def build(read_text=True):
     for ed in editions:
         arts = ed["articles"]
         for i, art in enumerate(arts):
-            if "end" not in art:
-                art["end"] = arts[i + 1]["page"] - 1 if i + 1 < len(arts) else None
+            if art.get("end") is None and art.get("page"):
+                nxt = next((a["page"] for a in arts[i + 1:] if a.get("page")), None)
+                art["end"] = nxt - 1 if nxt else None
 
     # collect articles
     all_articles = []
@@ -334,6 +333,7 @@ def build(read_text=True):
         for i, art in enumerate(ed["articles"]):
             slug = f"{ed['number']}-{slugify(art['title'])}"
             paras = article_text(ed, art, sources) if read_text else []
+            paras = strip_running_head(paras, art["title"])
             rec = {
                 "slug": slug,
                 "url": f"artikel/{slug}.html",
@@ -374,14 +374,8 @@ def write_article(a, latest):
     prefix = "../"
     body = "\n".join(f"<p>{esc(p)}</p>" for p in a["paras"])
     if not body:
-        pdf_note = ""
-        if a["pdf"]:
-            pdf_note = (f'<p class="placeholder-note">De tekst van dit artikel is nog niet '
-                        f'overgezet. Het staat op pagina {a["page"]} van de gedrukte editie.</p>')
-        else:
-            pdf_note = ('<p class="placeholder-note">De tekst van dit artikel is nog niet '
-                        'overgezet.</p>')
-        body = pdf_note
+        body = ('<p class="placeholder-note">De tekst van dit artikel is nog niet '
+                'overgezet.</p>')
 
     note = f'<p class="editor-note">{esc(a["note"])}</p>' if a["note"] else ""
     hero = (f'<figure class="article-hero"><img src="{prefix}{a["img"]["hero"]}" '
@@ -403,7 +397,7 @@ def write_article(a, latest):
   {sub}
   <p class="byline">Door <span class="author">{esc(a['author'])}</span>
      · <a href="{prefix}editie-{a['edition_number']}.html">{a['edition_number']}<sup>e</sup> editie</a>
-     · {esc(a['edition_label'])} · pagina {a['page']}</p>
+     · {esc(a['edition_label'])}</p>
   {note}
   {hero}
   <div class="article-body">
@@ -492,8 +486,8 @@ def write_archive(articles, editions, latest):
 """
         for a in arts:
             sub = f' <span class="toc-sub">{esc(a["subtitle"])}</span>' if a["subtitle"] else ""
-            html += (f'<li><span class="toc-page">{a["page"]}</span>'
-                     f'<a href="{a["url"]}">{esc(a["title"])}</a>{sub}'
+            html += (f'<li>'
+                     f'<span class="toc-main"><a href="{a["url"]}">{esc(a["title"])}</a>{sub}</span>'
                      f'<span class="toc-author">{esc(a["author"])}</span></li>\n')
         html += "</ul>\n"
 

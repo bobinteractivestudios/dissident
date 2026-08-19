@@ -407,18 +407,17 @@ main {
 .card-media--tint.teal { background: var(--teal); }
 .card-media--tint.blush { background: var(--blush); }
 
-.folio {
+.lettermark {
     font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 700;
-    font-style: italic;
-    font-size: 88px;
+    font-weight: 900;
+    font-size: 76px;
     line-height: 1;
-    opacity: 0.26;
+    opacity: 0.22;
     user-select: none;
 }
 
-.card-media--tint.navy .folio, .card-media--tint.teal .folio { color: #fff; }
-.card-media--tint.blush .folio { color: var(--navy); }
+.card-media--tint.navy .lettermark, .card-media--tint.teal .lettermark { color: #fff; }
+.card-media--tint.blush .lettermark { color: var(--navy); }
 
 .card h3 { font-size: 23px; line-height: 1.18; margin-bottom: 8px; }
 .card p { font-size: 15px; margin: 0; }
@@ -442,31 +441,27 @@ main {
 
 .toc li {
     display: grid;
-    grid-template-columns: 46px minmax(0, 1fr) auto;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 24px;
     align-items: baseline;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--rule);
 }
 
-.toc-page {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-style: italic;
-    color: var(--grey);
-}
+.toc-main { min-width: 0; }
 
-.toc li > a {
+.toc-main a {
     font-family: 'Instrument Serif', Georgia, serif;
     font-size: 21px;
 }
 
-.toc li > a:hover { color: var(--red); }
+.toc-main a:hover { color: var(--red); }
 
 .toc-sub {
+    display: block;
     font-size: 14px;
     color: #555;
-    display: block;
-    grid-column: 2;
+    margin-top: 3px;
 }
 
 .toc-author {
@@ -584,7 +579,7 @@ footer p { color: inherit; margin: 0; }
     .hero-text h1 { font-size: 32px; }
     .article h1 { font-size: 32px; }
     .page-title { font-size: 34px; }
-    .toc li { grid-template-columns: 34px minmax(0, 1fr); }
-    .toc-author { grid-column: 2; text-align: left; }
+    .toc li { grid-template-columns: 1fr; }
+    .toc-author { text-align: left; margin-top: 4px; }
     main { padding: 24px 18px 48px; }
 }

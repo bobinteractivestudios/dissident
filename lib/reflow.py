@@ -1,5 +1,6 @@
 """Turn pypdf layout-mode page text into ordered, column-aware paragraphs."""
 import re
+import unicodedata
 
 LIG = {
     "ĳ": "ij", "Ĳ": "IJ",
@@ -121,6 +122,7 @@ def column_paragraphs(col_lines):
             else:
                 text = line
         text = re.sub(r"\s+", " ", text).strip()
+        text = undouble_prefix(text)
         if text:
             out.append(text)
     return out
@@ -167,3 +169,35 @@ def is_body(p, min_words=12):
     if letters < len(p) * 0.6:
         return False
     return True
+
+
+def _fold(s):
+    """Lowercase and strip diacritics, keeping the string the same length."""
+    out = []
+    for c in s.lower():
+        d = unicodedata.normalize("NFKD", c)
+        d = "".join(ch for ch in d if not unicodedata.combining(c))
+        out.append(d[0] if d else c)
+    return "".join(out)
+
+
+def undouble_prefix(p, min_run=12):
+    """Drop a duplicated opening run left by a duplicate text layer.
+
+    On pages that are not doubled enough overall to trigger the plain-mode
+    fallback, the display type still lands twice in one paragraph — as in
+    "Een Interview Met Frederik JansenEen Interview Met Frederik Jansen Het
+    gelijkheidsdenken…". The give-away is that the second copy starts exactly
+    where the first ends; prose that merely repeats a phrase has text in
+    between, so requiring adjacency leaves real sentences alone.
+
+    One copy is kept, because the doubled run is sometimes real prose rather
+    than a heading and throwing both away would lose it."""
+    flat = _fold(p)
+    for k in range(min_run, len(flat) // 2 + 1):
+        if flat[:k] == flat[k:2 * k]:
+            return p[k:].lstrip()
+        # the two copies are sometimes separated by a single space
+        if flat[k:k + 1] == " " and flat[:k] == flat[k + 1:2 * k + 1]:
+            return p[k + 1:].lstrip()
+    return p
