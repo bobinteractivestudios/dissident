@@ -11,6 +11,9 @@
 
     --rule: #e0ddd8;         /* lijn op wit */
     --rule-dark: #2e2e2e;    /* lijn op zwart */
+    /* Warm gebroken wit voor lange lopende tekst op zwart — puur wit
+       schittert in lange alinea's, dit leest rustiger maar blijft >15:1. */
+    --read: #e7e3da;
 
     /* Terugval voor artikelen zonder eigen accent. */
     --accent: #1b3cff;
@@ -328,13 +331,17 @@ main {
 
 /* ---------- hero ---------- */
 
+/* Vierkant en iets smaller dan de kolom, zodat de thumbnail plek heeft om
+   over de rand te steken zonder buiten de pagina te vallen. */
 .hero {
     display: block;
     position: relative;
+    aspect-ratio: 1 / 1;
+    width: min(92%, 720px);
+    margin: 0 auto 56px;
     background: var(--accent-deep);
     color: #fff;
     padding: clamp(22px, 3.5vw, 40px);
-    margin-bottom: 56px;
 }
 
 .hero-label {
@@ -358,24 +365,17 @@ main {
 }
 
 .hero-foot {
-    display: grid;
-    grid-template-columns: 1fr minmax(0, 42%);
-    gap: 32px;
-    align-items: end;
-    margin-top: clamp(24px, 3vw, 44px);
+    margin-top: clamp(20px, 3vw, 36px);
+    /* de thumbnail overlapt rechtsonder; hou tekst daar vandaan */
+    max-width: 56%;
 }
 
-.hero-aside { min-width: 0; }
-
-.hero-quote, .hero-standfirst {
+.hero-standfirst {
     font-size: clamp(18px, 2.1vw, 25px);
     line-height: 1.28;
-    max-width: 24ch;
+    color: rgba(255, 255, 255, 0.86);
     margin: 0;
 }
-
-.hero-quote { font-weight: 500; }
-.hero-standfirst { color: rgba(255, 255, 255, 0.86); }
 
 .hero .author {
     display: block;
@@ -386,8 +386,24 @@ main {
     color: rgba(255, 255, 255, 0.72);
 }
 
-.hero-media { line-height: 0; }
-.hero-media img { width: 100%; display: block; }
+/* De thumbnail is een vierkant van hoogstens de helft van het blauwe vlak
+   (width: 50% + aspect-ratio 1/1 — vanzelf ook 50% van de hoogte, want het
+   vlak zelf is vierkant). Hij hangt aan de padding-box van .hero, dus
+   right/bottom tellen vanaf de echte rand van het blauwe vlak, niet vanaf de
+   binnenkant met padding. Doordat --peek voor beide assen dezelfde waarde is
+   en het vlak vierkant is, is de overlap rechts in pixels altijd exact gelijk
+   aan de marge tot de onderrand — ongeacht hoe groot de hero zelf is. */
+.hero-media {
+    --peek: 9%;
+    position: absolute;
+    right: calc(-1 * var(--peek));
+    bottom: var(--peek);
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    line-height: 0;
+}
+
+.hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ---------- sectiekoppen ---------- */
 
@@ -661,13 +677,12 @@ main {
 
 /* ---------- artikel ---------- */
 
+/* Geen eigen vlak meer — het artikel leest rechtstreeks op het canvas, zoals
+   de rest van de site. Iets smaller dan de brede secties: dit is doorlopende
+   tekst, geen raster. */
 .article {
-    max-width: 820px;
-    background: var(--surface);
-    color: var(--ink);
-    padding: clamp(24px, 4vw, 56px);
-    margin-top: 36px;
-    margin-bottom: 36px;
+    max-width: 720px;
+    margin: 8px auto 40px;
 }
 
 .article h1 {
@@ -680,7 +695,7 @@ main {
     font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
     font-size: clamp(19px, 2.2vw, 25px);
-    color: var(--ink-soft);
+    color: rgba(255, 255, 255, 0.82);
     margin: 0 0 20px;
     line-height: 1.3;
 }
@@ -689,9 +704,9 @@ main {
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--on-canvas-soft);
     border-top: 2px solid var(--accent);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule-dark);
     padding: 12px 0;
     margin: 0 0 28px;
 }
@@ -699,11 +714,11 @@ main {
 .byline .author {
     display: inline;
     margin: 0;
-    color: var(--ink);
+    color: var(--on-canvas);
     font-weight: 600;
 }
 
-.byline a { border-bottom: 1px solid var(--rule); }
+.byline a { border-bottom: 1px solid var(--rule-dark); }
 
 .article-hero { margin: 0 0 30px; }
 .article-hero img { width: 100%; display: block; }
@@ -716,7 +731,7 @@ main {
     font-size: 17px;
     line-height: 1.75;
     margin: 0 0 1.15em;
-    color: #23211f;
+    color: var(--read);
 }
 
 .article-body > p:first-child::first-letter {
@@ -726,15 +741,15 @@ main {
     font-size: 68px;
     line-height: 0.82;
     padding: 8px 12px 0 0;
-    color: var(--accent-ink);
+    color: var(--accent-wash);
 }
 
 .placeholder-note, .editor-note {
     font-family: Inter, sans-serif;
-    background: #f2f0ec;
+    background: var(--canvas-soft);
     border-left: 3px solid var(--accent);
     padding: 14px 18px;
-    color: var(--ink-soft);
+    color: var(--on-canvas-soft);
     font-size: 15px;
 }
 
@@ -753,7 +768,7 @@ main {
     font-weight: 700;
     font-size: clamp(22px, 2.6vw, 30px);
     line-height: 1.22;
-    color: var(--ink);
+    color: var(--on-canvas);
     margin: 0;
 }
 
@@ -761,7 +776,7 @@ main {
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--on-canvas-soft);
     margin-top: 12px;
 }
 
@@ -774,15 +789,15 @@ main {
     text-transform: uppercase;
 }
 
-.back a { border-bottom: 1px solid var(--rule); }
-.back a:hover { color: var(--accent-ink); border-bottom-color: currentColor; }
+.back a { border-bottom: 1px solid var(--rule-dark); }
+.back a:hover { color: var(--accent-wash); border-bottom-color: currentColor; }
 
 /* ---------- rubriekenrij ---------- */
 
 .rubrieken-rij {
     margin-top: 40px;
     padding-top: 22px;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--rule-dark);
 }
 
 .rubrieken-rij h2 {
@@ -791,7 +806,7 @@ main {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: var(--accent-ink);
+    color: var(--accent-wash);
     margin: 0 0 12px;
 }
 
@@ -813,7 +828,7 @@ main {
 }
 
 .rubrieken-rij a {
-    color: var(--accent-ink);
+    color: var(--accent-wash);
     border-bottom: 1px solid transparent;
 }
 
@@ -840,7 +855,9 @@ body > footer p { color: inherit; margin: 0; }
 
 @media (max-width: 900px) {
     .hero-title { max-width: none; }
-    .hero-foot { gap: 18px; }
+    /* de thumbnail kruipt op smalle schermen relatief verder naar links
+       (--peek blijft 9% van een kleiner vlak, de padding van .hero niet) */
+    .hero-foot { max-width: 50%; }
 }
 
 @media (max-width: 620px) {

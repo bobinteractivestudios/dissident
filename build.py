@@ -353,7 +353,7 @@ def build():
                 "author": art.get("author", "De Dissident"),
                 "page": art["page"],
                 "note": art.get("note", ""),
-                "accent": art.get("accent"),
+                "accent": ed.get("accent"),
                 "pullquotes": art.get("pullquotes", []),
                 "edition_id": ed["id"],
                 "edition_number": ed["number"],
@@ -495,30 +495,24 @@ def edition_switch(editions, current, prefix=""):
 
 
 def hero_block(lead, prefix=""):
+    # Vierkante thumbnail die uit de rechteronderhoek van het blauwe vlak steekt:
+    # zie .hero-media in style.css voor de offset-wiskunde.
     media = (f'<div class="hero-media">'
              f'<img src="{prefix}{lead["img"]["hero"]}" '
              f'srcset="{prefix}{lead["img"]["card"]} 800w, {prefix}{lead["img"]["hero"]} 1600w" '
-             f'sizes="(max-width: 900px) 100vw, 420px" '
+             f'sizes="(max-width: 900px) 50vw, 360px" '
              f'alt="{esc(lead["title"])}" fetchpriority="high" decoding="async">'
              f'</div>'
              if lead["img"] else "")
-
-    # Liever een uitspraak uit het stuk dan de ondertitel: die draagt de hero.
-    quotes = lead.get("pullquotes") or []
-    aside = (f'<p class="hero-quote">{esc(quotes[0]["text"])}</p>'
-             if quotes else
-             f'<p class="hero-standfirst">{esc(lead["subtitle"])}</p>')
 
     return f"""<a class="hero" href="{prefix}{lead['url']}"{accent_style(lead.get('accent'))}>
   <span class="hero-label">Uitgelicht</span>
   <h2 class="hero-title">{esc(lead['title'])}</h2>
   <div class="hero-foot">
-    <div class="hero-aside">
-      {aside}
-      <span class="author">{esc(lead['author'])}</span>
-    </div>
-    {media}
+    <p class="hero-standfirst">{esc(lead['subtitle'])}</p>
+    <span class="author">{esc(lead['author'])}</span>
   </div>
+  {media}
 </a>
 """
 

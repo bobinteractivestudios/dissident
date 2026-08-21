@@ -20,7 +20,7 @@
    "date": "2026-06-21",
    "date_label": "21 juni 2026",
    "theme": "",
-   "cover": "omslag.png",
+   "cover": "DD blad/7/voorvertoning/omslag.png",
    "pdf": "ed7",
    "articles": [
     {
@@ -31,7 +31,6 @@
      "category": "Politieke beschouwing",
      "author": "Luca de Clippelaar",
      "image": "freek",
-     "accent": "#2054a5",
      "pullquotes": [
       {
        "text": "Het slachtoffer is het allerhoogste wat er is. De zwakkeren zijn de goeden en de sterkeren zijn de slechten die altijd gevaarlijk zijn."
@@ -49,7 +48,6 @@
      "category": "Forumland",
      "author": "De Dissident",
      "image": "forumland",
-     "accent": "#ee2a2b",
      "pullquotes": [
       {
        "text": "Het is mijn taak om de Nederlandse kunstschatten aan de man te brengen."
@@ -66,8 +64,7 @@
      "subtitle": "“Mensen zongen in een Sovjet-isolatiecel de Dainas.”",
      "category": "Interview",
      "author": "Raymond",
-     "image": "ugis nastevics",
-     "accent": "#f3af28"
+     "image": "ugis nastevics"
     },
     {
      "page": 15,
@@ -76,8 +73,7 @@
      "subtitle": "“In Litouwen ben ik de enige rechtse parlementariër.”",
      "category": "Interview",
      "author": "Richard",
-     "image": "vytautas sinica",
-     "accent": "#f48081"
+     "image": "vytautas sinica"
     },
     {
      "page": 19,
@@ -87,7 +83,6 @@
      "category": "Film",
      "author": "De Dissident",
      "image": "frankenstein",
-     "accent": "#467464",
      "pullquotes": [
       {
        "text": "Del Toro weet het monster opnieuw tot leven te wekken op een manier die je simpelweg niet mag missen."
@@ -102,7 +97,6 @@
      "category": "Architectuur",
      "author": "Raymond",
      "image": "brutalisme",
-     "accent": "#ee2f2e",
      "pullquotes": [
       {
        "text": "Als iemand in een politieke machtspositie een psychopaat is, kan hij of zij een epidemie van psychopathologie veroorzaken onder mensen die zelf in wezen niet psychopathisch zijn.",
@@ -117,11 +111,11 @@
      "subtitle": "Hoe spanning en ontspanning muziek maken",
      "category": "Muziek",
      "author": "De Dissident",
-     "image": "klassiek",
-     "accent": "#f0e91a"
+     "image": "klassiek"
     }
    ],
-   "pages_per_sheet": 2
+   "pages_per_sheet": 2,
+   "accent": "#267399"
   },
   {
    "id": "ed6",
@@ -129,7 +123,7 @@
    "date": "2025-12-21",
    "date_label": "21 december 2025",
    "theme": "Techniek",
-   "cover": null,
+   "cover": "DD blad/6/proefdruk/omslag.pdf",
    "pdf": "ed6",
    "articles": [
     {
@@ -312,7 +306,8 @@
      "author": "De Dissident",
      "image": "nawoord"
     }
-   ]
+   ],
+   "accent": "#992e6b"
   },
   {
    "id": "ed5",
@@ -320,7 +315,7 @@
    "date": "2025-06-21",
    "date_label": "21 juni 2025",
    "theme": "",
-   "cover": null,
+   "cover": "DD site/content/covers/ed5.png",
    "pdf": "ed5",
    "articles": [
     {
@@ -451,7 +446,8 @@
      "author": "De Dissident",
      "image": null
     }
-   ]
+   ],
+   "accent": "#990018"
   },
   {
    "id": "ed4",
@@ -459,7 +455,7 @@
    "date": "2024-12-21",
    "date_label": "21 december 2024",
    "theme": "Wie zijn wij?",
-   "cover": null,
+   "cover": "DD site/content/covers/ed4.png",
    "pdf": "ed4",
    "articles": [
     {
@@ -470,7 +466,8 @@
      "author": "De Dissident",
      "image": null
     }
-   ]
+   ],
+   "accent": "#00996d"
   },
   {
    "id": "ed3",
@@ -478,7 +475,7 @@
    "date": "2022-12-21",
    "date_label": "21 december 2022",
    "theme": "",
-   "cover": null,
+   "cover": "DD site/content/covers/ed3.png",
    "pdf": "ed3",
    "articles": [
     {
@@ -601,7 +598,8 @@
      "author": "De Dissident",
      "image": null
     }
-   ]
+   ],
+   "accent": "#0f7c99"
   },
   {
    "id": "ed2",
@@ -609,7 +607,7 @@
    "date": "2022-06-21",
    "date_label": "21 juni 2022",
    "theme": "5 jaar JFVD",
-   "cover": null,
+   "cover": "DD site/content/covers/ed2.png",
    "pdf": "ed2",
    "articles": [
     {
@@ -740,7 +738,8 @@
      "author": "De Dissident",
      "image": null
     }
-   ]
+   ],
+   "accent": "#990c0c"
   },
   {
    "id": "ed1",
@@ -748,7 +747,7 @@
    "date": "2021-12-21",
    "date_label": "21 december 2021",
    "theme": "",
-   "cover": null,
+   "cover": "DD site/content/covers/ed1.png",
    "pdf": "ed1",
    "articles": [
     {
@@ -879,7 +878,8 @@
      "author": "De Dissident",
      "image": null
     }
-   ]
+   ],
+   "accent": "#99750f"
   }
  ]
 }
