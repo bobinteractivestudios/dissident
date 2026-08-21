@@ -131,6 +131,14 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     margin: 14px 0 0;
 }
 
+.tagline-mark {
+    height: 1.05em;
+    width: auto;
+    vertical-align: -0.16em;
+    margin-left: 0.85em;
+    opacity: 0.85;
+}
+
 /* de blokjes tussen de woorden van de tagline */
 .dot {
     display: inline-block;
@@ -414,58 +422,144 @@ main {
 
 .section-link:hover { color: var(--on-canvas); }
 
-/* ---------- kaarten ---------- */
+/* ---------- editieschakelaar ---------- */
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-    gap: 28px;
-    margin-bottom: 64px;
-}
-
-.card {
+.edition-switch {
     display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    color: var(--ink);
-    padding: 20px;
-    transition: transform 0.15s ease;
-}
-
-.card:hover { transform: translateY(-3px); }
-
-.bar {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 14px;
-    font-size: 11px;
-    text-transform: uppercase;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--rule-dark);
+    padding-bottom: 14px;
+    margin-bottom: 30px;
+    font-size: 12px;
     letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.edition-switch-label { font-weight: 700; color: var(--on-canvas); }
+
+.edition-switch ul {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+}
+
+.edition-switch a, .edition-switch .is-current {
+    display: block;
+    padding: 5px 9px;
+    font-variant-numeric: tabular-nums;
+    color: var(--on-canvas-soft);
+}
+
+.edition-switch a:hover { color: var(--on-canvas); background: var(--canvas-soft); }
+
+.edition-switch .is-current {
+    background: var(--on-canvas);
+    color: var(--canvas);
+    font-weight: 700;
+}
+
+.edition-switch-meta { margin-left: auto; color: var(--on-canvas-soft); }
+
+/* ---------- uitgelichte artikelen ---------- */
+
+.features { border-top: 1px solid var(--rule-dark); margin-bottom: 44px; }
+
+.feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(96px, 24vw, 300px);
+    gap: clamp(14px, 3vw, 40px);
+    align-items: center;
+    color: var(--on-canvas);
+    padding: clamp(16px, 2vw, 26px) 0;
+    border-bottom: 1px solid var(--rule-dark);
+}
+
+/* Speels: de even rijen zetten het beeld links. */
+.feature:nth-child(even) {
+    grid-template-columns: clamp(96px, 24vw, 300px) minmax(0, 1fr);
+}
+
+.feature:nth-child(even) .feature-media { order: -1; }
+
+.feature:hover h3 { color: var(--accent-wash); }
+.feature-text { min-width: 0; }
+
+.feature h3 {
+    font-size: clamp(25px, 3vw, 40px);
+    line-height: 1.1;
+    margin: 0 0 12px;
+}
+
+.feature p {
+    font-size: 16px;
+    color: var(--on-canvas-soft);
+    margin: 0;
+    max-width: 52ch;
+}
+
+/* ---------- overige artikelen ---------- */
+
+.listings {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--rule-dark);
+}
+
+.listing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-dark);
+}
+
+.listing:hover .listing-text h3 { color: var(--accent); }
+.listing-text { min-width: 0; }
+
+.listing-text .category {
+    display: block;
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
 }
 
-.bar .category { color: var(--accent-ink); }
-
-.bar .issue {
-    margin-left: auto;
-    color: #fff;
-    background: var(--canvas);
-    padding: 4px 8px;
-    white-space: nowrap;
+.listing-text h3 {
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.14;
+    color: var(--on-canvas);
+    /* twee regels; wat niet past wordt afgekapt */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.card-media {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    margin-bottom: 16px;
+/* ---------- vierkante thumbnails ---------- */
+
+.feature-media, .listing-media {
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: var(--canvas-soft);
 }
 
-.card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.feature-media img, .listing-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-.card-media--tint {
+.listing-media { height: clamp(76px, 9vw, 104px); }
+
+.feature-media--tint, .listing-media--tint {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -475,39 +569,54 @@ main {
 .lettermark {
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 900;
-    font-size: 76px;
+    font-size: 42px;
     line-height: 1;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.32);
     user-select: none;
 }
 
-.card h3 {
-    font-size: clamp(21px, 2vw, 27px);
-    line-height: 1.16;
-    margin-bottom: 10px;
+.feature-media--tint .lettermark { font-size: 76px; }
+
+/* ---------- gedeelde onderdelen ---------- */
+
+.bar {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
 }
 
-/* De markeerstift: een balk achter de onderste helft van elke regel. */
+.bar .category { color: var(--accent-wash); }
+
+.bar .issue {
+    margin-left: auto;
+    color: #fff;
+    background: var(--canvas);
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+/* De markeerstift: een balk achter de onderste helft van elke regel. Op het
+   zwarte canvas blijft de tekst wit, dus de balk moet donker genoeg zijn om
+   die te dragen — vandaar --accent-deep en niet de lichte wash. */
 .mark {
-    background-image: linear-gradient(transparent 52%, var(--accent-wash) 52%);
+    background-image: linear-gradient(transparent 52%, var(--accent-deep) 52%);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     padding: 0 2px;
 }
 
-.card p {
-    font-size: 15px;
-    color: var(--ink-soft);
-    margin: 0;
-}
-
 .author {
     display: block;
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--on-canvas-soft);
 }
 
 /* ---------- archief ---------- */
@@ -730,13 +839,11 @@ body > footer p { color: inherit; margin: 0; }
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
-    .hero-foot { grid-template-columns: 1fr; align-items: start; }
     .hero-title { max-width: none; }
-    .hero-media { order: -1; }
+    .hero-foot { gap: 18px; }
 }
 
 @media (max-width: 620px) {
-    .grid { grid-template-columns: 1fr; }
     .masthead { padding: 26px 18px 0; }
     main { padding: 26px 18px 56px; }
     .masthead nav { flex-wrap: wrap; gap: 12px; }

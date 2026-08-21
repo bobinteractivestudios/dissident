@@ -123,6 +123,8 @@ def copy_image(src, stem):
 
 # De artikeltekst staat op een wit vel; daar wordt --accent-ink tegen gemeten.
 PAPER = (0xFF, 0xFF, 0xFF)
+# De voorpagina staat op zwart; daar wordt --accent-wash tegen gemeten.
+CANVAS = (0x0D, 0x0D, 0x0D)
 
 
 def _hex_to_rgb(h):
@@ -162,22 +164,21 @@ def readable_ink(accent, bg=PAPER, target=4.5):
     return "#000000"
 
 
-def light_wash(accent, target=4.5):
-    """Lighten an accent until black text stays readable on top of it.
+def light_wash(accent, bg=CANVAS, target=4.5):
+    """Lighten an accent until it reads as text on the dark canvas.
 
-    The marker highlight behind a headline works like a highlighter pen: the
-    ink stays black, so the colour underneath has to be light enough to read
-    through. A saturated blue would swallow the letters."""
+    Used for the rubric labels above a headline. The measurement is against
+    the canvas rather than pure black: those last few points of lightness are
+    exactly what a deep blue or green needs to clear the bar."""
     r, g, b = _hex_to_rgb(accent)
-    black = (0, 0, 0)
-    if contrast((r, g, b), black) >= target:
+    if contrast((r, g, b), bg) >= target:
         return accent
     for step in range(1, 101):
         f = step / 100
         cand = (round(r + (255 - r) * f),
                 round(g + (255 - g) * f),
                 round(b + (255 - b) * f))
-        if contrast(cand, black) >= target:
+        if contrast(cand, bg) >= target:
             return "#%02x%02x%02x" % cand
     return "#ffffff"
 
@@ -201,12 +202,13 @@ def deep_ink(accent, target=7.0):
 
 
 def accent_style(accent):
-    """De drie afgeleiden van een accentkleur, als inline custom properties.
+    """De afgeleiden van een accentkleur, als inline custom properties.
 
-    Elke rol vraagt een andere helderheid: --accent is de drukkleur voor lijnen
-    en randen, --accent-ink is donker genoeg om als tekst te lezen, --accent-deep
-    draagt witte tekst als vlak, en --accent-wash is licht genoeg voor zwarte
-    tekst erbovenop."""
+    Elke rol vraagt een andere helderheid:
+      --accent       de drukkleur zelf, voor lijnen en randen
+      --accent-ink   donker genoeg als tekst op een wit vel (artikelpagina)
+      --accent-deep  donker genoeg om witte tekst te dragen (hero, markeerstift)
+      --accent-wash  licht genoeg als tekst op het zwarte canvas (voorpagina)"""
     if not accent:
         return ""
     return (f' style="--accent: {accent}; --accent-ink: {readable_ink(accent)}; '
@@ -241,22 +243,21 @@ def head(title, css, description="", og_type="website"):
 """
 
 
-def masthead(prefix, latest):
+def masthead(prefix):
     slogan = (f'<p class="slogan">{esc(SITE["slogan"])}</p>'
               if SITE.get("slogan") else "")
     # De woorden krijgen blokjes ertussen, als op een krantenkop. De scheiding
     # is decoratief, dus schermlezers slaan hem over.
     sep = '<span class="dot" aria-hidden="true"></span>'
     tagline = sep.join(esc(w) for w in SITE.get("tagline", "").split())
+    if tagline:
+        tagline += (f'<img class="tagline-mark" src="{prefix}sources/jfvd-logo.svg" '
+                    f'alt="" width="14" height="14">')
     return f"""<header class="masthead">
   <div class="masthead-brand">
     <a class="wordmark" href="{prefix}index.html">De Dissident</a>
     {slogan}
     <p class="tagline">{tagline}</p>
-    <p class="masthead-meta">
-      <span class="issue-tag">{latest['number']}<sup>e</sup> editie</span>
-      <span class="issue-date">{esc(latest['date_label'])}</span>
-    </p>
   </div>
   <nav>
     <div class="nav-links">
@@ -314,33 +315,6 @@ def footer(prefix):
 # ---------------------------------------------------------------- components
 
 
-def card(a, prefix, featured=False):
-    href = prefix + a["url"]
-    img = a.get("img")
-    media = (f'<div class="card-media"><img src="{prefix}{img["card"]}" alt="" '
-             f'loading="lazy" decoding="async" width="800" height="600"></div>'
-             if img else
-             f'<div class="card-media card-media--tint {a["tint"]}">'
-             f'<span class="lettermark" aria-hidden="true">D</span></div>')
-    sub = f'<p>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
-    cls = "card card--featured" if featured else "card"
-    # De markeerstift moet de regels van de kop volgen, dus zit de achtergrond
-    # op de tekst zelf en niet op het kopelement.
-    return f"""<a class="{cls}" href="{href}" data-category="{esc(a['category'])}"{accent_style(a.get('accent'))}>
-  <div class="bar"><span class="category">{esc(a['category'])}</span><span class="issue">Editie {a['edition_number']:02d}</span></div>
-  {media}
-  <h3><span class="mark">{esc(a['title'])}</span></h3>
-  {sub}
-  <span class="author">{esc(a['author'])}</span>
-</a>"""
-
-
-TINTS = ["primary", "blush", "teal"]
-
-
-# ---------------------------------------------------------------- build
-
-
 def build():
     data = json.load(open(os.path.join(CONTENT, "site.json")))
     SITE.update(data["site"])
@@ -388,7 +362,6 @@ def build():
                 "date": ed["date"],
                 "paras": paras,
                 "img": find_image(ed, art),
-                "tint": TINTS[i % len(TINTS)],
             }
             all_articles.append(rec)
 
@@ -397,13 +370,13 @@ def build():
                         key=lambda c: c.lower())
 
     for a in all_articles:
-        write_article(a, latest, categories)
+        write_article(a, categories)
 
     write_home(all_articles, editions, latest)
-    write_archive(all_articles, editions, latest)
-    write_404(latest)
+    write_archive(all_articles, editions)
+    write_404()
     for ed in editions:
-        write_edition(ed, [a for a in all_articles if a["edition_id"] == ed["id"]], latest)
+        write_edition(ed, [a for a in all_articles if a["edition_id"] == ed["id"]], editions)
     write_index_json(all_articles)
 
     n_text = sum(1 for a in all_articles if a["paras"])
@@ -456,7 +429,7 @@ def render_body(paras, quotes):
     return "\n".join(out)
 
 
-def write_article(a, latest, categories=None):
+def write_article(a, categories=None):
     prefix = "../"
     body = render_body(a["paras"], a.get("pullquotes") or [])
     if not body:
@@ -477,7 +450,7 @@ def write_article(a, latest, categories=None):
 
     html = head(f"{a['title']} — De Dissident", prefix + "style.css",
                 a["subtitle"], og_type="article")
-    html += masthead(prefix, latest)
+    html += masthead(prefix)
     html += f"""<main class="{cls}" id="inhoud"{style}>
   <div class="bar">
     <span class="category">{esc(a['category'])}</span>
@@ -501,73 +474,124 @@ def write_article(a, latest, categories=None):
     open(os.path.join(OUT, "artikel", a["slug"] + ".html"), "w").write(html)
 
 
-def write_home(articles, editions, latest):
-    newest = [a for a in articles if a["edition_id"] == latest["id"]]
-    rest = [a for a in articles if a["edition_id"] != latest["id"]]
+def edition_switch(editions, current, prefix=""):
+    """Smalle strook met alle editienummers; de huidige is gemarkeerd."""
+    items = []
+    for ed in sorted(editions, key=lambda e: e["number"]):
+        label = f"{ed['number']:02d}"
+        if ed["id"] == current["id"]:
+            items.append(f'<li><span class="is-current" aria-current="page">'
+                         f'{label}</span></li>')
+        else:
+            items.append(f'<li><a href="{prefix}editie-{ed["number"]}.html" '
+                         f'title="{esc(ed["date_label"])}">{label}</a></li>')
+    theme = f" — {current['theme']}" if current.get("theme") else ""
+    return f"""<nav class="edition-switch" aria-label="Kies een editie">
+  <span class="edition-switch-label">Editie</span>
+  <ul>{"".join(items)}</ul>
+  <span class="edition-switch-meta">{esc(current['date_label'])}{esc(theme)}</span>
+</nav>
+"""
 
-    lead, others = newest[0], newest[1:]
-    theme = f" — {latest['theme']}" if latest.get("theme") else ""
 
-    html = head("De Dissident", "style.css",
-                "Het tijdschrift van de Jongerenorganisatie Forum voor Democratie.")
-    html += masthead("", latest)
-    html += ('<main id="inhoud">\n'
-             '<h1 class="visually-hidden">De Dissident — het tijdschrift van de JFVD</h1>\n')
-
-    # lead article
-    lead_media = (f'<div class="hero-media">'
-                  f'<img src="{lead["img"]["hero"]}" '
-                  f'srcset="{lead["img"]["card"]} 800w, {lead["img"]["hero"]} 1600w" '
-                  f'sizes="(max-width: 900px) 100vw, 420px" '
-                  f'alt="{esc(lead["title"])}" fetchpriority="high" decoding="async">'
-                  f'</div>'
-                  if lead["img"] else "")
+def hero_block(lead, prefix=""):
+    media = (f'<div class="hero-media">'
+             f'<img src="{prefix}{lead["img"]["hero"]}" '
+             f'srcset="{prefix}{lead["img"]["card"]} 800w, {prefix}{lead["img"]["hero"]} 1600w" '
+             f'sizes="(max-width: 900px) 100vw, 420px" '
+             f'alt="{esc(lead["title"])}" fetchpriority="high" decoding="async">'
+             f'</div>'
+             if lead["img"] else "")
 
     # Liever een uitspraak uit het stuk dan de ondertitel: die draagt de hero.
     quotes = lead.get("pullquotes") or []
-    hero_aside = (f'<p class="hero-quote">{esc(quotes[0]["text"])}</p>'
-                  if quotes else
-                  f'<p class="hero-standfirst">{esc(lead["subtitle"])}</p>')
+    aside = (f'<p class="hero-quote">{esc(quotes[0]["text"])}</p>'
+             if quotes else
+             f'<p class="hero-standfirst">{esc(lead["subtitle"])}</p>')
 
-    html += f"""<a class="hero" href="{lead['url']}"{accent_style(lead.get('accent'))}>
+    return f"""<a class="hero" href="{prefix}{lead['url']}"{accent_style(lead.get('accent'))}>
   <span class="hero-label">Uitgelicht</span>
   <h2 class="hero-title">{esc(lead['title'])}</h2>
   <div class="hero-foot">
     <div class="hero-aside">
-      {hero_aside}
+      {aside}
       <span class="author">{esc(lead['author'])}</span>
     </div>
-    {lead_media}
+    {media}
   </div>
 </a>
 """
 
-    html += f"""<section class="section-heading">
-  <h2>Uit de {latest['number']}<sup>e</sup> editie{esc(theme)}</h2>
-  <div class="rule"></div>
-  <a class="section-link" href="editie-{latest['number']}.html">Hele editie</a>
-</section>
-<div class="grid" id="grid-latest">
-{chr(10).join(card(a, "") for a in others)}
-</div>
-"""
 
-    html += """<section class="section-heading">
-  <h2>Uit het archief</h2>
-  <div class="rule"></div>
-  <a class="section-link" href="archief.html">Alle edities</a>
-</section>
-<div class="grid">
-"""
-    html += "\n".join(card(a, "") for a in rest[:6])
-    html += "\n</div>\n</main>\n"
-    html += footer("")
+def _square_media(a, prefix, cls):
+    """Vierkante thumbnail, of een gekleurd vlak met lettermerk als beeld ontbreekt."""
+    img = a.get("img")
+    if img:
+        return (f'<div class="{cls}"><img src="{prefix}{img["card"]}" alt="" '
+                f'loading="lazy" decoding="async"></div>')
+    return (f'<div class="{cls} {cls}--tint">'
+            f'<span class="lettermark" aria-hidden="true">D</span></div>')
+
+
+def feature(a, prefix=""):
+    """Kop plus korte omschrijving links, vierkant beeld rechts."""
+    sub = f'<p>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
+    return f"""<a class="feature" href="{prefix}{a['url']}" data-category="{esc(a['category'])}"{accent_style(a.get('accent'))}>
+  <div class="feature-text">
+    <div class="bar"><span class="category">{esc(a['category'])}</span></div>
+    <h3><span class="mark">{esc(a['title'])}</span></h3>
+    {sub}
+    <span class="author">{esc(a['author'])}</span>
+  </div>
+  {_square_media(a, prefix, "feature-media")}
+</a>"""
+
+
+def listing(a, prefix=""):
+    """Alleen een kop links, klein vierkant beeld rechts."""
+    return f"""<a class="listing" href="{prefix}{a['url']}" data-category="{esc(a['category'])}"{accent_style(a.get('accent'))}>
+  <div class="listing-text">
+    <span class="category">{esc(a['category'])}</span>
+    <h3>{esc(a['title'])}</h3>
+  </div>
+  {_square_media(a, prefix, "listing-media")}
+</a>"""
+
+
+def exposition(ed, arts, editions, prefix=""):
+    """De expositie van één editie: hero, drie uitgelichte stukken, dan de rest."""
+    if not arts:
+        return "<p class=\"page-intro\">Deze editie heeft nog geen artikelen.</p>\n"
+
+    lead, features, listings = arts[0], arts[1:4], arts[4:]
+    html = edition_switch(editions, ed, prefix)
+    html += hero_block(lead, prefix)
+    if features:
+        html += ('<div class="features">\n'
+                 + "\n".join(feature(a, prefix) for a in features)
+                 + "\n</div>\n")
+    if listings:
+        html += ('<div class="listings">\n'
+                 + "\n".join(listing(a, prefix) for a in listings)
+                 + "\n</div>\n")
+    return html
+
+
+def write_home(articles, editions, latest):
+    arts = [a for a in articles if a["edition_id"] == latest["id"]]
+    html = head("De Dissident", "style.css",
+                "Het tijdschrift van de Jongerenorganisatie Forum voor Democratie.")
+    html += masthead("")
+    html += ('<main id="inhoud">\n'
+             '<h1 class="visually-hidden">De Dissident — het tijdschrift van de JFVD</h1>\n')
+    html += exposition(latest, arts, editions)
+    html += "</main>\n" + footer("")
     open(os.path.join(OUT, "index.html"), "w").write(html)
 
 
-def write_archive(articles, editions, latest):
+def write_archive(articles, editions):
     html = head("Archief — De Dissident", "style.css", "Alle edities van De Dissident.")
-    html += masthead("", latest)
+    html += masthead("")
     html += '<main id="inhoud">\n<h1 class="page-title">Archief</h1>\n'
     html += '<p class="page-intro">Elke editie van De Dissident, met alle artikelen.</p>\n'
 
@@ -592,25 +616,21 @@ def write_archive(articles, editions, latest):
     open(os.path.join(OUT, "archief.html"), "w").write(html)
 
 
-def write_edition(ed, arts, latest):
+def write_edition(ed, arts, editions):
     theme = f" — {ed['theme']}" if ed.get("theme") else ""
-    html = head(f"{ed['number']}e editie — De Dissident", "style.css")
-    html += masthead("", latest)
-    html += f"""<main id="inhoud">
-<h1 class="page-title">{ed['number']}<sup>e</sup> editie{esc(theme)}</h1>
-<p class="page-intro">{esc(ed['date_label'])} · {len(arts)} artikelen</p>
-<div class="grid">
-{chr(10).join(card(a, "") for a in arts)}
-</div>
-</main>
-"""
-    html += footer("")
+    html = head(f"{ed['number']}e editie — De Dissident", "style.css",
+                f"Alle artikelen uit de {ed['number']}e editie van De Dissident.")
+    html += masthead("")
+    html += (f'<main id="inhoud">\n'
+             f'<h1 class="visually-hidden">{ed["number"]}e editie{esc(theme)}</h1>\n')
+    html += exposition(ed, arts, editions)
+    html += "</main>\n" + footer("")
     open(os.path.join(OUT, f"editie-{ed['number']}.html"), "w").write(html)
 
 
-def write_404(latest):
+def write_404():
     html = head("Pagina niet gevonden — De Dissident", "style.css")
-    html += masthead("", latest)
+    html += masthead("")
     html += """<main id="inhoud">
 <h1 class="page-title">Deze pagina bestaat niet</h1>
 <p class="page-intro">Misschien is het artikel verplaatst of de link verouderd.</p>
