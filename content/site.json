@@ -2,6 +2,7 @@
  "site": {
   "title": "De Dissident",
   "tagline": "Jongerenorganisatie Forum voor Democratie",
+  "slogan": "Het meeste gewaagde jongerenblad",
   "sources": {
    "ed1": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk.pdf",
    "ed2": "DD blad/anders/vorige edities/de_dissident_magazine_binnenwerk_21_juni_2022.pdf",
@@ -29,7 +30,16 @@
      "subtitle": "Frederik Jansen over de Frankfurter Schule",
      "category": "Politieke beschouwing",
      "author": "Luca de Clippelaar",
-     "image": "freek"
+     "image": "freek",
+     "accent": "#2054a5",
+     "pullquotes": [
+      {
+       "text": "Het slachtoffer is het allerhoogste wat er is. De zwakkeren zijn de goeden en de sterkeren zijn de slechten die altijd gevaarlijk zijn."
+      },
+      {
+       "text": "Ga bij jezelf te rade: Wie ben ik? Waar ben ik goed in? Wat moet mijn rol zijn vanuit die kwaliteiten? En omarm dan ook ongelijkheden."
+      }
+     ]
     },
     {
      "page": 7,
@@ -38,7 +48,16 @@
      "subtitle": "Kunstverzamelaar Adriaan van Waalwijk van Doorn",
      "category": "Forumland",
      "author": "De Dissident",
-     "image": "forumland"
+     "image": "forumland",
+     "accent": "#ee2a2b",
+     "pullquotes": [
+      {
+       "text": "Het is mijn taak om de Nederlandse kunstschatten aan de man te brengen."
+      },
+      {
+       "text": "In Nederland zijn we altijd zo verongelijkt over onszelf, zo valsbescheiden… Wij hebben de allerbeste schilders ter wereld! Dat mag best wel eens gezegd worden."
+      }
+     ]
     },
     {
      "page": 11,
@@ -47,7 +66,8 @@
      "subtitle": "“Mensen zongen in een Sovjet-isolatiecel de Dainas.”",
      "category": "Interview",
      "author": "Raymond",
-     "image": "ugis nastevics"
+     "image": "ugis nastevics",
+     "accent": "#f3af28"
     },
     {
      "page": 15,
@@ -56,7 +76,8 @@
      "subtitle": "“In Litouwen ben ik de enige rechtse parlementariër.”",
      "category": "Interview",
      "author": "Richard",
-     "image": "vytautas sinica"
+     "image": "vytautas sinica",
+     "accent": "#f48081"
     },
     {
      "page": 19,
@@ -65,7 +86,13 @@
      "subtitle": "Een megalomaan project op het witte doek",
      "category": "Film",
      "author": "De Dissident",
-     "image": "frankenstein"
+     "image": "frankenstein",
+     "accent": "#467464",
+     "pullquotes": [
+      {
+       "text": "Del Toro weet het monster opnieuw tot leven te wekken op een manier die je simpelweg niet mag missen."
+      }
+     ]
     },
     {
      "page": 21,
@@ -74,7 +101,14 @@
      "subtitle": "Grijze betonblokken tekenen Oost-Europa",
      "category": "Architectuur",
      "author": "Raymond",
-     "image": "brutalisme"
+     "image": "brutalisme",
+     "accent": "#ee2f2e",
+     "pullquotes": [
+      {
+       "text": "Als iemand in een politieke machtspositie een psychopaat is, kan hij of zij een epidemie van psychopathologie veroorzaken onder mensen die zelf in wezen niet psychopathisch zijn.",
+       "source": "Andrzej Łobaczewski"
+      }
+     ]
     },
     {
      "page": 25,
@@ -83,7 +117,8 @@
      "subtitle": "Hoe spanning en ontspanning muziek maken",
      "category": "Muziek",
      "author": "De Dissident",
-     "image": "klassiek"
+     "image": "klassiek",
+     "accent": "#f0e91a"
     }
    ],
    "pages_per_sheet": 2

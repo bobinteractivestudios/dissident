@@ -1,7 +1,14 @@
 # De Dissident — website
 
-De site wordt **gegenereerd** uit één inhoudsbestand en de magazine-PDF's.
+De site wordt **gegenereerd** uit één inhoudsbestand en de uitgelezen artikelteksten.
 Bewerk nooit iets in `site/` — die map wordt bij elke build weggegooid.
+
+Er zijn twee gescheiden stappen:
+
+1. **Nieuwe editie uitlezen** — eenmalig en handmatig, met een script in `tools/`.
+   Dit raakt de PDF's aan en vereist `pypdf`.
+2. **Site bouwen** — `build.py`. Leest alleen `content/`, opent geen enkele PDF
+   en heeft geen extra pakketten nodig.
 
 ## Bouwen
 
@@ -9,23 +16,38 @@ Bewerk nooit iets in `site/` — die map wordt bij elke build weggegooid.
 python3 build.py
 ```
 
-Wil je alleen aan de vormgeving werken, dan kan het uitlezen van de PDF's overgeslagen worden:
+Open daarna `site/index.html`. Dit is de dagelijkse stap: vormgeving aanpassen,
+teksten redigeren, artikelen herschikken.
+
+## Nieuwe editie uitlezen
+
+Alleen nodig als er een nieuwe editie bij komt. Zet de PDF in `content/site.json`
+onder `site.sources`, beschrijf de artikelen, en draai:
 
 ```bash
-python3 build.py --no-text
+python3 tools/extract_text.py ed8
 ```
 
-Open daarna `site/index.html`.
+Dat schrijft één bestand per artikel in `content/tekst/`. Bestaande bestanden
+worden overgeslagen, zodat je correcties niet kwijtraakt; met `--force` lees je
+ze alsnog opnieuw uit. Laat je de editie weg, dan gaat het script alle edities
+langs. Eenmalig installeren:
+
+```bash
+pip3 install pypdf
+```
 
 ## Wat waar staat
 
 | Map / bestand | Wat het is |
 |---|---|
 | `content/site.json` | **De enige plek waar je content aanpast.** Edities, artikelen, auteurs, rubrieken. |
-| `content/cache/` | Uitgelezen tekst per artikel. Weggooien = opnieuw uitlezen uit de PDF's. |
+| `content/tekst/` | De artikelteksten, één bestand per artikel. Mag je met de hand corrigeren — de build maakt ze niet opnieuw aan. |
 | `static/style.css` | De vormgeving. |
 | `static/search.js` | Zoeken en het rubrieken-menu. |
-| `lib/reflow.py` | Herstelt leesbare alinea's uit PDF-tekst (kolommen, afbreekstreepjes, kopregels). |
+| `tools/extract_text.py` | Leest artikelteksten uit een magazine-PDF. Handmatig, per editie. |
+| `tools/extract_accents.py` | Stelt accentkleuren en pull quotes voor, uitgelezen uit een PDF. |
+| `lib/reflow.py` | Herstelt leesbare alinea's uit PDF-tekst (kolommen, afbreekstreepjes, kopregels). Alleen gebruikt door `tools/`. |
 | `site/` | Het resultaat. Gegenereerd — niet bewerken. |
 
 ## Een artikel toevoegen of aanpassen
