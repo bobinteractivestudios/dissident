@@ -29,16 +29,26 @@
     <form class="search" role="search" onsubmit="return false;">
       <input type="search" id="q" placeholder="Zoeken…" aria-label="Zoek artikelen"
              autocomplete="off" role="combobox" aria-expanded="false"
-             aria-controls="search-results" aria-describedby="search-status">
+             aria-controls="search-overlay" aria-describedby="search-status">
       <span class="search-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </span>
       <p class="visually-hidden" id="search-status" role="status" aria-live="polite"></p>
-      <div class="search-results" id="search-results" role="listbox"
-           aria-label="Zoekresultaten" hidden></div>
     </form>
   </nav>
 </header>
+<div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true"
+     aria-label="Zoeken in het archief" hidden>
+  <div class="search-overlay-inner">
+    <div class="search-overlay-head">
+      <div class="search-overlay-field" id="search-overlay-field"></div>
+      <button type="button" class="search-overlay-close" id="search-overlay-close"
+              aria-label="Zoeken sluiten">&times;</button>
+    </div>
+    <p class="page-intro" id="search-overlay-intro">Alle edities van De Dissident, met alle artikelen.</p>
+    <div id="search-overlay-results"></div>
+  </div>
+</div>
 <main class="article article--accent" id="inhoud" style="--accent: #990c0c; --accent-ink: #990c0c; --accent-deep: #990c0c; --accent-wash: #bf6666">
   <div class="bar">
     <span class="category">Organisatie</span>

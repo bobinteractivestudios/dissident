@@ -54,69 +54,121 @@
     return total;
   }
 
-  /* ---------------- zoeken ---------------- */
+  /* ---------------- zoeken: quick-access-archief ----------------
+     De zoekbalk opent een bedekkend overlay-scherm dat het archief nabootst
+     (zelfde .section-heading/.toc opmaak, per editie gegroepeerd). Leeg
+     toont hij de hele index — bladermodus; typen filtert live. */
 
   var input = document.getElementById("q");
-  var results = document.getElementById("search-results");
+  var overlay = document.getElementById("search-overlay");
+  var overlayResults = document.getElementById("search-overlay-results");
+  var overlayIntro = document.getElementById("search-overlay-intro");
+  var overlayClose = document.getElementById("search-overlay-close");
+  var overlayField = document.getElementById("search-overlay-field");
   var status = document.getElementById("search-status");
+
+  // De .search-form (invoerveld + icoon) verhuist tussen de nav en de
+  // overlay, zodat je altijd ziet wat je typt — ook als de overlay eroverheen
+  // ligt. navHome onthoudt waar hij vandaan kwam, om terug te zetten.
+  var searchForm = input ? input.closest(".search") : null;
+  var navHome = searchForm ? searchForm.parentNode : null;
 
   function announce(msg) {
     if (status) status.textContent = msg;
   }
 
-  function show(open) {
-    results.hidden = !open;
-    if (input) input.setAttribute("aria-expanded", open ? "true" : "false");
+  function esc(s) {
+    return (s || "").replace(/[<>&]/g, function (c) {
+      return c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&amp;";
+    });
   }
 
-  function render(list, query) {
-    if (!list.length) {
-      results.innerHTML = '<p class="search-empty">Geen artikelen gevonden voor “' +
-        query.replace(/[<>&]/g, "") + '”.</p>';
-      show(true);
+  function show(open) {
+    overlay.hidden = !open;
+    if (input) input.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      if (searchForm && overlayField && searchForm.parentNode !== overlayField) {
+        overlayField.appendChild(searchForm);
+        input.focus();
+      }
+      overlay.scrollTop = 0;
+    } else {
+      if (searchForm && navHome && searchForm.parentNode !== navHome) {
+        navHome.appendChild(searchForm);
+      }
+      input.blur();
+    }
+  }
+
+  function render(list, query, editions) {
+    if (query && !list.length) {
+      overlayIntro.textContent = "Geen artikelen gevonden voor “" + query + "”.";
+      overlayResults.innerHTML = "";
       announce("Geen artikelen gevonden.");
       return;
     }
-    var shown = list.slice(0, 12);
-    results.innerHTML = shown.map(function (r) {
-      return '<a href="' + prefix + r.u + '" role="option">' +
-        '<span class="r-title">' + r.t + "</span>" +
-        '<span class="r-meta">' + r.c + " · " + r.a +
-        " · editie " + r.e + "</span></a>";
-    }).join("");
-    show(true);
-    announce(list.length + (list.length === 1 ? " artikel" : " artikelen") +
-      " gevonden" + (list.length > shown.length ? ", eerste " + shown.length + " getoond" : "") + ".");
+    overlayIntro.textContent = query
+      ? list.length + (list.length === 1 ? " artikel" : " artikelen") + ' gevonden voor “' + query + '”.'
+      : "Alle edities van De Dissident, met alle artikelen.";
+
+    var byEdition = {};
+    list.forEach(function (r) {
+      (byEdition[r.e] = byEdition[r.e] || []).push(r);
+    });
+
+    overlayResults.innerHTML = editions
+      .filter(function (ed) { return byEdition[ed.n]; })
+      .map(function (ed) {
+        var theme = ed.t ? " — " + esc(ed.t) : "";
+        var items = byEdition[ed.n].map(function (r) {
+          var sub = r.s ? '<span class="toc-sub">' + esc(r.s) + "</span>" : "";
+          return '<li><span class="toc-main"><a href="' + prefix + r.u + '">' +
+            esc(r.t) + "</a>" + sub + '</span><span class="toc-author">' +
+            esc(r.a) + "</span></li>";
+        }).join("");
+        return '<section class="section-heading">' +
+          "<h2>" + ed.n + "<sup>e</sup> editie" + theme + "</h2>" +
+          '<div class="rule"></div>' +
+          '<a class="section-link" href="' + prefix + ed.u + '">' + esc(ed.l) + "</a>" +
+          "</section>" +
+          '<ul class="toc">' + items + "</ul>";
+      }).join("");
+
+    announce(query
+      ? list.length + (list.length === 1 ? " artikel" : " artikelen") + " gevonden."
+      : "Volledig archief geladen.");
   }
 
   function run() {
     var query = input.value.trim();
-    if (query.length < 2) { show(false); announce(""); return; }
+    show(true);
     load().then(function (data) {
+      var editions = window.DD_EDITIONS || [];
+      if (!query) { render(data, "", editions); return; }
       var terms = norm(query).split(/\s+/).filter(Boolean);
       var hits = data
         .map(function (it) { return { it: it, sc: score(it, terms) }; })
         .filter(function (h) { return h.sc > 0; })
         .sort(function (a, b) { return b.sc - a.sc; })
         .map(function (h) { return h.it; });
-      render(hits, query);
+      render(hits, query, editions);
     });
   }
 
-  if (input && results) {
+  if (input && overlay) {
     var timer;
     input.addEventListener("input", function () {
       clearTimeout(timer);
       timer = setTimeout(run, 120);
     });
-    input.addEventListener("focus", function () {
-      if (input.value.trim().length >= 2) run();
+    input.addEventListener("focus", run);
+    overlayClose.addEventListener("click", function () { show(false); });
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) show(false);
     });
-    document.addEventListener("click", function (e) {
-      if (!results.contains(e.target) && e.target !== input) show(false);
-    });
-    input.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") { show(false); input.blur(); }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !overlay.hidden) show(false);
     });
   }
 
@@ -127,8 +179,10 @@
 
   var wanted = new URLSearchParams(location.search).get("rubriek");
   if (wanted) {
-    // markeer de actieve rubriek zichtbaar boven de pagina
-    var intro = document.querySelector(".page-intro");
+    // markeer de actieve rubriek zichtbaar boven de pagina (niet de
+    // gelijknamige .page-intro binnen de zoek-overlay, die elders in de DOM
+    // zit maar wel matcht op een kale .page-intro selector)
+    var intro = document.querySelector("#inhoud .page-intro");
     if (intro) {
       intro.innerHTML = 'Rubriek: <strong>' + wanted.replace(/[<>&]/g, "") +
         '</strong> — <a class="reset-filter" href="archief.html">toon alles</a>';

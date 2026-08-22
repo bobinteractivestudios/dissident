@@ -280,16 +280,26 @@ def masthead(prefix):
     <form class="search" role="search" onsubmit="return false;">
       <input type="search" id="q" placeholder="Zoeken…" aria-label="Zoek artikelen"
              autocomplete="off" role="combobox" aria-expanded="false"
-             aria-controls="search-results" aria-describedby="search-status">
+             aria-controls="search-overlay" aria-describedby="search-status">
       <span class="search-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </span>
       <p class="visually-hidden" id="search-status" role="status" aria-live="polite"></p>
-      <div class="search-results" id="search-results" role="listbox"
-           aria-label="Zoekresultaten" hidden></div>
     </form>
   </nav>
 </header>
+<div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true"
+     aria-label="Zoeken in het archief" hidden>
+  <div class="search-overlay-inner">
+    <div class="search-overlay-head">
+      <div class="search-overlay-field" id="search-overlay-field"></div>
+      <button type="button" class="search-overlay-close" id="search-overlay-close"
+              aria-label="Zoeken sluiten">&times;</button>
+    </div>
+    <p class="page-intro" id="search-overlay-intro">Alle edities van De Dissident, met alle artikelen.</p>
+    <div id="search-overlay-results"></div>
+  </div>
+</div>
 """
 
 
@@ -385,7 +395,7 @@ def build():
     write_404()
     for ed in editions:
         write_edition(ed, [a for a in all_articles if a["edition_id"] == ed["id"]], editions)
-    write_index_json(all_articles)
+    write_index_json(all_articles, editions)
 
     n_text = sum(1 for a in all_articles if a["paras"])
     print(f"site/ gebouwd — {len(all_articles)} artikelen, {n_text} met volledige tekst, "
@@ -673,18 +683,27 @@ def write_404():
     open(os.path.join(OUT, "404.html"), "w").write(html)
 
 
-def write_index_json(articles):
+def write_index_json(articles, editions):
     idx = [{
         "t": a["title"], "s": a["subtitle"], "c": a["category"], "a": a["author"],
         "e": a["edition_number"], "u": a["url"], "p": a["page"],
         "x": " ".join(a["paras"])[:1200],
     } for a in articles]
+    # Editielabels apart van de artikelen: de zoek-overlay groepeert per editie
+    # net als het archief, en heeft daarvoor de datum/het thema nodig zonder
+    # dat op elk artikel te herhalen.
+    eds = [{
+        "n": ed["number"], "l": ed["date_label"], "t": ed.get("theme") or "",
+        "u": f"editie-{ed['number']}.html",
+    } for ed in editions]
     payload = json.dumps(idx, ensure_ascii=False, separators=(",", ":"))
+    eds_payload = json.dumps(eds, ensure_ascii=False, separators=(",", ":"))
     json.dump(idx, open(os.path.join(OUT, "search-index.json"), "w"), ensure_ascii=False)
     # Also emit the index as a script: browsers block fetch() over file://, so
     # opening site/index.html straight from Finder would otherwise kill search.
     with open(os.path.join(OUT, "search-index.js"), "w") as f:
         f.write("window.DD_INDEX=" + payload + ";\n")
+        f.write("window.DD_EDITIONS=" + eds_payload + ";\n")
 
 
 if __name__ == "__main__":
