@@ -277,12 +277,12 @@ def masthead(prefix):
   <nav>
     <noscript><p class="noscript-note">Zoeken werkt alleen met JavaScript.</p></noscript>
     <form class="search" role="search" onsubmit="return false;">
-      <input type="search" id="q" placeholder="Zoeken…" aria-label="Zoek artikelen"
-             autocomplete="off" role="combobox" aria-expanded="false"
-             aria-controls="search-overlay" aria-describedby="search-status">
       <span class="search-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </span>
+      <input type="search" id="q" placeholder="Zoeken…" aria-label="Zoek artikelen"
+             autocomplete="off" role="combobox" aria-expanded="false"
+             aria-controls="search-overlay" aria-describedby="search-status">
       <p class="visually-hidden" id="search-status" role="status" aria-live="polite"></p>
     </form>
   </nav>
@@ -302,14 +302,15 @@ def masthead(prefix):
 """
 
 
-def footer(prefix):
+def footer(prefix, scripts=()):
+    extra = "".join(f'\n<script src="{prefix}{s}" defer></script>' for s in scripts)
     return f"""<footer>
   <div class="footer-base">
     <img class="footer-mark" src="{prefix}sources/jfvd-logo.svg" alt="" width="32" height="32">
     <p>De Dissident — Jongerenorganisatie Forum voor Democratie</p>
   </div>
 </footer>
-<script src="{prefix}search.js" defer></script>
+<script src="{prefix}search.js" defer></script>{extra}
 </body>
 </html>
 """
@@ -491,10 +492,62 @@ def edition_switch(editions, current, prefix=""):
 """
 
 
-def hero_block(lead, prefix=""):
+# ---------------------------------------------------------------- load-in
+
+# Alleen de homepage animeert (zie animate= in write_home() versus
+# write_edition()). Kaarten (hero, features, listings) schuiven na elkaar in;
+# binnen elke kaart schuiven rubriek/kop/omschrijving/auteur/beeld op hun
+# beurt. REVEAL_CARD_CAP voorkomt dat een editie met veel listings de laatste
+# kaart pas na seconden laat verschijnen — daarna delen ze dezelfde vertraging.
+REVEAL_CARD_STEP = 0.09
+REVEAL_CARD_CAP = 8
+REVEAL_ELEM_STEP = 0.055
+REVEAL_DURATION = 0.5    # moet gelijk aan de animation-duration van .reveal
+
+
+def _reveal(animate, card_i, elem_i, right=False):
+    """(' class=...', ' style=...') fragmenten voor één load-in element, of
+    ("", "") als animate False is. --d is de animation-delay; zie .reveal in
+    style.css. De class-fragmenten zijn bedoeld om te plakken achter een
+    bestaande klassenaam (class="hero-title{c}") — voor elementen zonder
+    eigen basisklasse (kale <h3>/<p>) gebruik je _bare() hieronder."""
+    if not animate:
+        return "", ""
+    card = min(card_i, REVEAL_CARD_CAP)
+    d = card * REVEAL_CARD_STEP + elem_i * REVEAL_ELEM_STEP
+    cls = " reveal reveal--right" if right else " reveal"
+    return cls, f' style="--d:{d:.3f}s"'
+
+
+def _bare(c, s):
+    """class=/style=-attribuutfragment voor een element zonder eigen
+    basisklasse: zonder animatie blijft het element helemaal kaal."""
+    return (f' class="{c.strip()}"' if c else "") + s
+
+
+def typewriter_html(text, start_delay):
+    """Elk woord in een eigen span met oplopende --d: de lange voorwoordtekst
+    "typt" zichzelf snel uit in plaats van in/uit te schuiven zoals de rest.
+    Alleen woorden (niet losse letters) — dat houdt de pagina licht en laat
+    tekst gewoon selecteerbaar/doorzoekbaar. Zie .tw-word in style.css."""
+    words = esc(text).split(" ")
+    spans = " ".join(
+        f'<span class="tw-word" style="--d:{start_delay + i * 0.014:.3f}s">{w}</span>'
+        for i, w in enumerate(words))
+    cursor_delay = start_delay + len(words) * 0.014
+    cursor = f'<span class="tw-cursor" aria-hidden="true" style="--d:{cursor_delay:.3f}s"></span>'
+    return spans + cursor
+
+
+def hero_block(lead, prefix="", animate=False, card_i=0):
+    c0, s0 = _reveal(animate, card_i, 0)
+    c1, s1 = _reveal(animate, card_i, 1)
+    c2, s2 = _reveal(animate, card_i, 2)
+    c3, s3 = _reveal(animate, card_i, 3, right=True)
+
     # Vierkante thumbnail die uit de rechteronderhoek van het blauwe vlak steekt:
     # zie .hero-media in style.css voor de offset-wiskunde.
-    media = (f'<div class="hero-media">'
+    media = (f'<div class="hero-media{c3}"{s3}>'
              f'<img src="{prefix}{lead["img"]["hero"]}" '
              f'srcset="{prefix}{lead["img"]["card"]} 800w, {prefix}{lead["img"]["hero"]} 1600w" '
              f'sizes="(max-width: 900px) 50vw, 360px" '
@@ -504,71 +557,85 @@ def hero_block(lead, prefix=""):
 
     return f"""<a class="hero" href="{prefix}{lead['url']}">
   <span class="hero-label">Uitgelicht</span>
-  <h2 class="hero-title">{esc(lead['title'])}</h2>
+  <h2 class="hero-title{c0}"{s0}>{esc(lead['title'])}</h2>
   <div class="hero-foot">
-    <p class="hero-standfirst">{esc(lead['subtitle'])}</p>
-    <span class="author">{esc(lead['author'])}</span>
+    <p class="hero-standfirst{c1}"{s1}>{esc(lead['subtitle'])}</p>
+    <span class="author{c2}"{s2}>{esc(lead['author'])}</span>
   </div>
   {media}
 </a>
 """
 
 
-def _square_media(a, prefix, cls):
+def _square_media(a, prefix, cls, class_extra="", style_extra=""):
     """Vierkante thumbnail, of een gekleurd vlak met lettermerk als beeld ontbreekt."""
     img = a.get("img")
     if img:
-        return (f'<div class="{cls}"><img src="{prefix}{img["card"]}" alt="" '
+        return (f'<div class="{cls}{class_extra}"{style_extra}>'
+                f'<img src="{prefix}{img["card"]}" alt="" '
                 f'loading="lazy" decoding="async"></div>')
-    return (f'<div class="{cls} {cls}--tint">'
+    return (f'<div class="{cls} {cls}--tint{class_extra}"{style_extra}>'
             f'<span class="lettermark" aria-hidden="true">D</span></div>')
 
 
-def feature(a, prefix=""):
+def feature(a, prefix="", animate=False, card_i=0):
     """Kop plus korte omschrijving links, vierkant beeld rechts."""
-    sub = f'<p>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
+    c0, s0 = _reveal(animate, card_i, 0)
+    c1, s1 = _reveal(animate, card_i, 1)
+    c2, s2 = _reveal(animate, card_i, 2)
+    c3, s3 = _reveal(animate, card_i, 3)
+    c4, s4 = _reveal(animate, card_i, 4, right=True)
+
+    sub = f'<p{_bare(c2, s2)}>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
     return f"""<a class="feature" href="{prefix}{a['url']}" data-category="{esc(a['category'])}">
   <div class="feature-text">
-    <div class="bar"><span class="category">{esc(a['category'])}</span></div>
-    <h3><span class="mark">{esc(a['title'])}</span></h3>
+    <div class="bar"><span class="category{c0}"{s0}>{esc(a['category'])}</span></div>
+    <h3{_bare(c1, s1)}><span class="mark">{esc(a['title'])}</span></h3>
     {sub}
-    <span class="author">{esc(a['author'])}</span>
+    <span class="author{c3}"{s3}>{esc(a['author'])}</span>
   </div>
-  {_square_media(a, prefix, "feature-media")}
+  {_square_media(a, prefix, "feature-media", c4, s4)}
 </a>"""
 
 
-def listing(a, prefix=""):
+def listing(a, prefix="", animate=False, card_i=0):
     """Alleen een kop links, klein vierkant beeld rechts."""
+    c0, s0 = _reveal(animate, card_i, 0)
+    c1, s1 = _reveal(animate, card_i, 1)
+    c2, s2 = _reveal(animate, card_i, 2, right=True)
+
     return f"""<a class="listing" href="{prefix}{a['url']}" data-category="{esc(a['category'])}">
   <div class="listing-text">
-    <span class="category">{esc(a['category'])}</span>
-    <h3><span class="mark">{esc(a['title'])}</span></h3>
+    <span class="category{c0}"{s0}>{esc(a['category'])}</span>
+    <h3{_bare(c1, s1)}><span class="mark">{esc(a['title'])}</span></h3>
   </div>
-  {_square_media(a, prefix, "listing-media")}
+  {_square_media(a, prefix, "listing-media", c2, s2)}
 </a>"""
 
 
-def exposition(ed, arts, editions, prefix=""):
+def exposition(ed, arts, editions, prefix="", animate=False):
     """De expositie van één editie: hero, drie uitgelichte stukken, dan de rest."""
     if not arts:
         return "<p class=\"page-intro\">Deze editie heeft nog geen artikelen.</p>\n"
 
     lead, features, listings = arts[0], arts[1:4], arts[4:]
     html = edition_switch(editions, ed, prefix)
-    html += hero_block(lead, prefix)
+    html += hero_block(lead, prefix, animate, 0)
     if features:
         html += ('<div class="features">\n'
-                 + "\n".join(feature(a, prefix) for a in features)
+                 + "\n".join(feature(a, prefix, animate, 1 + i)
+                             for i, a in enumerate(features))
                  + "\n</div>\n")
     if listings:
+        base = 1 + len(features)
         html += ('<div class="listings">\n'
-                 + "\n".join(listing(a, prefix) for a in listings)
+                 + "\n".join(listing(a, prefix, animate, base + i)
+                             for i, a in enumerate(listings))
                  + "\n</div>\n")
     return html
 
 
-def voorwoord_block(ed):
+def voorwoord_block(ed, animate=False):
     """Rechts op de grijze tafel: portret, naam van de hoofdredacteur, voorwoord.
 
     Alleen zichtbaar op brede schermen, naast het vel (zie .expo-row in de CSS).
@@ -580,11 +647,24 @@ def voorwoord_block(ed):
     rol = ed.get("voorwoord_rol", "")
     tekst = ed.get("voorwoord")
     initialen = "".join(w[0] for w in auteur.split()[:2]).upper()
-    body = (f"<p>{esc(tekst)}</p>" if tekst else
-            '<p class="placeholder-note">Het voorwoord van deze editie is nog niet overgezet.</p>')
+
+    # Eigen, korte cascade (card_i=0), los van de artikelkaarten ernaast: het
+    # voorwoord mag meteen verschijnen, niet pas na een lange lijst listings.
+    c0, s0 = _reveal(animate, 0, 0)
+    c1, s1 = _reveal(animate, 0, 1)
+
+    if tekst:
+        # De lange tekst schuift niet in maar "typt" zichzelf, ná de byline.
+        start = REVEAL_ELEM_STEP + REVEAL_DURATION if animate else 0
+        body = f"<p>{typewriter_html(tekst, start) if animate else esc(tekst)}</p>"
+    else:
+        c2, s2 = _reveal(animate, 0, 2)
+        body = (f'<p class="placeholder-note{c2}"{s2}>Het voorwoord van deze editie '
+                f'is nog niet overgezet.</p>')
+
     return f"""<aside class="voorwoord-kolom">
-  <div class="voorwoord-portret" aria-hidden="true"><span>{esc(initialen)}</span></div>
-  <p class="voorwoord-byline">{esc(auteur)}<span>{esc(rol)}</span></p>
+  <div class="voorwoord-portret{c0}" aria-hidden="true"{s0}><span>{esc(initialen)}</span></div>
+  <p class="voorwoord-byline{c1}"{s1}>{esc(auteur)}<span>{esc(rol)}</span></p>
   {body}
 </aside>
 """
@@ -598,10 +678,10 @@ def write_home(articles, editions, latest):
     html += f'<div class="expo-row"{sheet_style(latest.get("accent"))}>\n'
     html += ('<main id="inhoud" class="expo">\n'
              '<h1 class="visually-hidden">De Dissident — het tijdschrift van de JFVD</h1>\n')
-    html += exposition(latest, arts, editions)
+    html += exposition(latest, arts, editions, animate=True)
     html += "</main>\n"
-    html += voorwoord_block(latest)
-    html += "</div>\n" + footer("")
+    html += voorwoord_block(latest, animate=True)
+    html += "</div>\n" + footer("", scripts=("reveal.js",))
     open(os.path.join(OUT, "index.html"), "w").write(html)
 
 
