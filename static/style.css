@@ -307,6 +307,51 @@ main {
     padding: 36px 24px 80px;
 }
 
+/* ---------- editievel ----------
+   De expositie ligt als een gekleurd vel op de grijze pagina — een blad papier
+   op tafel. Binnen dat vel worden de canvas-tokens opnieuw gedefinieerd, zodat
+   alle bestaande regels (features, listings, schakelaar) meekleuren zonder dat
+   ze stuk voor stuk overschreven hoeven te worden. */
+
+/* .expo-row draagt de accentvariabelen (--accent, --accent-ink, --hero-*): één
+   set, geërfd door zowel het vel als de kolom ernaast — zie sheet_style() in
+   build.py. Op smalle schermen is dat gewoon het vel, vol breedte. */
+.expo-row {
+    display: block;
+    margin: 22px 16px 56px;
+}
+
+main.expo {
+    --canvas: var(--accent-deep);
+    --on-canvas: #ffffff;
+    --on-canvas-soft: rgba(255, 255, 255, 0.74);
+    --rule-dark: rgba(255, 255, 255, 0.26);
+
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(20px, 3vw, 40px);
+    background: var(--accent-deep);
+    color: var(--on-canvas);
+}
+
+
+/* Deze verwezen rechtstreeks naar het accent — op een vel ván dat accent
+   zouden ze wegvallen, dus binnen het vel worden ze licht. */
+main.expo .bar .category,
+main.expo .listing-text .category { color: rgba(255, 255, 255, 0.88); }
+
+main.expo .feature:hover h3,
+main.expo .listing:hover .listing-text h3,
+main.expo .edition-switch a:hover { color: rgba(255, 255, 255, 0.7); }
+
+/* De markeerstift keert om: op het vel is de tekst wit, dus de band donker. */
+main.expo .mark {
+    background-image: linear-gradient(transparent 52%, rgba(0, 0, 0, 0.34) 52%);
+}
+
+main.expo .feature-media--tint,
+main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
+
 .page-title {
     font-size: clamp(40px, 7vw, 76px);
     line-height: 1;
@@ -324,14 +369,16 @@ main {
 
 /* Vierkant en iets smaller dan de kolom, zodat de thumbnail plek heeft om
    over de rand te steken zonder buiten de pagina te vallen. */
+/* Het hero-paneel ligt als een los vel op het gekleurde editievel: wit met
+   zwarte tekst, of omgekeerd — build.py kiest wat het sterkst afsteekt. */
 .hero {
     display: block;
     position: relative;
     aspect-ratio: 1 / 1;
-    width: min(92%, 720px);
-    margin: 0 auto 56px;
-    background: var(--accent-deep);
-    color: #fff;
+    width: 100%;
+    margin: 0 0 clamp(28px, 4vw, 44px);
+    background: var(--hero-surface, var(--accent-deep));
+    color: var(--hero-ink, #fff);
     padding: clamp(22px, 3.5vw, 40px);
 }
 
@@ -359,13 +406,14 @@ main {
 .hero-foot {
     margin-top: clamp(20px, 3vw, 36px);
     /* de thumbnail overlapt rechtsonder; hou tekst daar vandaan */
-    max-width: 56%;
+    max-width: 50%;
 }
 
 .hero-standfirst {
     font-size: clamp(18px, 2.1vw, 25px);
     line-height: 1.28;
-    color: rgba(255, 255, 255, 0.86);
+    color: var(--hero-ink, #fff);
+    opacity: 0.78;
     margin: 0;
 }
 
@@ -375,7 +423,8 @@ main {
     font-size: 12px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.72);
+    color: var(--hero-ink, #fff);
+    opacity: 0.56;
 }
 
 /* De thumbnail is een vierkant van hoogstens de helft van het blauwe vlak
@@ -386,7 +435,7 @@ main {
    en het vlak vierkant is, is de overlap rechts in pixels altijd exact gelijk
    aan de marge tot de onderrand — ongeacht hoe groot de hero zelf is. */
 .hero-media {
-    --peek: 9%;
+    --peek: 4%;
     position: absolute;
     right: calc(-1 * var(--peek));
     bottom: var(--peek);
@@ -396,6 +445,90 @@ main {
 }
 
 .hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- voorwoord op de tafel ----------
+   Staat op de grijze pagina zelf, niet op het vel — vandaar de gewone
+   (donkere-tekst-op-licht) tokens uit :root, niet de omgekeerde uit main.expo.
+   Verborgen tot 1024px (zie .expo-row hierboven): op een smal scherm is er
+   simpelweg geen tafel over om iets op te zetten. */
+.voorwoord-kolom {
+    display: none;
+    width: 280px;
+    flex: 0 0 280px;
+    padding-top: clamp(20px, 3vw, 40px);
+}
+
+.voorwoord-portret {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: var(--accent-wash);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.voorwoord-portret span {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 26px;
+    /* --accent-wash is gekalibreerd op déze precieze inktkleur (zie INK in
+       build.py) — niet op --accent-ink (bedoeld voor tekst op wit/papier) en
+       niet op --on-canvas (dat is intussen zelf een lichter grijs geworden
+       en haalt de 4,5:1 dan niet meer). */
+    color: #1a1712;
+}
+
+.voorwoord-byline {
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-canvas);
+    margin: 0 0 20px;
+}
+
+.voorwoord-byline span {
+    display: block;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--on-canvas-soft);
+    margin-top: 3px;
+}
+
+.voorwoord-kolom h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 21px;
+    margin: 0 0 10px;
+}
+
+.voorwoord-kolom p {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 14.5px;
+    line-height: 1.64;
+    color: var(--on-canvas-soft);
+    margin: 0;
+}
+
+.voorwoord-kolom .placeholder-note {
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+}
+
+/* Vanaf hier past het voorwoord ernaast: het vel schuift naar links, de
+   lege ruimte valt rechts, en de kolom komt op die grijze tafel te staan. */
+@media (min-width: 1024px) {
+    .expo-row {
+        display: flex;
+        align-items: flex-start;
+        gap: clamp(28px, 4vw, 64px);
+        padding-left: clamp(40px, 7vw, 120px);
+    }
+    main.expo { margin: 0; flex: 0 0 760px; }
+    .voorwoord-kolom { display: block; }
+}
 
 /* ---------- sectiekoppen ---------- */
 

@@ -208,6 +208,25 @@ def deep_ink(accent, target=7.0):
     return "#000000"
 
 
+def sheet_style(accent):
+    """Custom properties voor een editievel.
+
+    De hele main ligt als een gekleurd vel op de grijze pagina, dus het accent
+    hoeft maar één keer gezet te worden: alles eronder erft het. Het
+    hero-paneel is wit of zwart — wat het sterkst afsteekt tegen dat vel."""
+    if not accent:
+        return ""
+    deep = deep_ink(accent)
+    rgb = _hex_to_rgb(deep)
+    if contrast((255, 255, 255), rgb) >= contrast((0, 0, 0), rgb):
+        surface, ink = "#ffffff", "#14120f"
+    else:
+        surface, ink = "#101010", "#ffffff"
+    return (f' style="--accent: {accent}; --accent-ink: {readable_ink(accent)}; '
+            f'--accent-deep: {deep}; --accent-wash: {light_wash(accent)}; '
+            f'--hero-surface: {surface}; --hero-ink: {ink}"')
+
+
 def accent_style(accent):
     """De afgeleiden van een accentkleur, als inline custom properties.
 
@@ -509,7 +528,7 @@ def hero_block(lead, prefix=""):
              f'</div>'
              if lead["img"] else "")
 
-    return f"""<a class="hero" href="{prefix}{lead['url']}"{accent_style(lead.get('accent'))}>
+    return f"""<a class="hero" href="{prefix}{lead['url']}">
   <span class="hero-label">Uitgelicht</span>
   <h2 class="hero-title">{esc(lead['title'])}</h2>
   <div class="hero-foot">
@@ -534,7 +553,7 @@ def _square_media(a, prefix, cls):
 def feature(a, prefix=""):
     """Kop plus korte omschrijving links, vierkant beeld rechts."""
     sub = f'<p>{esc(a["subtitle"])}</p>' if a.get("subtitle") else ""
-    return f"""<a class="feature" href="{prefix}{a['url']}" data-category="{esc(a['category'])}"{accent_style(a.get('accent'))}>
+    return f"""<a class="feature" href="{prefix}{a['url']}" data-category="{esc(a['category'])}">
   <div class="feature-text">
     <div class="bar"><span class="category">{esc(a['category'])}</span></div>
     <h3><span class="mark">{esc(a['title'])}</span></h3>
@@ -547,7 +566,7 @@ def feature(a, prefix=""):
 
 def listing(a, prefix=""):
     """Alleen een kop links, klein vierkant beeld rechts."""
-    return f"""<a class="listing" href="{prefix}{a['url']}" data-category="{esc(a['category'])}"{accent_style(a.get('accent'))}>
+    return f"""<a class="listing" href="{prefix}{a['url']}" data-category="{esc(a['category'])}">
   <div class="listing-text">
     <span class="category">{esc(a['category'])}</span>
     <h3>{esc(a['title'])}</h3>
@@ -575,15 +594,41 @@ def exposition(ed, arts, editions, prefix=""):
     return html
 
 
+def voorwoord_block(ed):
+    """Rechts op de grijze tafel: portret, naam van de hoofdredacteur, voorwoord.
+
+    Alleen zichtbaar op brede schermen, naast het vel (zie .expo-row in de CSS).
+    Zonder bekende auteur — bijvoorbeeld een editie die nog in opbouw is — blijft
+    dit stukje helemaal weg in plaats van een leeg kader te tonen."""
+    auteur = ed.get("voorwoord_auteur")
+    if not auteur:
+        return ""
+    rol = ed.get("voorwoord_rol", "")
+    tekst = ed.get("voorwoord")
+    initialen = "".join(w[0] for w in auteur.split()[:2]).upper()
+    body = (f"<p>{esc(tekst)}</p>" if tekst else
+            '<p class="placeholder-note">Het voorwoord van deze editie is nog niet overgezet.</p>')
+    return f"""<aside class="voorwoord-kolom">
+  <div class="voorwoord-portret" aria-hidden="true"><span>{esc(initialen)}</span></div>
+  <p class="voorwoord-byline">{esc(auteur)}<span>{esc(rol)}</span></p>
+  <h2>Voorwoord</h2>
+  {body}
+</aside>
+"""
+
+
 def write_home(articles, editions, latest):
     arts = [a for a in articles if a["edition_id"] == latest["id"]]
     html = head("De Dissident", "style.css",
                 "Het tijdschrift van de Jongerenorganisatie Forum voor Democratie.")
     html += masthead("")
-    html += ('<main id="inhoud">\n'
+    html += f'<div class="expo-row"{sheet_style(latest.get("accent"))}>\n'
+    html += ('<main id="inhoud" class="expo">\n'
              '<h1 class="visually-hidden">De Dissident — het tijdschrift van de JFVD</h1>\n')
     html += exposition(latest, arts, editions)
-    html += "</main>\n" + footer("")
+    html += "</main>\n"
+    html += voorwoord_block(latest)
+    html += "</div>\n" + footer("")
     open(os.path.join(OUT, "index.html"), "w").write(html)
 
 
@@ -619,10 +664,13 @@ def write_edition(ed, arts, editions):
     html = head(f"{ed['number']}e editie — De Dissident", "style.css",
                 f"Alle artikelen uit de {ed['number']}e editie van De Dissident.")
     html += masthead("")
-    html += (f'<main id="inhoud">\n'
+    html += f'<div class="expo-row"{sheet_style(ed.get("accent"))}>\n'
+    html += (f'<main id="inhoud" class="expo">\n'
              f'<h1 class="visually-hidden">{ed["number"]}e editie{esc(theme)}</h1>\n')
     html += exposition(ed, arts, editions)
-    html += "</main>\n" + footer("")
+    html += "</main>\n"
+    html += voorwoord_block(ed)
+    html += "</div>\n" + footer("")
     open(os.path.join(OUT, f"editie-{ed['number']}.html"), "w").write(html)
 
 
