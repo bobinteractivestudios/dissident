@@ -40,7 +40,7 @@ h1, h2, h3 {
 
 p { line-height: 1.5; margin: 0 0 1em; }
 img { max-width: 100%; }
-::selection { background: var(--ink); color: var(--surface); }
+::selection { background: var(--on-canvas); color: var(--canvas); }
 
 /* Op het editievel zelf en op artikelpagina's met een eigen accent mag de
    selectiekleur wél de accent van die editie tonen — niet in het voorwoord-
@@ -741,12 +741,12 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 .bar .category { color: var(--accent-ink); }
 
-/* Altijd een donkere badge met lichte tekst — vast, niet gekoppeld aan het
-   canvas: die is nu zelf licht, dus --canvas zou hier onleesbaar worden. */
+/* --accent-deep is donker genoeg om witte tekst te dragen (zie hero), dus de
+   badge kleurt mee met de editie in plaats van een vaste donkere kleur. */
 .bar .issue {
     margin-left: auto;
-    color: var(--canvas);
-    background: var(--on-canvas);
+    color: #fff;
+    background: var(--accent-deep);
     padding: 4px 8px;
     white-space: nowrap;
 }
