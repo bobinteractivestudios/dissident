@@ -121,10 +121,14 @@ def copy_image(src, stem):
 
 # ---------------------------------------------------------------- accent colours
 
-# De artikeltekst staat op een wit vel; daar wordt --accent-ink tegen gemeten.
+# --accent-ink staat zowel op een wit vel (artikelpagina, popovers) als
+# rechtstreeks op het iets donkerdere grijze canvas (rubrieken, labels). Tegen
+# CANVAS kalibreren is de strengere eis en dekt PAPER automatisch mee.
 PAPER = (0xFF, 0xFF, 0xFF)
-# De voorpagina staat op zwart; daar wordt --accent-wash tegen gemeten.
-CANVAS = (0x0D, 0x0D, 0x0D)
+CANVAS = (0xE7, 0xE4, 0xDE)
+# De inktkleur van --on-canvas: iets lichter dan zuiver zwart, dus daar moet
+# --accent-wash (de markeerstift-band) ook echt tegen gemeten worden.
+INK = (0x1A, 0x17, 0x12)
 
 
 def _hex_to_rgb(h):
@@ -146,13 +150,16 @@ def contrast(rgb_a, rgb_b):
     return (hi + 0.05) / (lo + 0.05)
 
 
-def readable_ink(accent, bg=PAPER, target=4.5):
+def readable_ink(accent, bg=CANVAS, target=4.5):
     """Darken an accent until it is legible as text on the page background.
 
     The printed accents are chosen for ink on paper: the amber, pink and yellow
     used in edition 7 sit around 2:1 against our cream, which is unreadable on
     screen. Keeping the hue and dropping the brightness preserves the identity
-    of the colour while clearing the contrast bar."""
+    of the colour while clearing the contrast bar. Calibrated against the grey
+    canvas rather than pure white: that is the harder of the two backgrounds
+    this colour appears on, so clearing it also clears the white article page
+    and popovers."""
     r, g, b = _hex_to_rgb(accent)
     if contrast((r, g, b), bg) >= target:
         return accent
@@ -164,21 +171,21 @@ def readable_ink(accent, bg=PAPER, target=4.5):
     return "#000000"
 
 
-def light_wash(accent, bg=CANVAS, target=4.5):
-    """Lighten an accent until it reads as text on the dark canvas.
+def light_wash(accent, target=4.5):
+    """Lighten an accent until dark ink stays readable on top of it.
 
-    Used for the rubric labels above a headline. The measurement is against
-    the canvas rather than pure black: those last few points of lightness are
-    exactly what a deep blue or green needs to clear the bar."""
+    Used as the marker-highlighter band behind a headline: the ink stays dark
+    grey/black (--on-canvas), so the colour underneath has to be light enough
+    to read through. A saturated blue would swallow the letters."""
     r, g, b = _hex_to_rgb(accent)
-    if contrast((r, g, b), bg) >= target:
+    if contrast((r, g, b), INK) >= target:
         return accent
     for step in range(1, 101):
         f = step / 100
         cand = (round(r + (255 - r) * f),
                 round(g + (255 - g) * f),
                 round(b + (255 - b) * f))
-        if contrast(cand, bg) >= target:
+        if contrast(cand, INK) >= target:
             return "#%02x%02x%02x" % cand
     return "#ffffff"
 
@@ -206,9 +213,9 @@ def accent_style(accent):
 
     Elke rol vraagt een andere helderheid:
       --accent       de drukkleur zelf, voor lijnen en randen
-      --accent-ink   donker genoeg als tekst op een wit vel (artikelpagina)
-      --accent-deep  donker genoeg om witte tekst te dragen (hero, markeerstift)
-      --accent-wash  licht genoeg als tekst op het zwarte canvas (voorpagina)"""
+      --accent-ink   donker genoeg als tekst op het lichte canvas of een wit vel
+      --accent-deep  donker genoeg om witte tekst te dragen (hero, gekleurd vlak)
+      --accent-wash  licht genoeg om donkere tekst te dragen (markeerstift)"""
     if not accent:
         return ""
     return (f' style="--accent: {accent}; --accent-ink: {readable_ink(accent)}; '
@@ -226,13 +233,13 @@ def head(title, css, description="", og_type="website"):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="theme-color" content="#e7e4de">
 <meta property="og:site_name" content="De Dissident">
 <meta property="og:type" content="{og_type}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d0d0d'/%3E%3Ctext x='16' y='24' font-family='Georgia,serif' font-size='22' font-weight='bold' fill='%23fff' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1712'/%3E%3Ctext x='16' y='24' font-family='Georgia,serif' font-size='22' font-weight='bold' fill='%23e7e4de' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
@@ -244,8 +251,6 @@ def head(title, css, description="", og_type="website"):
 
 
 def masthead(prefix):
-    slogan = (f'<p class="slogan">{esc(SITE["slogan"])}</p>'
-              if SITE.get("slogan") else "")
     # De woorden krijgen blokjes ertussen, als op een krantenkop. De scheiding
     # is decoratief, dus schermlezers slaan hem over.
     sep = '<span class="dot" aria-hidden="true"></span>'
@@ -256,7 +261,6 @@ def masthead(prefix):
     return f"""<header class="masthead">
   <div class="masthead-brand">
     <a class="wordmark" href="{prefix}index.html">De Dissident</a>
-    {slogan}
     <p class="tagline">{tagline}</p>
   </div>
   <nav>

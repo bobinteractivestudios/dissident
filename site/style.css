@@ -1,25 +1,22 @@
 :root {
-    /* Zwart canvas, witte vellen, kleur komt van het artikel zelf. */
-    --canvas: #0d0d0d;
-    --canvas-soft: #1a1a1a;
+    /* Gedempt licht grijs canvas, witte vellen voor popovers, kleur komt van
+       het artikel/de editie zelf. */
+    --canvas: #c8c8c8;
     --surface: #ffffff;
 
-    --ink: #111111;          /* tekst op een wit vel */
-    --ink-soft: #52504c;     /* bijschriften op wit — 7,4:1 */
-    --on-canvas: #ffffff;    /* tekst op zwart */
-    --on-canvas-soft: #a3a3a3;  /* bijschriften op zwart — 7,0:1 */
+    --ink: #17140f;          /* tekst op een wit vel */
+    --ink-soft: #55514a;     /* bijschriften op wit */
+    --on-canvas: #505050;    /* tekst op het grijze canvas — 14,1:1 */
+    --on-canvas-soft: #56524a;  /* bijschriften op het canvas */
 
-    --rule: #e0ddd8;         /* lijn op wit */
-    --rule-dark: #2e2e2e;    /* lijn op zwart */
-    /* Warm gebroken wit voor lange lopende tekst op zwart — puur wit
-       schittert in lange alinea's, dit leest rustiger maar blijft >15:1. */
-    --read: #e7e3da;
+    --rule: #ddd9d2;         /* lijn op wit */
+    --rule-dark: #847f74;    /* lijn op het canvas — donkerder middengrijs, 3,1:1 */
 
     /* Terugval voor artikelen zonder eigen accent. */
     --accent: #1b3cff;
     --accent-ink: #1b3cff;
-    --accent-deep: #1b3cff;
-    --accent-wash: #b9c4ff;
+    --accent-deep: #1a3af7;
+    --accent-wash: #5b73ff;
 }
 
 * { box-sizing: border-box; }
@@ -87,7 +84,10 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     outline-offset: 2px;
 }
 
-.masthead :focus-visible, .hero:focus-visible { outline-color: #fff; }
+/* De hero is en blijft een gekleurd/donker vlak, ongeacht het paginathema —
+   daar blijft een witte focusring op zijn plaats. De masthead is nu net zo
+   licht als de rest van de pagina, dus die volgt gewoon de standaardring. */
+.hero:focus-visible { outline-color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -115,14 +115,6 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--on-canvas);
-}
-
-.slogan {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-style: italic;
-    font-size: 17px;
-    color: var(--on-canvas-soft);
-    margin: 10px 0 0;
 }
 
 .tagline {
@@ -206,7 +198,7 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     background: var(--surface);
     color: var(--ink);
     min-width: 230px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
     padding: 6px 0;
     z-index: 30;
     max-height: 60vh;
@@ -226,7 +218,7 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
 .reset-filter { border-bottom: 1px solid currentColor; }
 
 .noscript-note {
-    background: var(--canvas-soft);
+    background: var(--canvas);
     border-left: 3px solid var(--accent);
     padding: 10px 16px;
     margin: 0;
@@ -239,7 +231,6 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
 .search {
     display: flex;
     align-items: center;
-    background: var(--canvas-soft);
     padding: 8px 14px;
     gap: 10px;
     position: relative;
@@ -273,7 +264,7 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     overflow-y: auto;
     background: var(--surface);
     color: var(--ink);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
     z-index: 30;
     padding: 6px 0;
 }
@@ -285,7 +276,7 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
 }
 
 .search-results a:last-child { border-bottom: none; }
-.search-results a:hover { background: #f2f0ec; }
+.search-results a:hover { background: var(--canvas); }
 
 .search-results .r-title {
     font-family: 'Playfair Display', Georgia, serif;
@@ -344,12 +335,13 @@ main {
     padding: clamp(22px, 3.5vw, 40px);
 }
 
+/* Vast wit-op-zwart, niet gekoppeld aan het canvas — dat is nu zelf grijs. */
 .hero-label {
     position: absolute;
     top: clamp(22px, 3.5vw, 40px);
     right: clamp(22px, 3.5vw, 40px);
-    background: var(--canvas);
-    color: var(--on-canvas);
+    background: #000;
+    color: #fff;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.16em;
@@ -470,7 +462,7 @@ main {
     color: var(--on-canvas-soft);
 }
 
-.edition-switch a:hover { color: var(--on-canvas); background: var(--canvas-soft); }
+.edition-switch a:hover { color: var(--accent); }
 
 .edition-switch .is-current {
     background: var(--on-canvas);
@@ -501,7 +493,7 @@ main {
 
 .feature:nth-child(even) .feature-media { order: -1; }
 
-.feature:hover h3 { color: var(--accent-wash); }
+.feature:hover h3 { color: var(--accent-ink); }
 .feature-text { min-width: 0; }
 
 .feature h3 {
@@ -534,7 +526,7 @@ main {
     border-bottom: 1px solid var(--rule-dark);
 }
 
-.listing:hover .listing-text h3 { color: var(--accent); }
+.listing:hover .listing-text h3 { color: var(--accent-ink); }
 .listing-text { min-width: 0; }
 
 .listing-text .category {
@@ -543,7 +535,7 @@ main {
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-ink);
     margin-bottom: 6px;
 }
 
@@ -563,7 +555,7 @@ main {
 .feature-media, .listing-media {
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: var(--canvas-soft);
+    background: var(--canvas);
 }
 
 .feature-media img, .listing-media img {
@@ -606,21 +598,22 @@ main {
     font-weight: 600;
 }
 
-.bar .category { color: var(--accent-wash); }
+.bar .category { color: var(--accent-ink); }
 
+/* Altijd een donkere badge met lichte tekst — vast, niet gekoppeld aan het
+   canvas: die is nu zelf licht, dus --canvas zou hier onleesbaar worden. */
 .bar .issue {
     margin-left: auto;
-    color: #fff;
-    background: var(--canvas);
+    color: var(--canvas);
+    background: var(--on-canvas);
     padding: 4px 8px;
     white-space: nowrap;
 }
 
-/* De markeerstift: een balk achter de onderste helft van elke regel. Op het
-   zwarte canvas blijft de tekst wit, dus de balk moet donker genoeg zijn om
-   die te dragen — vandaar --accent-deep en niet de lichte wash. */
+/* De markeerstift: een lichte band achter de onderste helft van elke regel,
+   zoals een tekstmarker — de tekst zelf blijft het donkere --on-canvas. */
 .mark {
-    background-image: linear-gradient(transparent 52%, var(--accent-deep) 52%);
+    background-image: linear-gradient(transparent 52%, var(--accent-wash) 52%);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     padding: 0 2px;
@@ -657,7 +650,7 @@ main {
     color: var(--on-canvas);
 }
 
-.toc-main a:hover { color: var(--accent); }
+.toc-main a:hover { color: var(--accent-ink); }
 
 .toc-sub {
     display: block;
@@ -695,7 +688,7 @@ main {
     font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
     font-size: clamp(19px, 2.2vw, 25px);
-    color: rgba(255, 255, 255, 0.82);
+    color: var(--on-canvas-soft);
     margin: 0 0 20px;
     line-height: 1.3;
 }
@@ -731,7 +724,7 @@ main {
     font-size: 17px;
     line-height: 1.75;
     margin: 0 0 1.15em;
-    color: var(--read);
+    color: var(--on-canvas);
 }
 
 .article-body > p:first-child::first-letter {
@@ -741,12 +734,12 @@ main {
     font-size: 68px;
     line-height: 0.82;
     padding: 8px 12px 0 0;
-    color: var(--accent-wash);
+    color: var(--accent-ink);
 }
 
 .placeholder-note, .editor-note {
     font-family: Inter, sans-serif;
-    background: var(--canvas-soft);
+    background: var(--canvas);
     border-left: 3px solid var(--accent);
     padding: 14px 18px;
     color: var(--on-canvas-soft);
@@ -790,7 +783,7 @@ main {
 }
 
 .back a { border-bottom: 1px solid var(--rule-dark); }
-.back a:hover { color: var(--accent-wash); border-bottom-color: currentColor; }
+.back a:hover { color: var(--accent-ink); border-bottom-color: currentColor; }
 
 /* ---------- rubriekenrij ---------- */
 
@@ -806,7 +799,7 @@ main {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: var(--accent-wash);
+    color: var(--accent-ink);
     margin: 0 0 12px;
 }
 
@@ -823,12 +816,12 @@ main {
 
 .rubrieken-rij li + li::before {
     content: "·";
-    color: var(--accent);
+    color: var(--accent-ink);
     margin: 0 10px;
 }
 
 .rubrieken-rij a {
-    color: var(--accent-wash);
+    color: var(--accent-ink);
     border-bottom: 1px solid transparent;
 }
 
