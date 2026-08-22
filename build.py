@@ -207,16 +207,25 @@ def deep_ink(accent, target=7.0):
     return "#000000"
 
 
+def sheet_vars(accent):
+    """De custom properties van een editievel als kale declaraties.
+
+    Apart van sheet_style() omdat edition.js ze bij het wisselen rechtstreeks
+    op het style-attribuut van .expo-row zet — daar past geen heel attribuut."""
+    if not accent:
+        return ""
+    return (f"--accent: {accent}; --accent-ink: {readable_ink(accent)}; "
+            f"--accent-deep: {deep_ink(accent)}; --accent-wash: {light_wash(accent)}")
+
+
 def sheet_style(accent):
     """Custom properties voor een editievel.
 
     De hele main ligt als een gekleurd vel op de grijze pagina, dus het accent
     hoeft maar één keer gezet te worden: alles eronder erft het, inclusief het
     hero-paneel — dat vult zich met dezelfde --accent-deep."""
-    if not accent:
-        return ""
-    return (f' style="--accent: {accent}; --accent-ink: {readable_ink(accent)}; '
-            f'--accent-deep: {deep_ink(accent)}; --accent-wash: {light_wash(accent)}"')
+    vars_ = sheet_vars(accent)
+    return f' style="{vars_}"' if vars_ else ""
 
 
 def accent_style(accent):
@@ -383,6 +392,7 @@ def build():
     write_404()
     for ed in editions:
         write_edition(ed, [a for a in all_articles if a["edition_id"] == ed["id"]], editions)
+    write_editions_js(all_articles, editions, latest)
     write_index_json(all_articles, editions)
 
     n_text = sum(1 for a in all_articles if a["paras"])
@@ -676,9 +686,12 @@ def voorwoord_block(ed, animate=False):
 """
 
 
+HOME_TITLE = "De Dissident"
+
+
 def write_home(articles, editions, latest):
     arts = [a for a in articles if a["edition_id"] == latest["id"]]
-    html = head("De Dissident", "style.css",
+    html = head(HOME_TITLE, "style.css",
                 "Het tijdschrift van de Jongerenorganisatie Forum voor Democratie.")
     html += masthead("")
     html += f'<div class="expo-row"{sheet_style(latest.get("accent"))}>\n'
@@ -687,7 +700,7 @@ def write_home(articles, editions, latest):
     html += exposition(latest, arts, editions, animate=True)
     html += "</main>\n"
     html += voorwoord_block(latest, animate=True)
-    html += "</div>\n" + footer("", scripts=("reveal.js", "edition.js"))
+    html += "</div>\n" + footer("", scripts=("edities.js", "reveal.js", "edition.js"))
     open(os.path.join(OUT, "index.html"), "w").write(html)
 
 
@@ -718,19 +731,59 @@ def write_archive(articles, editions):
     open(os.path.join(OUT, "archief.html"), "w").write(html)
 
 
-def write_edition(ed, arts, editions):
+def edition_title(ed):
+    return f"{ed['number']}e editie — De Dissident"
+
+
+def expo_row_inner(ed, arts, editions):
+    """De inhoud van .expo-row voor één editie: het vel plus de kolom ernaast.
+
+    Los van write_edition() omdat edities.js precies dezelfde HTML meestuurt —
+    zo wisselt edition.js in de browser naar exact wat de statische pagina zou
+    tonen, zonder een tweede opmaak die uit de pas kan lopen."""
     theme = f" — {ed['theme']}" if ed.get("theme") else ""
-    html = head(f"{ed['number']}e editie — De Dissident", "style.css",
-                f"Alle artikelen uit de {ed['number']}e editie van De Dissident.")
-    html += masthead("")
-    html += f'<div class="expo-row"{sheet_style(ed.get("accent"))}>\n'
-    html += (f'<main id="inhoud" class="expo">\n'
-             f'<h1 class="visually-hidden">{ed["number"]}e editie{esc(theme)}</h1>\n')
+    html = (f'<main id="inhoud" class="expo">\n'
+            f'<h1 class="visually-hidden">{ed["number"]}e editie{esc(theme)}</h1>\n')
     html += exposition(ed, arts, editions, animate=True)
     html += "</main>\n"
     html += voorwoord_block(ed, animate=True)
-    html += "</div>\n" + footer("", scripts=("reveal.js", "edition.js"))
+    return html
+
+
+def write_edition(ed, arts, editions):
+    html = head(edition_title(ed), "style.css",
+                f"Alle artikelen uit de {ed['number']}e editie van De Dissident.")
+    html += masthead("")
+    html += f'<div class="expo-row"{sheet_style(ed.get("accent"))}>\n'
+    html += expo_row_inner(ed, arts, editions)
+    html += "</div>\n" + footer("", scripts=("edities.js", "reveal.js", "edition.js"))
     open(os.path.join(OUT, f"editie-{ed['number']}.html"), "w").write(html)
+
+
+def write_editions_js(all_articles, editions, latest):
+    """Alle edities als kant-en-klare HTML, zodat edition.js kan wisselen
+    zonder de pagina opnieuw te laden.
+
+    Als los .js-bestand (en niet inline) om twee redenen: de browser cachet het
+    één keer voor alle pagina's, en een <script>-tag werkt ook over file://,
+    waar fetch() geblokkeerd is. Alleen markup — de foto's blijven losse
+    bestanden die pas geladen worden als een editie echt getoond wordt."""
+    bundel = {}
+    for ed in editions:
+        arts = [a for a in all_articles if a["edition_id"] == ed["id"]]
+        bundel[str(ed["number"])] = {
+            "url": f"editie-{ed['number']}.html",
+            "title": edition_title(ed),
+            "vars": sheet_vars(ed.get("accent")),
+            "html": expo_row_inner(ed, arts, editions),
+        }
+    payload = json.dumps(bundel, ensure_ascii=False, separators=(",", ":"))
+    with open(os.path.join(OUT, "edities.js"), "w") as f:
+        f.write("window.DD_EDITIES=" + payload + ";\n")
+        f.write(f"window.DD_EDITIE_LAATSTE={latest['number']};\n")
+        # De voorpagina toont de nieuwste editie maar heeft een eigen titel;
+        # zonder dit zou de tab na een stap terug "7e editie" blijven zeggen.
+        f.write("window.DD_TITEL_HOME=" + json.dumps(HOME_TITLE) + ";\n")
 
 
 def write_404():

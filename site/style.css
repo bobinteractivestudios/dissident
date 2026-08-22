@@ -112,10 +112,10 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
     }
 }
 
-/* ---------- load-in: homepage ----------
-   Alleen de homepage geeft build.py deze klassen mee (zie animate= in
-   exposition()/voorwoord_block()) — editiepagina's en het archief blijven
-   statisch. --d (de vertraging) komt als inline custom property mee, per
+/* ---------- load-in: homepage en editiepagina's ----------
+   Deze klassen komen alleen op de homepage en de editiepagina's (zie animate=
+   in exposition()/voorwoord_block()); het archief en de artikelpagina's
+   blijven statisch. --d (de vertraging) komt als inline custom property mee, per
    element berekend in build.py, zodat kop/omschrijving/rubriek/auteur/beeld
    van elke kaart na elkaar naar binnen schuiven in plaats van allemaal
    tegelijk.
