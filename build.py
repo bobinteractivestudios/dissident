@@ -564,7 +564,7 @@ def listing(a, prefix=""):
     return f"""<a class="listing" href="{prefix}{a['url']}" data-category="{esc(a['category'])}">
   <div class="listing-text">
     <span class="category">{esc(a['category'])}</span>
-    <h3>{esc(a['title'])}</h3>
+    <h3><span class="mark">{esc(a['title'])}</span></h3>
   </div>
   {_square_media(a, prefix, "listing-media")}
 </a>"""

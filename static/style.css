@@ -40,7 +40,13 @@ h1, h2, h3 {
 
 p { line-height: 1.5; margin: 0 0 1em; }
 img { max-width: 100%; }
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--ink); color: var(--surface); }
+
+/* Op het editievel zelf en op artikelpagina's met een eigen accent mag de
+   selectiekleur wél de accent van die editie tonen — niet in het voorwoord-
+   kolommetje ernaast, dat op de neutrale grijze tafel staat. */
+main.expo ::selection,
+.article--accent ::selection { background: var(--accent); color: #fff; }
 
 /* ---------- scrollbar ---------- */
 
