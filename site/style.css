@@ -157,63 +157,18 @@ html { scrollbar-color: var(--on-canvas) var(--canvas); }
 
 /* ---------- navigatiebalk ---------- */
 
+/* Alleen de zoekbalk blijft over — gecentreerd onder de kop, in lijn met de
+   rest van de masthead-compositie. */
 .masthead nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: center;
     border-top: 1px solid var(--rule-dark);
     border-bottom: 1px solid var(--rule-dark);
     margin-top: 28px;
     padding: 10px 0;
     position: relative;
 }
-
-.nav-links { display: flex; align-items: center; gap: 26px; }
-
-.nav-links > a, .nav-toggle {
-    color: var(--on-canvas);
-    background: none;
-    border: none;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    cursor: pointer;
-    padding: 4px 0;
-    border-bottom: 2px solid transparent;
-}
-
-.nav-links > a:hover, .nav-toggle:hover, .nav-toggle[aria-expanded="true"] {
-    border-bottom-color: var(--accent);
-}
-
-.dropdown { position: relative; }
-
-.dropdown-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    background: var(--surface);
-    color: var(--ink);
-    min-width: 230px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
-    padding: 6px 0;
-    z-index: 30;
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 8px 18px;
-    font-size: 14px;
-}
-
-.dropdown-menu a:hover { background: var(--accent); color: #fff; }
-.dropdown-menu .count { color: var(--ink-soft); }
-.dropdown-menu a:hover .count { color: rgba(255, 255, 255, 0.75); }
 
 .reset-filter { border-bottom: 1px solid currentColor; }
 
@@ -369,26 +324,37 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 /* Vierkant en iets smaller dan de kolom, zodat de thumbnail plek heeft om
    over de rand te steken zonder buiten de pagina te vallen. */
-/* Het hero-paneel ligt als een los vel op het gekleurde editievel: wit met
-   zwarte tekst, of omgekeerd — build.py kiest wat het sterkst afsteekt. */
 .hero {
     display: block;
     position: relative;
     aspect-ratio: 1 / 1;
     width: 100%;
     margin: 0 0 clamp(28px, 4vw, 44px);
-    background: var(--hero-surface, var(--accent-deep));
-    color: var(--hero-ink, #fff);
+    /* --accent-ink is dezelfde donkere tint die overal elders als highlight-
+       kleur dient (rubrieken, hover-states, de initiaal). Er overheen dezelfde
+       zwarte 34%-laag als main.expo .mark en de tint-vlakken verderop in dit
+       bestand gebruiken — dat is precies de "opaciteitslaag" die highlights
+       op het editievel donkerder maakt dan het vel zelf, hier toegepast op
+       --accent-ink in plaats van --accent-deep. Eén laagje CSS, geen nieuwe
+       Python-variabele nodig. */
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.34)),
+        var(--accent-ink);
+    color: #fff;
     padding: clamp(22px, 3.5vw, 40px);
 }
 
-/* Vast wit-op-zwart, niet gekoppeld aan het canvas — dat is nu zelf grijs. */
+/* Een licht kaartje in plaats van zwart-wit: het vlak is nu zelf donker
+   (--accent-deep), dus een zwarte badge zou erin wegvallen. De tekst krijgt
+   hetzelfde donkergrijs als de rest van de site — geen puur zwart meer.
+   Letterlijke waarde, niet var(--on-canvas): dat token wordt binnen
+   main.expo herdefinieerd naar wit, en dit label zit ín main.expo. */
 .hero-label {
     position: absolute;
     top: clamp(22px, 3.5vw, 40px);
     right: clamp(22px, 3.5vw, 40px);
-    background: #000;
-    color: #fff;
+    background: #fff;
+    color: #505050;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.16em;
@@ -412,7 +378,7 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 .hero-standfirst {
     font-size: clamp(18px, 2.1vw, 25px);
     line-height: 1.28;
-    color: var(--hero-ink, #fff);
+    color: #fff;
     opacity: 0.78;
     margin: 0;
 }
@@ -423,7 +389,7 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     font-size: 12px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--hero-ink, #fff);
+    color: #fff;
     opacity: 0.56;
 }
 

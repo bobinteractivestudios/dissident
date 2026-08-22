@@ -212,19 +212,12 @@ def sheet_style(accent):
     """Custom properties voor een editievel.
 
     De hele main ligt als een gekleurd vel op de grijze pagina, dus het accent
-    hoeft maar één keer gezet te worden: alles eronder erft het. Het
-    hero-paneel is wit of zwart — wat het sterkst afsteekt tegen dat vel."""
+    hoeft maar één keer gezet te worden: alles eronder erft het, inclusief het
+    hero-paneel — dat vult zich met dezelfde --accent-deep."""
     if not accent:
         return ""
-    deep = deep_ink(accent)
-    rgb = _hex_to_rgb(deep)
-    if contrast((255, 255, 255), rgb) >= contrast((0, 0, 0), rgb):
-        surface, ink = "#ffffff", "#14120f"
-    else:
-        surface, ink = "#101010", "#ffffff"
     return (f' style="--accent: {accent}; --accent-ink: {readable_ink(accent)}; '
-            f'--accent-deep: {deep}; --accent-wash: {light_wash(accent)}; '
-            f'--hero-surface: {surface}; --hero-ink: {ink}"')
+            f'--accent-deep: {deep_ink(accent)}; --accent-wash: {light_wash(accent)}"')
 
 
 def accent_style(accent):
@@ -283,15 +276,7 @@ def masthead(prefix):
     <p class="tagline">{tagline}</p>
   </div>
   <nav>
-    <div class="nav-links">
-      <a href="{prefix}index.html">Home</a>
-      <a href="{prefix}archief.html">Archief</a>
-      <div class="dropdown">
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="rubrieken-menu">Rubrieken</button>
-        <div class="dropdown-menu" id="rubrieken-menu" hidden></div>
-      </div>
-    </div>
-    <noscript><p class="noscript-note">Zoeken en rubrieken werken alleen met JavaScript. Het <a href="{prefix}archief.html">archief</a> werkt zonder.</p></noscript>
+    <noscript><p class="noscript-note">Zoeken werkt alleen met JavaScript.</p></noscript>
     <form class="search" role="search" onsubmit="return false;">
       <input type="search" id="q" placeholder="Zoeken…" aria-label="Zoek artikelen"
              autocomplete="off" role="combobox" aria-expanded="false"

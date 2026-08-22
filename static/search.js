@@ -120,51 +120,10 @@
     });
   }
 
-  /* ---------------- rubrieken ---------------- */
-
-  var toggle = document.querySelector(".nav-toggle");
-  var menu = document.getElementById("rubrieken-menu");
-
-  function fillMenu() {
-    if (menu.dataset.filled) return Promise.resolve();
-    return load().then(function (data) {
-      var cats = {};
-      data.forEach(function (r) { cats[r.c] = (cats[r.c] || 0) + 1; });
-      var names = Object.keys(cats).sort(function (a, b) {
-        return a.localeCompare(b, "nl");
-      });
-      menu.innerHTML = names.map(function (c) {
-        return '<a href="' + prefix + 'archief.html?rubriek=' +
-          encodeURIComponent(c) + '">' + c +
-          ' <span class="count">(' + cats[c] + ")</span></a>";
-      }).join("");
-      menu.dataset.filled = "1";
-    });
-  }
-
-  if (toggle && menu) {
-    toggle.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var open = toggle.getAttribute("aria-expanded") === "true";
-      if (open) {
-        toggle.setAttribute("aria-expanded", "false");
-        menu.hidden = true;
-      } else {
-        fillMenu().then(function () {
-          toggle.setAttribute("aria-expanded", "true");
-          menu.hidden = false;
-        });
-      }
-    });
-    document.addEventListener("click", function (e) {
-      if (!menu.contains(e.target)) {
-        toggle.setAttribute("aria-expanded", "false");
-        menu.hidden = true;
-      }
-    });
-  }
-
-  /* ---------- rubriekfilter op het archief ---------- */
+  /* ---------- rubriekfilter op het archief ----------
+     Geen menu meer om deze links te genereren (de navigatie is gesnoeid tot
+     alleen de zoekbalk), maar een bestaande of gedeelde archief.html?rubriek=
+     link moet blijven werken — vandaar dat deze logica blijft staan. */
 
   var wanted = new URLSearchParams(location.search).get("rubriek");
   if (wanted) {
