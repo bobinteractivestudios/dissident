@@ -506,12 +506,6 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     margin-top: 3px;
 }
 
-.voorwoord-kolom h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 21px;
-    margin: 0 0 10px;
-}
-
 .voorwoord-kolom p {
     font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 14.5px;
@@ -519,6 +513,12 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     color: var(--on-canvas-soft);
     margin: 0;
 }
+
+/* Hier stond de kop "Voorwoord"; de ruimte die hij innam blijft staan.
+   Let op: de byline is zelf ook een <p>, dus dit moet op de buur ná de byline
+   staan — niet op :first-of-type, want dat is de byline. De marge van de
+   byline klapt hiermee samen, dus dit getal is de hele tussenruimte. */
+.voorwoord-byline + p { margin-top: 56px; }
 
 .voorwoord-kolom .placeholder-note {
     font-family: Inter, sans-serif;
@@ -591,9 +591,15 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 .edition-switch ul {
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 4px;
     margin: 0;
     padding: 0;
+}
+
+.edition-switch li:not(:first-child) {
+    border-left: 1px solid var(--rule-dark);
+    padding-left: 4px;
 }
 
 .edition-switch a, .edition-switch .is-current {
@@ -925,48 +931,6 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 .back a { border-bottom: 1px solid var(--rule-dark); }
 .back a:hover { color: var(--accent-ink); border-bottom-color: currentColor; }
-
-/* ---------- rubriekenrij ---------- */
-
-.rubrieken-rij {
-    margin-top: 40px;
-    padding-top: 22px;
-    border-top: 1px solid var(--rule-dark);
-}
-
-.rubrieken-rij h2 {
-    font-family: Inter, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--accent-ink);
-    margin: 0 0 12px;
-}
-
-.rubrieken-rij ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 0;
-    font-size: 14px;
-}
-
-.rubrieken-rij li + li::before {
-    content: "·";
-    color: var(--accent-ink);
-    margin: 0 10px;
-}
-
-.rubrieken-rij a {
-    color: var(--accent-ink);
-    border-bottom: 1px solid transparent;
-}
-
-.rubrieken-rij a:hover { border-bottom-color: var(--accent); }
 
 /* ---------- paginavoet ---------- */
 

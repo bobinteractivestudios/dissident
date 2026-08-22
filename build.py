@@ -13,7 +13,6 @@ import re
 import shutil
 import sys
 import unicodedata
-from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DESKTOP = os.path.dirname(ROOT)
@@ -303,20 +302,6 @@ def masthead(prefix):
 """
 
 
-def rubriekenrij(prefix, categories):
-    """Inline rij met alle rubrieken, aan het einde van een artikel."""
-    if not categories:
-        return ""
-    links = "".join(
-        f'<li><a href="{prefix}archief.html?rubriek={quote(c)}">{esc(c)}</a></li>'
-        for c in categories)
-    return f"""<nav class="rubrieken-rij" aria-label="Rubrieken">
-    <h2>Rubrieken</h2>
-    <ul>{links}</ul>
-  </nav>
-"""
-
-
 def footer(prefix):
     return f"""<footer>
   <div class="footer-base">
@@ -383,12 +368,8 @@ def build():
             }
             all_articles.append(rec)
 
-    # Rubrieken voor de artikelvoet: alle rubrieken die de site kent.
-    categories = sorted({a["category"] for a in all_articles},
-                        key=lambda c: c.lower())
-
     for a in all_articles:
-        write_article(a, categories)
+        write_article(a)
 
     write_home(all_articles, editions, latest)
     write_archive(all_articles, editions)
@@ -447,7 +428,7 @@ def render_body(paras, quotes):
     return "\n".join(out)
 
 
-def write_article(a, categories=None):
+def write_article(a):
     prefix = "../"
     body = render_body(a["paras"], a.get("pullquotes") or [])
     if not body:
@@ -462,7 +443,6 @@ def write_article(a, categories=None):
             if a["img"] else "")
     sub = f'<p class="standfirst">{esc(a["subtitle"])}</p>' if a["subtitle"] else ""
 
-    rubrieken = rubriekenrij(prefix, categories)
     style = accent_style(a.get("accent"))
     cls = "article article--accent" if a.get("accent") else "article"
 
@@ -485,7 +465,6 @@ def write_article(a, categories=None):
     {body}
   </div>
   <p class="back"><a href="{prefix}editie-{a['edition_number']}.html">← Alles uit de {a['edition_number']}<sup>e</sup> editie</a></p>
-  {rubrieken}
 </main>
 """
     html += footer(prefix)
@@ -606,7 +585,6 @@ def voorwoord_block(ed):
     return f"""<aside class="voorwoord-kolom">
   <div class="voorwoord-portret" aria-hidden="true"><span>{esc(initialen)}</span></div>
   <p class="voorwoord-byline">{esc(auteur)}<span>{esc(rol)}</span></p>
-  <h2>Voorwoord</h2>
   {body}
 </aside>
 """
