@@ -255,6 +255,12 @@ def head(title, css, description="", og_type="website"):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{css}">
+<noscript><style>
+/* De load-in animaties wachten op reveal.js (.in-view); zonder JavaScript zou
+   de pagina anders leeg blijven, dus dan meteen alles tonen. */
+.reveal, .tw-word {{ opacity: 1 !important; transform: none !important; animation: none !important; }}
+.tw-cursor {{ display: none; }}
+</style></noscript>
 </head>
 <body>
 <a class="skip-link" href="#inhoud">Naar de inhoud</a>
@@ -681,7 +687,7 @@ def write_home(articles, editions, latest):
     html += exposition(latest, arts, editions, animate=True)
     html += "</main>\n"
     html += voorwoord_block(latest, animate=True)
-    html += "</div>\n" + footer("", scripts=("reveal.js",))
+    html += "</div>\n" + footer("", scripts=("reveal.js", "edition.js"))
     open(os.path.join(OUT, "index.html"), "w").write(html)
 
 
@@ -720,10 +726,10 @@ def write_edition(ed, arts, editions):
     html += f'<div class="expo-row"{sheet_style(ed.get("accent"))}>\n'
     html += (f'<main id="inhoud" class="expo">\n'
              f'<h1 class="visually-hidden">{ed["number"]}e editie{esc(theme)}</h1>\n')
-    html += exposition(ed, arts, editions)
+    html += exposition(ed, arts, editions, animate=True)
     html += "</main>\n"
-    html += voorwoord_block(ed)
-    html += "</div>\n" + footer("")
+    html += voorwoord_block(ed, animate=True)
+    html += "</div>\n" + footer("", scripts=("reveal.js", "edition.js"))
     open(os.path.join(OUT, f"editie-{ed['number']}.html"), "w").write(html)
 
 

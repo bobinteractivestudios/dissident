@@ -412,6 +412,36 @@ main.expo {
     padding: clamp(20px, 3vw, 40px);
     background: var(--accent-deep);
     color: var(--on-canvas);
+
+    /* Het vel komt bij elke paginalading van rechts binnengekanteld; bij het
+       kiezen van een andere editie kantelt het eerst linksom weg (zie
+       .sheet-leaving hieronder en edition.js). Zo voelt wisselen als het
+       verwisselen van een blad papier op tafel. */
+    animation: sheet-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes sheet-in {
+    from { opacity: 0; transform: translateX(70px) rotate(2.5deg); }
+    to   { opacity: 1; transform: translateX(0) rotate(0); }
+}
+
+@keyframes sheet-out {
+    from { opacity: 1; transform: translateX(0) rotate(0); }
+    to   { opacity: 0; transform: translateX(-70px) rotate(-2.5deg); }
+}
+
+.sheet-leaving main.expo {
+    animation: sheet-out 0.34s cubic-bezier(0.55, 0.06, 0.68, 0.19) both;
+}
+
+/* De voorwoordkolom ligt naast het vel op tafel en kantelt niet mee, maar
+   hoort wel bij dezelfde editie — dus die vervaagt gewoon. */
+.sheet-leaving .voorwoord-kolom {
+    animation: fade-out 0.28s ease-in both;
+}
+
+@keyframes fade-out {
+    to { opacity: 0; }
 }
 
 
@@ -421,8 +451,10 @@ main.expo .bar .category,
 main.expo .listing-text .category { color: rgba(255, 255, 255, 0.88); }
 
 main.expo .feature:hover h3,
-main.expo .listing:hover .listing-text h3,
-main.expo .edition-switch a:hover { color: rgba(255, 255, 255, 0.7); }
+main.expo .listing:hover .listing-text h3 { color: rgba(255, 255, 255, 0.7); }
+
+/* Alleen zonder markeerder; mét markeerder doet .is-marked de kleuromslag. */
+main.expo .edition-switch:not(.has-marker) a:hover { color: rgba(255, 255, 255, 0.7); }
 
 /* De markeerstift keert om: op het vel is de tekst wit, dus de band donker. */
 main.expo .mark {
@@ -677,6 +709,7 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     gap: 4px;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
 .edition-switch li:not(:first-child) {
@@ -684,20 +717,63 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     padding-left: 4px;
 }
 
+/* Boven de markeerder, anders verdwijnen de cijfers eronder. */
+.edition-switch li { position: relative; z-index: 1; }
+
 .edition-switch a, .edition-switch .is-current {
     display: block;
     padding: 5px 9px;
     font-variant-numeric: tabular-nums;
     color: var(--on-canvas-soft);
+    transition: color .3s;
 }
 
-.edition-switch a:hover { color: var(--accent); }
+/* Zonder JavaScript is er geen markeerder, dus dan doet de hover-kleur (en de
+   eigen achtergrond van .is-current verderop) het werk zoals voorheen. */
+.edition-switch:not(.has-marker) a:hover { color: var(--accent); }
 
 .edition-switch .is-current {
     background: var(--on-canvas);
     color: var(--canvas);
     font-weight: 700;
 }
+
+/* ---------- zwevend vlakje ----------
+   Eén element dat naar het gehoverde cijfer schuift, in plaats van een
+   achtergrond die per item aan- en uitspringt. edition.js maakt het aan en
+   zet --x/--w; zonder JavaScript bestaat het niet en verandert er niets. */
+/* Als li geschreven, want .edition-switch li hierboven zet position: relative
+   en zou anders winnen — dan wordt de markeerder een gewoon flex-item dat de
+   cijfers opzij duwt in plaats van erachter te liggen. */
+.edition-switch li.edition-switch-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--w, 0);
+    transform: translateX(var(--x, 0));
+    background: var(--on-canvas);
+    z-index: 0;
+    padding-left: 0;
+    border-left: 0;
+    pointer-events: none;
+}
+
+/* Pas ná de eerste plaatsing meebewegen, anders schuift het vlakje bij het
+   laden zichtbaar vanaf links het scherm in. */
+.edition-switch li.edition-switch-marker.is-ready {
+    transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1),
+                width 0.34s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.edition-switch.has-marker .is-current {
+    background: transparent;
+    color: var(--on-canvas-soft);
+}
+
+/* Het cijfer waar het vlakje nu staat, keert om. Staat ná de regel hierboven:
+   gelijke specificiteit, dus de bronvolgorde beslist. */
+.edition-switch.has-marker .is-marked { color: var(--canvas); }
 
 .edition-switch-meta { margin-left: auto; color: var(--on-canvas-soft); }
 

@@ -31,5 +31,28 @@
     threshold: 0.15
   });
 
-  kaarten.forEach(function (el) { observer.observe(el); });
+  function start() {
+    kaarten.forEach(function (el) { observer.observe(el); });
+  }
+
+  // Het vel kantelt bij elke lading binnen (sheet-in in style.css). Zolang dat
+  // loopt niets laten verschijnen, anders schuiven de kaarten door de
+  // kantelbeweging heen. Wat later in beeld gescrold wordt is dan allang
+  // voorbij dit punt en heeft er geen last van.
+  var vel = document.querySelector("main.expo");
+  if (!vel) { start(); return; }
+
+  var begonnen = false;
+  function kick() {
+    if (begonnen) return;
+    begonnen = true;
+    start();
+  }
+
+  vel.addEventListener("animationend", function (e) {
+    // animationend bubbelt: alleen op het vel zelf reageren.
+    if (e.target === vel) kick();
+  });
+  // Vangnet, mocht sheet-in niet lopen of niet eindigen.
+  setTimeout(kick, 800);
 })();
