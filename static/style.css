@@ -18,6 +18,11 @@
     --accent-deep: #1a3af7;
     --accent-wash: #5b73ff;
 
+    /* Vaste kleur van de paginavoet — bewust geen --on-canvas: dat token
+       wisselt hieronder mee met het thema, terwijl de voet in beide standen
+       hetzelfde donkergrijze blok met witte tekst moet blijven. */
+    --footer-bg: #505050;
+
     /* Linkerinham van het editievel (zie .expo-row) — hier ook gebruikt om de
        zoekbalk in de masthead met het vel te laten uitlijnen, ongeacht op
        welke breedte het vel zelf naar rechts opschuift. */
@@ -26,6 +31,31 @@
 
 @media (min-width: 1024px) {
     :root { --page-inset: calc(16px + clamp(40px, 7vw, 120px)); }
+}
+
+/* ---------- donker thema ----------
+   Volgt de systeeminstelling; er is geen handmatige schakelaar. Alleen de
+   tokens zelf wisselen — de rest van het stylesheet leest uitsluitend deze
+   variabelen, dus elke component kleurt automatisch mee. Het editievel
+   (main.expo) en de paginavoet herdefiniëren hun eigen tokens al lokaal
+   (zie hierboven/verderop) en blijven daardoor in beide standen gelijk aan
+   zichzelf, zoals een bedrukt vel papier. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --canvas: #1c1a17;
+        --surface: #2a2723;
+
+        --ink: #f3efe6;
+        --ink-soft: #b9b2a4;
+        --on-canvas: #d6d0c4;       /* tekst op het donkere canvas — circa 12:1 */
+        --on-canvas-soft: #a49b8c;
+
+        --rule: rgba(255, 255, 255, 0.12);
+        --rule-dark: rgba(255, 255, 255, 0.22);
+
+        --accent: #7c93ff;
+        --accent-ink: #7c93ff;
+    }
 }
 
 * { box-sizing: border-box; }
@@ -779,7 +809,7 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 /* ---------- uitgelichte artikelen ---------- */
 
-.features { border-top: 1px solid var(--rule-dark); margin-bottom: 44px; }
+.features { border-top: 1px solid var(--rule-dark); }
 
 .feature {
     display: grid;
@@ -830,6 +860,8 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
     padding: 16px 0;
     border-bottom: 1px solid var(--rule-dark);
 }
+
+.listing:last-child { border-bottom: none; }
 
 .listing:hover .listing-text h3 { color: var(--accent-ink); }
 .listing-text { min-width: 0; }
@@ -1090,22 +1122,130 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 .back a { border-bottom: 1px solid var(--rule-dark); }
 .back a:hover { color: var(--accent-ink); border-bottom-color: currentColor; }
 
-/* ---------- paginavoet ---------- */
-
-body > footer {
+/* ---------- paginavoet ----------
+   De voet staat vast onderin het venster (position: fixed) en ligt achter de
+   rest van de pagina; .page-shell draagt zelf een dekkende achtergrond en
+   reserveert onderaan precies de hoogte van de voet (--footer-h, gemeten
+   door footer.js). Zo schuift de pagina bij het scrollen helemaal tot aan
+   die gereserveerde ruimte omhoog en komt de voet — die zelf stil bleef
+   staan — pas op het eind tevoorschijn. */
+.page-shell {
+    position: relative;
+    z-index: 1;
     background: var(--canvas);
-    color: var(--on-canvas-soft);
-    border-top: 1px solid var(--rule-dark);
-    padding: 32px 24px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    padding-bottom: 40px;
+    margin-bottom: var(--footer-h, 420px);
 }
 
-body > footer > * { max-width: 1180px; margin: 0 auto; }
-body > footer p { color: inherit; margin: 0; }
+body > footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    background: var(--footer-bg);
+    color: #fff;
+}
 
-.footer-base { display: flex; align-items: center; gap: 14px; }
+.footer-inner { max-width: 1180px; margin: 0 auto; padding: 48px 24px 24px; }
+
+.footer-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.footer-heading {
+    font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 14px;
+}
+
+.footer-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0 0 10px;
+}
+
+.footer-text a { color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.35); }
+.footer-text a:hover { border-bottom-color: currentColor; }
+
+.footer-editions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.footer-editions a { color: rgba(255, 255, 255, 0.72); border-bottom: 1px solid transparent; }
+.footer-editions a:hover { color: #fff; border-bottom-color: currentColor; }
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.footer-copyright {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Het JFVD-blazoen: op hover/focus klapt het vlak om zijn eigen as om en
+   toont de achterkant de link-tekst in plaats van het beeldmerk. */
+.footer-jfvd {
+    display: inline-flex;
+    perspective: 400px;
+}
+
+.footer-jfvd-flip {
+    position: relative;
+    width: 92px;
+    height: 64px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.footer-jfvd:hover .footer-jfvd-flip,
+.footer-jfvd:focus-visible .footer-jfvd-flip {
+    transform: rotateY(180deg);
+}
+
+.footer-jfvd-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.footer-jfvd-face--front svg { width: 38px; height: 38px; color: #fff; }
+
+.footer-jfvd-face--back {
+    transform: rotateY(180deg);
+    padding: 4px;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+}
 
 /* ---------- responsive ---------- */
 
@@ -1114,6 +1254,10 @@ body > footer p { color: inherit; margin: 0; }
     /* de thumbnail kruipt op smalle schermen relatief verder naar links
        (--peek blijft 9% van een kleiner vlak, de padding van .hero niet) */
     .hero-foot { max-width: 50%; }
+}
+
+@media (max-width: 760px) {
+    .footer-cols { grid-template-columns: 1fr; gap: 28px; }
 }
 
 @media (max-width: 620px) {
@@ -1128,4 +1272,5 @@ body > footer p { color: inherit; margin: 0; }
     .toc li { grid-template-columns: 1fr; }
     .toc-author { text-align: left; margin-top: 6px; }
     ::-webkit-scrollbar { width: 10px; }
+    .footer-bottom { flex-wrap: wrap; gap: 20px 24px; }
 }

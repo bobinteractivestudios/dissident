@@ -13,6 +13,7 @@ import re
 import shutil
 import sys
 import unicodedata
+from datetime import date
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DESKTOP = os.path.dirname(ROOT)
@@ -23,6 +24,7 @@ OUT = os.path.join(ROOT, "site")
 
 # Gevuld in build() uit content/site.json.
 SITE = {}
+EDITIONS = []
 
 sys.path.insert(0, os.path.join(ROOT, "lib"))
 
@@ -273,6 +275,7 @@ def head(title, css, description="", og_type="website"):
 </head>
 <body>
 <a class="skip-link" href="#inhoud">Naar de inhoud</a>
+<div class="page-shell">
 """
 
 
@@ -319,13 +322,50 @@ def masthead(prefix):
 
 def footer(prefix, scripts=()):
     extra = "".join(f'\n<script src="{prefix}{s}" defer></script>' for s in scripts)
-    return f"""<footer>
-  <div class="footer-base">
-    <img class="footer-mark" src="{prefix}sources/jfvd-logo.svg" alt="" width="32" height="32">
-    <p>De Dissident — Jongerenorganisatie Forum voor Democratie</p>
+    edities = "".join(
+        f'<li><a href="{prefix}editie-{ed["number"]}.html">{ed["number"]}<sup>e</sup> editie</a></li>\n'
+        for ed in sorted(EDITIONS, key=lambda e: e["number"]))
+    jaar = date.today().year
+    return f"""</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h2 class="footer-heading">Het tijdschrift</h2>
+        <p class="footer-text">Het meest gewaagde jongerenblad van het Westen.</p>
+      </div>
+      <div class="footer-col">
+        <h2 class="footer-heading">Edities</h2>
+        <ul class="footer-editions">
+{edities}        </ul>
+      </div>
+      <div class="footer-col">
+        <h2 class="footer-heading">Meedoen</h2>
+        <p class="footer-text"><a href="mailto:redactie@jongerenfvd.nl">Schrijf mee</a> —
+           stuur je kopij naar <a href="mailto:redactie@jongerenfvd.nl">redactie@jongerenfvd.nl</a>.</p>
+        <p class="footer-text"><a href="https://jfvd.nl" target="_blank" rel="noopener">jfvd.nl</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a class="footer-jfvd" href="https://jfvd.nl" target="_blank" rel="noopener"
+         aria-label="Naar de JFVD site">
+        <span class="footer-jfvd-flip">
+          <span class="footer-jfvd-face footer-jfvd-face--front" aria-hidden="true">
+            <svg viewBox="0 0 70 70" focusable="false">
+              <g transform="matrix(0.7,0,0,0.7,0,0)">
+                <path fill="currentColor" d="M50,0C77.596,0 100,22.404 100,50C100,77.596 77.596,100 50,100C22.404,100 0,77.596 0,50C0,22.404 22.404,0 50,0ZM32.757,38.294L23.913,38.294L23.913,40.502L25.362,42.102L24.018,64.307L32.652,64.307L31.308,42.102L32.757,40.502L32.757,38.294ZM82.16,76.639L17.178,76.639L17.178,79.238L82.16,79.238L82.16,76.639ZM46.864,38.294L38.017,38.294L38.017,40.502L39.468,42.102L38.124,64.307L46.756,64.307L45.412,42.102L46.863,40.502L46.864,38.294ZM60.967,38.294L52.123,38.294L52.123,40.502L53.572,42.102L52.223,64.307L60.857,64.307L59.523,42.102L60.972,40.502L60.967,38.294ZM75.071,38.294L66.227,38.294L66.227,40.502L67.676,42.102L66.332,64.307L74.966,64.307L73.622,42.102L75.071,40.502L75.071,38.294ZM77.869,33.026L21.469,33.026L21.469,35.625L77.869,35.625L77.869,33.026ZM82.16,28.808L49.671,15.468L17.178,28.808L17.178,30.74L82.16,30.74L82.16,28.808ZM77.869,66.973L21.469,66.973L21.469,69.572L77.869,69.572L77.869,66.973ZM79.71,71.807L19.631,71.807L19.631,74.406L79.71,74.406L79.71,71.807Z"/>
+              </g>
+            </svg>
+          </span>
+          <span class="footer-jfvd-face footer-jfvd-face--back">Naar de JFVD site <span aria-hidden="true">↗</span></span>
+        </span>
+      </a>
+      <p class="footer-copyright">© {jaar} — een uitgave van de Jongerenorganisatie Forum voor Democratie</p>
+    </div>
   </div>
 </footer>
-<script src="{prefix}search.js" defer></script>{extra}
+<script src="{prefix}search.js" defer></script>
+<script src="{prefix}footer.js" defer></script>{extra}
 </body>
 </html>
 """
@@ -339,6 +379,8 @@ def build():
     SITE.update(data["site"])
     editions = sorted(data["editions"], key=lambda e: e["number"], reverse=True)
     latest = editions[0]
+    EDITIONS.clear()
+    EDITIONS.extend(editions)
 
     if os.path.exists(OUT):
         shutil.rmtree(OUT)
