@@ -18,10 +18,9 @@
     --accent-deep: #1a3af7;
     --accent-wash: #5b73ff;
 
-    /* Vaste kleur van de paginavoet — bewust geen --on-canvas: dat token
-       wisselt hieronder mee met het thema, terwijl de voet in beide standen
-       hetzelfde donkergrijze blok met witte tekst moet blijven. */
-    --footer-bg: #505050;
+    /* Kleur van de paginavoet — los van --on-canvas (dat wisselt hieronder
+       mee met het thema, dit token krijgt zijn eigen donkere variant). */
+    --footer-bg: #808080;
 
     /* Linkerinham van het editievel (zie .expo-row) — hier ook gebruikt om de
        zoekbalk in de masthead met het vel te laten uitlijnen, ongeacht op
@@ -52,6 +51,8 @@
 
         --rule: rgba(255, 255, 255, 0.12);
         --rule-dark: rgba(255, 255, 255, 0.22);
+
+        --footer-bg: #333333;
 
         --accent: #7c93ff;
         --accent-ink: #7c93ff;
@@ -480,9 +481,6 @@ main.expo {
 main.expo .bar .category,
 main.expo .listing-text .category { color: rgba(255, 255, 255, 0.88); }
 
-main.expo .feature:hover h3,
-main.expo .listing:hover .listing-text h3 { color: rgba(255, 255, 255, 0.7); }
-
 /* Alleen zonder markeerder; mét markeerder doet .is-marked de kleuromslag. */
 main.expo .edition-switch:not(.has-marker) a:hover { color: rgba(255, 255, 255, 0.7); }
 
@@ -828,7 +826,6 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 .feature:nth-child(even) .feature-media { order: -1; }
 
-.feature:hover h3 { color: var(--accent-ink); }
 .feature-text { min-width: 0; }
 
 .feature h3 {
@@ -863,7 +860,6 @@ main.expo .listing-media--tint { background: rgba(0, 0, 0, 0.22); }
 
 .listing:last-child { border-bottom: none; }
 
-.listing:hover .listing-text h3 { color: var(--accent-ink); }
 .listing-text { min-width: 0; }
 
 .listing-text .category {
