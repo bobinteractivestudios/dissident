@@ -44,6 +44,19 @@ def esc(s):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+def jfvd_logo_svg():
+    """Inline het JFVD-logo (fill: currentColor) zodat het meekleurt met --on-canvas.
+
+    Als <img src="..."> geladen deelt een SVG geen CSS-variabelen met de
+    hoofdpagina, dus moet de markup hier in de HTML zelf staan.
+    """
+    with open(os.path.join(ROOT, "sources", "jfvd-logo.svg"), encoding="utf-8") as f:
+        svg = re.search(r"<svg[^>]*>.*</svg>", f.read(), re.DOTALL).group(0)
+    svg = svg.replace('width="100%"', 'width="14"', 1)
+    svg = svg.replace('height="100%"', 'height="14"', 1)
+    return svg.replace("<svg ", '<svg class="tagline-mark" aria-hidden="true" ', 1)
+
+
 # ---------------------------------------------------------------- text sourcing
 
 
@@ -285,8 +298,7 @@ def masthead(prefix):
     sep = '<span class="dot" aria-hidden="true"></span>'
     tagline = sep.join(esc(w) for w in SITE.get("tagline", "").split())
     if tagline:
-        tagline += (f'<img class="tagline-mark" src="{prefix}sources/jfvd-logo.svg" '
-                    f'alt="" width="14" height="14">')
+        tagline += jfvd_logo_svg()
     return f"""<header class="masthead">
   <div class="masthead-brand">
     <a class="wordmark" href="{prefix}index.html">De Dissident</a>
